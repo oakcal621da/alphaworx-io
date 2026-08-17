@@ -51,3 +51,55 @@ def test_markdown_to_html_converts_blockquote():
 def test_markdown_to_html_converts_bold():
     html = markdown_to_html("This has **bold text** in it.")
     assert html == "<p>This has <b>bold text</b> in it.</p>"
+
+
+from build_blog import format_byline, render_post, render_index
+
+
+def test_format_byline_renders_month_and_year():
+    assert format_byline("2026-08-17") == "August 2026"
+
+
+def test_render_post_includes_title_category_and_body():
+    fields = {
+        "title": "Example Post",
+        "category": "Economics",
+        "date": "2026-08-17",
+        "excerpt": "One line summary.",
+        "slug": "example-post",
+    }
+    html = render_post(fields, "<p>Body text.</p>")
+
+    assert "<title>Example Post — Alphaworx Insights</title>" in html
+    assert "<div class=\"cat\">Economics</div>" in html
+    assert "<h2>Example Post</h2>" in html
+    assert "Alphaworx Insights · August 2026" in html
+    assert "<p>Body text.</p>" in html
+    assert 'href="../index.html"' in html
+
+
+def test_render_index_lists_every_post_with_link():
+    posts = [
+        {
+            "title": "Example Post",
+            "category": "Economics",
+            "date": "2026-08-17",
+            "excerpt": "One line summary.",
+            "slug": "example-post",
+        },
+        {
+            "title": "Second Post",
+            "category": "Vendor Strategy",
+            "date": "2026-08-10",
+            "excerpt": "Another summary.",
+            "slug": "second-post",
+        },
+    ]
+    html = render_index(posts)
+
+    assert "Example Post" in html
+    assert "Second Post" in html
+    assert 'href="example-post.html"' in html
+    assert 'href="second-post.html"' in html
+    # Newest post first
+    assert html.index("Example Post") < html.index("Second Post")
