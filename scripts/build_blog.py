@@ -15,7 +15,7 @@ OUTPUT_DIR = REPO_ROOT / "blog"
 NAV = (
     '<nav>'
     '<a href="../index.html#help">How we help</a>'
-    '<a href="index.html">Insights</a>'
+    '<a href="index.html" style="color:#111;font-weight:600;">Insights</a>'
     '<a href="../index.html#why">Why it matters</a>'
     '<a href="../index.html#about">About</a>'
     '</nav>'
@@ -75,6 +75,7 @@ footer .row { display:flex; justify-content:space-between; align-items:center; f
 footer .meta { font-size:12.5px; color:#9a9a9a; }
 footer a { color:#111; text-decoration:none; font-size:12.5px; border-bottom:1px solid #d6d6d6; }
 @media (max-width:700px){ .post-grid{grid-template-columns:1fr;} }
+@media (max-width:640px){ header nav{display:none;} }
 """
 
 
