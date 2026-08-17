@@ -33,3 +33,21 @@ def test_parse_frontmatter_rejects_missing_opening_delimiter():
         assert False, "expected ValueError"
     except ValueError as e:
         assert "frontmatter" in str(e)
+
+
+from build_blog import markdown_to_html
+
+
+def test_markdown_to_html_wraps_paragraphs():
+    html = markdown_to_html("First paragraph.\n\nSecond paragraph.")
+    assert html == "<p>First paragraph.</p>\n<p>Second paragraph.</p>"
+
+
+def test_markdown_to_html_converts_blockquote():
+    html = markdown_to_html("> A quoted line.")
+    assert html == "<blockquote>A quoted line.</blockquote>"
+
+
+def test_markdown_to_html_converts_bold():
+    html = markdown_to_html("This has **bold text** in it.")
+    assert html == "<p>This has <b>bold text</b> in it.</p>"
