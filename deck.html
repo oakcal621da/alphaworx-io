@@ -25,16 +25,102 @@
   .slide .lab { font-size:1.3vw; margin-top:2vh; max-width:560px; line-height:1.55; color:#3d3d40; }
   .findings-list div { font-size:1.05vw; line-height:2; color:#333; }
   .findings-list b { color:#111; }
+  .slide.dark .findings-list div { color:#ccc; }
+  .slide.dark .findings-list b { color:#fff; }
   .num { position:absolute; bottom:3vh; right:4vw; font-size:0.75vw; color:#ccc; }
   .slide.dark .num { color:#555; }
   .progress { position:fixed; bottom:0; left:0; height:3px; background:#111; transition:width 0.2s; }
   .hint { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); font-size:11px; color:#999; letter-spacing:0.04em; }
+
+  /* ===== chart components ===== */
+  .bar-chart { display:flex; align-items:flex-end; gap:3vw; height:22vh; margin-top:3vh; max-width:520px; }
+  .bar-chart .bar-col { display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:1vh; flex:1; height:100%; }
+  .bar-chart .bar-val { font-size:1.3vw; font-weight:600; }
+  .bar-chart .bar { width:100%; border-radius:3px 3px 0 0; background:#d4d4d4; }
+  .bar-chart .bar.hi { background:#111; }
+  .bar-chart .bar-label { font-size:0.85vw; color:#888; text-align:center; }
+  .slide.dark .bar-chart .bar-label { color:#999; }
+  .slide.dark .bar-chart .bar { background:#444; }
+  .slide.dark .bar-chart .bar.hi { background:#fff; }
+  .chart-caption { font-size:0.85vw; color:#888; margin-top:1.5vh; max-width:520px; }
+  .slide.dark .chart-caption { color:#999; }
+
+  .timeline { display:flex; align-items:center; margin:3vh 0 2vh; max-width:600px; position:relative; height:2px; background:#ddd; }
+  .timeline .pt { position:absolute; top:-4px; width:10px; height:10px; border-radius:50%; background:#111; }
+  .timeline-labels { display:flex; justify-content:space-between; max-width:600px; font-size:0.8vw; color:#666; }
+  .timeline-labels div { max-width:33%; }
+
+  .split-compare { display:flex; gap:3vw; margin-top:3vh; max-width:640px; }
+  .split-compare .col { flex:1; }
+  .split-compare .col-label { font-size:0.85vw; text-transform:uppercase; letter-spacing:0.08em; color:#111; font-weight:600; margin-bottom:1vh; }
+  .split-compare .col-body { font-size:1.05vw; color:#5b5b5e; line-height:1.6; }
+  .slide.dark .split-compare .col-label { color:#fff; }
+  .slide.dark .split-compare .col-body { color:#aaa; }
+
+  .stat-pair { display:flex; gap:4vw; margin-top:3vh; }
+  .stat-pair .item { flex:1; }
+  .stat-pair .item .val { font-size:3.2vw; font-weight:200; letter-spacing:-0.02em; }
+  .stat-pair .item .lbl { font-size:0.9vw; color:#666; margin-top:0.8vh; max-width:260px; }
+  .slide.dark .stat-pair .item .lbl { color:#999; }
+
+  .matrix { display:flex; flex-direction:column; max-width:640px; margin-top:2.5vh; }
+  .matrix-row { display:flex; justify-content:space-between; align-items:center; padding:1vh 0; border-top:1px solid #ececec; }
+  .matrix-row:last-child { border-bottom:1px solid #ececec; }
+  .matrix-row .cat { font-size:0.95vw; color:#333; }
+  .matrix-row .status { font-size:0.75vw; letter-spacing:0.04em; text-transform:uppercase; color:#888; font-weight:600; }
+  .slide.dark .matrix-row { border-top-color:#333; }
+  .slide.dark .matrix-row:last-child { border-bottom-color:#333; }
+  .slide.dark .matrix-row .cat { color:#ccc; }
+
+  /* ===== v3 rich template ===== */
+  .slide.rich { padding:4vh 5.5vw 3vh; }
+  .rich-top { display:flex; justify-content:space-between; align-items:flex-start; gap:3vw; margin-bottom:1.6vh; }
+  .rich-top .htext { max-width:58%; }
+  .rich-top h2.rh { font-size:1.9vw; font-weight:600; letter-spacing:-0.01em; line-height:1.28; margin-bottom:0; }
+  .takeaway { max-width:32%; font-size:0.78vw; color:#666; line-height:1.55; border-left:2px solid #111; padding-left:1vw; flex:none; }
+  .slide.dark .takeaway { color:#aaa; border-left-color:#fff; }
+
+  .data-table { width:100%; border-collapse:collapse; font-size:0.8vw; margin-top:1vh; }
+  .data-table th { text-align:left; font-size:0.62vw; letter-spacing:0.06em; text-transform:uppercase; color:#999; font-weight:700; padding:0.9vh 1vw 0.9vh 0; border-bottom:2px solid #111; }
+  .data-table td { padding:1vh 1vw 1vh 0; border-bottom:1px solid #ececec; vertical-align:top; color:#333; line-height:1.42; }
+  .data-table tr:last-child td { border-bottom:none; }
+  .data-table td.label { font-weight:700; color:#111; white-space:nowrap; }
+  .slide.dark .data-table th { color:#888; border-bottom-color:#fff; }
+  .slide.dark .data-table td { color:#ccc; border-bottom-color:#333; }
+  .slide.dark .data-table td.label { color:#fff; }
+
+  .footline { margin-top:auto; padding-top:1.4vh; display:flex; justify-content:space-between; align-items:center; border-top:1px solid #ececec; }
+  .footline .brand { font-size:0.62vw; color:#999; letter-spacing:0.04em; }
+  .footline .n { font-size:0.62vw; color:#bbb; }
+  .slide.dark .footline { border-top-color:#333; }
+  .slide.dark .footline .brand, .slide.dark .footline .n { color:#666; }
+
+  .chip-row { display:flex; flex-wrap:wrap; gap:0.7vw; margin-top:1.8vh; }
+  .chip { border:1px solid #ddd; border-radius:20px; padding:0.7vh 1.1vw; font-size:0.85vw; color:#333; white-space:nowrap; }
+  .slide.dark .chip { border-color:#444; color:#ddd; }
+
+  .narrative { font-size:0.98vw; line-height:1.68; color:#3d3d40; max-width:680px; margin-top:1.2vh; }
+  .slide.dark .narrative { color:#bbb; }
+
+  .two-col { display:flex; gap:3vw; margin-top:1.6vh; }
+  .two-col .col { flex:1; }
+  .two-col .col h4 { font-size:0.85vw; text-transform:uppercase; letter-spacing:0.06em; color:#111; font-weight:700; margin-bottom:0.8vh; }
+  .slide.dark .two-col .col h4 { color:#fff; }
+  .two-col .col p { font-size:0.85vw; color:#5b5b5e; line-height:1.6; max-width:none; }
+  .slide.dark .two-col .col p { color:#aaa; }
 
   @media print {
     html, body { height:auto; overflow:visible; background:#fff; }
     .deck { display:block; height:auto; }
     .slide { display:flex !important; width:100%; aspect-ratio:16/9; page-break-after:always; box-shadow:none; }
     .progress, .hint { display:none; }
+    .bar-chart { height:16vw; margin-top:2vw; }
+    .timeline { margin:2vw 0 1.5vw; }
+    .split-compare, .stat-pair, .matrix { margin-top:2vw; }
+    .chart-caption { margin-top:1vw; }
+    .footline { margin-top:1vw; padding-top:1vw; }
+    .rich-top { margin-bottom:1vw; }
+    .chip-row, .narrative, .two-col { margin-top:1vw; }
   }
 </style>
 </head>
@@ -45,89 +131,186 @@
       <div class="kicker">Alphaworx</div>
       <h1>The AI Strategy Gap</h1>
       <p>Why the businesses winning right now aren't the ones with the best model.</p>
-      <div class="num">1 / 12</div>
+      <div class="num">1 / 41</div>
     </div>
 
     <div class="slide" data-slide="2">
       <div class="kicker">The Stakes</div>
       <div class="big">3</div>
       <div class="lab">years old. AI as a serious enterprise capability is barely three years into its cycle — the gap between the companies getting it right and the ones improvising is just starting to open.</div>
-      <div class="num">2 / 12</div>
+      <div class="num">2 / 41</div>
     </div>
 
-    <div class="slide" data-slide="3">
-      <div class="kicker">The Gap</div>
-      <h2>Adoption is nearly universal.<br>Governed operation is not.</h2>
-      <p class="lab">That gap — not model quality — is where risk and wasted money concentrate. It's also the gap that determines who's actually ahead three years from now.</p>
-      <div class="num">3 / 12</div>
+    <div class="slide dark" data-slide="3">
+      <div class="kicker">The Executive Promise</div>
+      <h2>Five commitments,<br>not a transformation slogan.</h2>
+      <div class="findings-list">
+        <div><b>Strategy —</b> decide where AI should create advantage, not just where it can be demonstrated.</div>
+        <div><b>Portfolio —</b> fund the few use cases, platform capabilities, and controls that matter most.</div>
+        <div><b>Control —</b> make cost, data movement, model behavior, and vendor dependency visible and governable.</div>
+        <div><b>Change —</b> redesign work so adoption becomes operational value, not optional tool usage.</div>
+        <div><b>Evidence —</b> measure benefits, risks, and decision quality in a form executives can act on.</div>
+      </div>
+      <div class="num">3 / 41</div>
     </div>
 
-    <div class="slide" data-slide="4">
-      <div class="kicker">Finding 01 — Economics</div>
-      <h2>Token prices fall.<br>The bill still rises.</h2>
-      <p class="lab">Configuration choices alone — not usage growth — can move the cost of the exact same job by 5–9×. Nobody is forecasting that swing, so nobody budgets for it, and it shows up as a surprise months in.</p>
-      <div class="num">4 / 12</div>
+    <div class="slide dark" data-slide="4">
+      <div class="kicker">Part 1</div>
+      <h2>Where AI Creates Value.</h2>
+      <p>Value concentrates where knowledge work is high-volume, decision cycles are slow, and proprietary context changes the answer. Discovery starts with work systems, not tool ideas.</p>
+      <div class="num">4 / 41</div>
     </div>
 
-    <div class="slide" data-slide="5">
-      <div class="kicker">Finding 02 — Data Exposure</div>
-      <h2>Shadow AI is usually the<br>biggest exposure channel.</h2>
-      <p class="lab">Same tools your team already trusts under an enterprise agreement — but a different contract, different data-retention terms, the moment someone signs in with a personal account.</p>
-      <div class="num">5 / 12</div>
+    <div class="slide rich" data-slide="5">
+      <div class="rich-top">
+        <div class="htext">
+          <div class="kicker">Part 1 — The AI Value Thesis</div>
+          <h2 class="rh">A testable statement,<br>not a slogan.</h2>
+        </div>
+        <div class="takeaway">"Become AI-first" is not a strategy. A real value thesis names the workflow, the metric, and the guardrail.</div>
+      </div>
+      <table class="data-table">
+        <tr><th>Weak statement</th><th>Better statement</th><th>Why it's better</th></tr>
+        <tr><td>Use AI to improve productivity</td><td>Cut customer-support after-call work by 50% while holding QA scores flat</td><td>Names workflow, metric, and quality guardrail</td></tr>
+        <tr><td>Deploy AI across the enterprise</td><td>Prioritize sales, support, and engineering — high-volume knowledge work with measurable baselines</td><td>Creates portfolio boundaries</td></tr>
+        <tr><td>Build an AI assistant for employees</td><td>Build a policy assistant only after HR, legal, and IT sources of truth are cleaned and permissioned</td><td>Ties ambition to data readiness</td></tr>
+      </table>
+      <div class="footline"><div class="brand">alphaworx.io — Enterprise AI Strategy</div><div class="n">5 / 41</div></div>
     </div>
 
-    <div class="slide" data-slide="6">
-      <div class="kicker">Finding 03 — Vendor Strategy</div>
-      <h2>You don't control<br>the control plane.</h2>
-      <p class="lab">Pricing, deprecation schedules, and usage terms sit with the vendor, not you. Vendor strategy has to be a first-class part of AI strategy, not an afterthought once a contract's already signed.</p>
-      <div class="num">6 / 12</div>
+    <div class="slide rich" data-slide="6">
+      <div class="rich-top">
+        <div class="htext">
+          <div class="kicker">Part 1 — Value Thesis</div>
+          <h2 class="rh">Three categories,<br>funded differently.</h2>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="col"><h4>Table-stakes</h4><p>Capabilities the firm needs to remain operationally current — employee copilots, support drafting, research assistance.</p></div>
+        <div class="col"><h4>Differentiating</h4><p>Capabilities tied to proprietary data, workflow depth, or domain expertise that competitors can't copy quickly.</p></div>
+        <div class="col"><h4>Strategic options</h4><p>Higher-uncertainty experiments that could become new products, channels, or operating models if the economics prove out.</p></div>
+      </div>
+      <div class="footline"><div class="brand">alphaworx.io — Enterprise AI Strategy</div><div class="n">6 / 41</div></div>
     </div>
 
-    <div class="slide dark" data-slide="7">
-      <div class="kicker">Finding 04 — Adoption vs. Governance</div>
-      <h2>Everyone has adopted AI.<br>Almost no one has governed it.</h2>
-      <p>That's not a compliance footnote. It's the single biggest predictor of which companies are exposed and which aren't.</p>
-      <div class="num">7 / 12</div>
+    <div class="slide rich" data-slide="7">
+      <div class="rich-top">
+        <div class="htext">
+          <div class="kicker">Part 1 — Walkthrough</div>
+          <h2 class="rh">"We want AI for operations"<br>is not a strategy.</h2>
+        </div>
+      </div>
+      <div class="narrative">A mid-market logistics company starts there. After assessment, the real thesis becomes: use AI to compress exception resolution in freight operations by giving coordinators a governed assistant that reads shipment status, customer commitments, and carrier communications, then drafts next actions for human approval.<br><br>That focuses the portfolio. Generic employee chat becomes table stakes. Freight exception management becomes the strategic bet. Data cleanup now has a business reason. The metric isn't "AI usage" — it's exception cycle time, escalation rate, and margin leakage on delayed shipments.</div>
+      <div class="footline"><div class="brand">alphaworx.io — Enterprise AI Strategy</div><div class="n">7 / 41</div></div>
     </div>
 
-    <div class="slide" data-slide="8">
-      <div class="kicker">The Fix</div>
-      <h2>A governed operating system,<br>not a subscription.</h2>
-      <p class="lab">Buying access to a model isn't a strategy. The organizations closing the gap are the ones installing an actual operating system around their AI use — not the ones with the newest model.</p>
-      <div class="num">8 / 12</div>
+    <div class="slide rich" data-slide="8">
+      <div class="rich-top">
+        <div class="htext">
+          <div class="kicker">Part 1 — Value Pools</div>
+          <h2 class="rh">Value concentrates<br>in six pools.</h2>
+        </div>
+      </div>
+      <table class="data-table">
+        <tr><th>Value pool</th><th>Typical opportunities</th><th>What to measure</th></tr>
+        <tr><td class="label">Revenue Growth</td><td>Sales research, next-best action, proposal generation</td><td>Conversion, win rate, deal size</td></tr>
+        <tr><td class="label">Margin &amp; Productivity</td><td>Document processing, engineering copilots, finance close</td><td>Cycle time, throughput, cost</td></tr>
+        <tr><td class="label">Customer Experience</td><td>Support agents, personalization, onboarding</td><td>First-contact resolution, CSAT</td></tr>
+        <tr><td class="label">Risk &amp; Compliance</td><td>Contract review, policy monitoring, audit prep</td><td>Error detection, time to remediate</td></tr>
+        <tr><td class="label">Product Differentiation</td><td>In-product AI features, domain assistants</td><td>Activation, retention, adoption</td></tr>
+        <tr><td class="label">Strategic Learning</td><td>Frontier experiments, agentic workflows</td><td>Validated assumptions, option value</td></tr>
+      </table>
+      <div class="footline"><div class="brand">alphaworx.io — Enterprise AI Strategy</div><div class="n">8 / 41</div></div>
     </div>
 
-    <div class="slide" data-slide="9">
-      <div class="kicker">Step 1</div>
-      <h2>Initial Assessment</h2>
-      <p class="lab">The same diagnostic we'd run on ourselves — cost, data exposure, security, and ownership — to find what's actually broken before recommending anything. Most engagements start here because most companies genuinely don't know their own exposure yet.</p>
-      <div class="num">9 / 12</div>
+    <div class="slide rich" data-slide="9">
+      <div class="rich-top">
+        <div class="htext">
+          <div class="kicker">Part 1 — Discovery</div>
+          <h2 class="rh">Map the workflow<br>before collecting ideas.</h2>
+        </div>
+        <div class="takeaway">"Build a chatbot" is not a use case. "Reduce Tier 2 escalations by drafting grounded answers from approved sources" is.</div>
+      </div>
+      <div class="narrative">Discovery starts with the current workflow on the wall — trigger, inputs, human decisions, handoffs, rework, approvals, and final outcome. Then: where could AI reduce search, summarization, classification, or decision support? And just as important — where would AI be dangerous, legally sensitive, or economically irrelevant?</div>
+      <div class="footline"><div class="brand">alphaworx.io — Enterprise AI Strategy</div><div class="n">9 / 41</div></div>
     </div>
 
-    <div class="slide" data-slide="10">
-      <div class="kicker">Steps 2 &amp; 3</div>
-      <h2>Platform Hub, then Cadence.</h2>
-      <p class="lab">A thin platform hub with real mandate — 4 to 8 people, senior enough to say no — followed by the ongoing cadence that keeps it defensible: portfolio discipline, vendor strategy, agent readiness.</p>
-      <div class="num">10 / 12</div>
+    <div class="slide rich" data-slide="10">
+      <div class="rich-top">
+        <div class="htext">
+          <div class="kicker">Part 1 — Portfolio Scoring</div>
+          <h2 class="rh">Every use case scored<br>across ten dimensions.</h2>
+        </div>
+        <div class="takeaway">The scoring discussion is more valuable than the arithmetic — it's where a wishlist becomes a fundable portfolio.</div>
+      </div>
+      <div class="chip-row">
+        <div class="chip">Enterprise value</div>
+        <div class="chip">Measurability</div>
+        <div class="chip">Feasibility</div>
+        <div class="chip">Data readiness</div>
+        <div class="chip">Risk level</div>
+        <div class="chip">Adoption readiness</div>
+        <div class="chip">Reusability</div>
+        <div class="chip">Time to impact</div>
+        <div class="chip">Sponsor strength</div>
+        <div class="chip">Strategic fit</div>
+      </div>
+      <div class="footline"><div class="brand">alphaworx.io — Enterprise AI Strategy</div><div class="n">10 / 41</div></div>
     </div>
 
-    <div class="slide" data-slide="11">
-      <div class="kicker">Proof</div>
-      <h2>We don't just advise.<br>We build and validate.</h2>
-      <p class="lab">AIR and ATRE are AI systems we've architected ourselves, each gated by the same adversarial-review and out-of-sample validation discipline we bring to every engagement.</p>
-      <div class="num">11 / 12</div>
+    <div class="slide rich" data-slide="11">
+      <div class="rich-top">
+        <div class="htext">
+          <div class="kicker">Part 2 — Building the Portfolio</div>
+          <h2 class="rh">Six classes,<br>funded differently.</h2>
+        </div>
+      </div>
+      <table class="data-table">
+        <tr><th>Class</th><th>What it is</th></tr>
+        <tr><td class="label">Quick Wins</td><td>Low-to-moderate risk, measurable value, fast adoption — builds confidence and operating muscle.</td></tr>
+        <tr><td class="label">Strategic Bets</td><td>High-value, high-sponsorship initiatives tied to differentiation. Senior attention, real platform support.</td></tr>
+        <tr><td class="label">Platform Investments</td><td>Gateways, evaluation, identity, retrieval. Rarely win demo day; determine whether scale is possible.</td></tr>
+        <tr><td class="label">Risk Necessities</td><td>Compliance, auditability, security work — funded even when the ROI is avoided loss.</td></tr>
+        <tr><td class="label">Experiments</td><td>Uncertain but learnable ideas with explicit kill criteria.</td></tr>
+        <tr><td class="label">Park or Kill</td><td>Weak ownership, vague metrics, poor data, or risk disproportionate to value.</td></tr>
+      </table>
+      <div class="footline"><div class="brand">alphaworx.io — Enterprise AI Strategy</div><div class="n">11 / 41</div></div>
     </div>
 
-    <div class="slide dark" data-slide="12">
-      <div class="kicker">Work With Us</div>
-      <h2>The gap is closeable.<br>It won't stay small.</h2>
-      <p>Alphaworx installs the operating system that turns AI access into a governed, defensible advantage. info@alphaworx.io</p>
-      <div class="num">12 / 12</div>
+    <div class="slide rich" data-slide="12">
+      <div class="rich-top">
+        <div class="htext">
+          <div class="kicker">Part 2 — Walkthrough</div>
+          <h2 class="rh">Twenty-eight ideas.<br>One fundable portfolio.</h2>
+        </div>
+      </div>
+      <div class="narrative">A company arrives with twenty-eight AI ideas. The loudest sponsor wants a customer-facing agent — high value, but low data readiness and real risk exposure. Under the ten-dimension scoring, that's not a "no." It means the platform and data work has to be funded before the use case can be promised, not launched on hope.<br><br>Meanwhile a low-visibility idea — a reusable document-retrieval pattern — scores modestly on enterprise value but high on reusability and platform leverage. It gets funded first. The flashy idea gets its platform dependency scheduled honestly instead of quietly slipping. That's what portfolio discipline actually buys: not fewer ideas, but a funding order the organization can defend.</div>
+      <div class="footline"><div class="brand">alphaworx.io — Enterprise AI Strategy</div><div class="n">12 / 41</div></div>
+    </div>
+
+    <div class="slide rich" data-slide="13">
+      <div class="rich-top">
+        <div class="htext">
+          <div class="kicker">Part 2 — Data Foundation</div>
+          <h2 class="rh">A model is a confident<br>interface to your data.</h2>
+        </div>
+        <div class="takeaway">Good or bad, the model amplifies whatever it's sitting on. AI programs need governed data products, not one-off extracts.</div>
+      </div>
+      <div class="chip-row">
+        <div class="chip">Ownership</div>
+        <div class="chip">Quality</div>
+        <div class="chip">Permissioning</div>
+        <div class="chip">Lineage</div>
+        <div class="chip">Unstructured content</div>
+        <div class="chip">Retention</div>
+        <div class="chip">Semantic layer</div>
+      </div>
+      <div class="footline"><div class="brand">alphaworx.io — Enterprise AI Strategy</div><div class="n">13 / 41</div></div>
     </div>
 
   </div>
 
-  <div class="progress" id="progress" style="width:8.3%"></div>
+  <div class="progress" id="progress" style="width:2.4%"></div>
   <div class="hint">Use ← → arrow keys, or click, to navigate</div>
 
 <script>
