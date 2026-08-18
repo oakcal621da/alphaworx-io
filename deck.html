@@ -34,7 +34,10 @@
 
   .title-row { display:flex; align-items:center; justify-content:space-between; gap:4vw; }
   .title-col { flex:none; }
+  .hero-logo { display:flex; flex-direction:column; align-items:center; gap:1.2vh; flex:none; }
   .hero-mark { width:8vw; height:8vw; flex:none; border-radius:12px; margin:0; }
+  .hero-word { font-size:0.9vw; letter-spacing:0.16em; font-weight:600; color:#111; white-space:nowrap; }
+  .hero-word .dim { color:#a3a3a3; font-weight:400; }
 
   /* ===== chart components ===== */
   .bar-chart { display:flex; align-items:flex-end; gap:3vw; height:22vh; margin-top:3vh; max-width:520px; }
@@ -124,7 +127,10 @@
           <h1>The AI Strategy Gap</h1>
           <p>Why the businesses winning right now aren't the ones with the best model.</p>
         </div>
-        <span class="brand-icon hero-mark"></span>
+        <div class="hero-logo">
+          <span class="brand-icon hero-mark"></span>
+          <div class="hero-word">ALPHAWORX<span class="dim">.IO</span></div>
+        </div>
       </div>
       <div class="num">1 / 41</div>
     </div>
