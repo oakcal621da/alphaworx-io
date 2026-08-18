@@ -47,8 +47,10 @@
 
   .timeline { display:flex; align-items:center; margin:3vh 0 2vh; max-width:600px; position:relative; height:2px; background:#ddd; }
   .timeline .pt { position:absolute; top:-4px; width:10px; height:10px; border-radius:50%; background:#111; }
+  .timeline .pt.now { background:#fff; border:2px solid #111; width:12px; height:12px; top:-5px; }
   .timeline-labels { display:flex; justify-content:space-between; max-width:600px; font-size:0.8vw; color:#666; }
   .timeline-labels div { max-width:33%; }
+  .timeline-labels b { color:#111; display:block; margin-bottom:0.3vh; }
 
   .split-compare { display:flex; gap:3vw; margin-top:3vh; max-width:640px; }
   .split-compare .col { flex:1; }
@@ -140,12 +142,18 @@
 
     <div class="slide" data-slide="2">
       <div class="kicker">The Stakes</div>
-      <div class="big">3</div>
-      <div class="lab">years old. AI as a serious enterprise capability is barely three years into its cycle — the gap between the companies getting it right and the ones improvising is just starting to open.</div>
-      <div class="chip-row" style="margin-top:3vh;">
-        <div class="chip">89% of mature FinOps orgs still overspend</div>
-        <div class="chip">9.2× cost swing, same job</div>
+      <h2>Less time has passed<br>than you think.</h2>
+      <div class="timeline">
+        <div class="pt" style="left:4%;"></div>
+        <div class="pt" style="left:48%;"></div>
+        <div class="pt now" style="left:94%;"></div>
       </div>
+      <div class="timeline-labels">
+        <div><b>Nov 2022</b>ChatGPT launches — the practical starting gun for enterprise AI</div>
+        <div><b>2023–2025</b>Pilots everywhere. Governance, almost nowhere</div>
+        <div><b>Today</b>Still under 3 years in — and the gap is just starting to open</div>
+      </div>
+      <p style="margin-top:3vh;">AI as a serious enterprise capability is barely three years into its cycle. The companies building a real strategy now are the ones setting the gap everyone else will spend years trying to close.</p>
       <div class="num">2 / 41</div>
     </div>
 
