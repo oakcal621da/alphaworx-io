@@ -95,7 +95,7 @@ All monochrome — no new colors introduced, consistent with the rest of the sit
 
 **Close (4)**
 38. Industry Overlays — 3-4 industries as illustrative examples (shape-not-tool)
-39. Maturity matrix capstone — expanded from the v2 8-row matrix to include Value Strategy and Operating Model categories alongside the existing risk categories
+39. Maturity matrix capstone — expanded from the v2 8-row matrix to a 10-row matrix covering Value Thesis & Portfolio, Operating Model, and Change & Measurement categories alongside the existing risk categories (Workforce Adoption and Metrics & ROI consolidated into one "Change & Measurement" row to keep the row count manageable)
 40. Proof — AIR/ATRE
 41. Closing / CTA
 
