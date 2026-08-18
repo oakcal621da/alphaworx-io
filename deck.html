@@ -21,8 +21,13 @@
   .slide p { font-size:1.15vw; color:#5b5b5e; line-height:1.6; max-width:640px; }
   .slide .big { font-size:6vw; font-weight:200; letter-spacing:-0.02em; line-height:1; }
   .slide .lab { font-size:1.3vw; margin-top:2vh; max-width:560px; line-height:1.55; color:#3d3d40; }
-  .findings-list div { font-size:1.05vw; line-height:2; color:#333; }
-  .findings-list b { color:#111; }
+
+  .commit-grid { display:flex; margin-top:3vh; }
+  .commit-col { flex:1; padding:0 1.4vw; border-left:1px solid #ececec; }
+  .commit-col:first-child { padding-left:0; border-left:none; }
+  .commit-num { font-size:1.6vw; font-weight:200; letter-spacing:-0.02em; color:#d8d8d8; }
+  .commit-title { font-size:0.8vw; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:#111; margin-top:0.8vh; }
+  .commit-desc { font-size:0.72vw; color:#5b5b5e; line-height:1.5; margin-top:0.8vh; }
   .num { position:absolute; bottom:3vh; right:4vw; font-size:0.75vw; color:#ccc; }
   .progress { position:fixed; bottom:0; left:0; height:3px; background:#111; transition:width 0.2s; }
   .hint { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); font-size:11px; color:#999; letter-spacing:0.04em; }
@@ -150,12 +155,32 @@
     <div class="slide" data-slide="3">
       <div class="kicker">The Executive Promise</div>
       <h2>Five commitments,<br>not a transformation slogan.</h2>
-      <div class="findings-list">
-        <div><b>Strategy —</b> decide where AI should create advantage, not just where it can be demonstrated.</div>
-        <div><b>Portfolio —</b> fund the few use cases, platform capabilities, and controls that matter most.</div>
-        <div><b>Control —</b> make cost, data movement, model behavior, and vendor dependency visible and governable.</div>
-        <div><b>Change —</b> redesign work so adoption becomes operational value, not optional tool usage.</div>
-        <div><b>Evidence —</b> measure benefits, risks, and decision quality in a form executives can act on.</div>
+      <div class="commit-grid">
+        <div class="commit-col">
+          <div class="commit-num">01</div>
+          <div class="commit-title">Strategy</div>
+          <div class="commit-desc">Advantage over demonstration.</div>
+        </div>
+        <div class="commit-col">
+          <div class="commit-num">02</div>
+          <div class="commit-title">Portfolio</div>
+          <div class="commit-desc">Fund what matters most.</div>
+        </div>
+        <div class="commit-col">
+          <div class="commit-num">03</div>
+          <div class="commit-title">Control</div>
+          <div class="commit-desc">Cost, data, and vendor risk — visible.</div>
+        </div>
+        <div class="commit-col">
+          <div class="commit-num">04</div>
+          <div class="commit-title">Change</div>
+          <div class="commit-desc">Adoption as operational value.</div>
+        </div>
+        <div class="commit-col">
+          <div class="commit-num">05</div>
+          <div class="commit-title">Evidence</div>
+          <div class="commit-desc">Proof executives can act on.</div>
+        </div>
       </div>
       <div class="logo-mark brand-mark"></div>
       <div class="num">3 / 41</div>
