@@ -11,6 +11,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CONTENT_DIR = REPO_ROOT / "content" / "blog"
 OUTPUT_DIR = REPO_ROOT / "blog"
+SITE_URL = "https://alphaworx-io.onrender.com"
 
 NAV = (
     '<nav>'
@@ -180,6 +181,35 @@ def render_index(posts):
     )
 
 
+def render_sitemap(posts):
+    """Build sitemap.xml covering the homepage, deck, blog index, and every post.
+
+    Regenerated on every build so it can't drift out of sync with the
+    actual set of published posts.
+    """
+    ordered = sorted(posts, key=lambda p: p["date"], reverse=True)
+    static_urls = [
+        (f"{SITE_URL}/", ordered[0]["date"] if ordered else None),
+        (f"{SITE_URL}/deck.html", None),
+        (f"{SITE_URL}/blog/", ordered[0]["date"] if ordered else None),
+    ]
+    entries = []
+    for loc, lastmod in static_urls:
+        lastmod_tag = f"<lastmod>{lastmod}</lastmod>" if lastmod else ""
+        entries.append(f"<url><loc>{loc}</loc>{lastmod_tag}</url>")
+    for p in ordered:
+        entries.append(
+            f"<url><loc>{SITE_URL}/blog/{p['slug']}.html</loc>"
+            f"<lastmod>{p['date']}</lastmod></url>"
+        )
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(entries) +
+        "\n</urlset>\n"
+    )
+
+
 def main():
     OUTPUT_DIR.mkdir(exist_ok=True)
     posts = []
@@ -189,7 +219,9 @@ def main():
         (OUTPUT_DIR / f"{fields['slug']}.html").write_text(render_post(fields, body_html))
         posts.append(fields)
     (OUTPUT_DIR / "index.html").write_text(render_index(posts))
+    (REPO_ROOT / "sitemap.xml").write_text(render_sitemap(posts))
     print(f"Generated {len(posts)} post(s) + index into {OUTPUT_DIR}")
+    print(f"Generated sitemap.xml with {len(posts) + 3} URLs")
 
 
 if __name__ == "__main__":

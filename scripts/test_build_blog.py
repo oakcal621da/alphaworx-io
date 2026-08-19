@@ -53,7 +53,7 @@ def test_markdown_to_html_converts_bold():
     assert html == "<p>This has <b>bold text</b> in it.</p>"
 
 
-from build_blog import format_byline, render_post, render_index
+from build_blog import format_byline, render_post, render_index, render_sitemap
 
 
 def test_format_byline_renders_month_and_year():
@@ -103,3 +103,20 @@ def test_render_index_lists_every_post_with_link():
     assert 'href="second-post.html"' in html
     # Newest post first
     assert html.index("Example Post") < html.index("Second Post")
+
+
+def test_render_sitemap_lists_static_pages_and_every_post():
+    posts = [
+        {"slug": "example-post", "date": "2026-08-17"},
+        {"slug": "second-post", "date": "2026-08-10"},
+    ]
+    xml = render_sitemap(posts)
+
+    assert xml.startswith('<?xml version="1.0" encoding="UTF-8"?>')
+    assert "<urlset" in xml
+    assert "<loc>https://alphaworx-io.onrender.com/</loc>" in xml
+    assert "<loc>https://alphaworx-io.onrender.com/deck.html</loc>" in xml
+    assert "<loc>https://alphaworx-io.onrender.com/blog/</loc>" in xml
+    assert "<loc>https://alphaworx-io.onrender.com/blog/example-post.html</loc>" in xml
+    assert "<loc>https://alphaworx-io.onrender.com/blog/second-post.html</loc>" in xml
+    assert "<lastmod>2026-08-17</lastmod>" in xml
