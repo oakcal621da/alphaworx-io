@@ -91,18 +91,36 @@
   .products-compact p { font-size:13px; color:#5b5b5e; line-height:1.55; }
   .products-compact p a { color:#111; text-decoration:none; border-bottom:1px solid #111; white-space:nowrap; }
 
+  .timeline-strip { margin-top:40px; }
+  .timeline-strip .tl-label { font-size:11px; letter-spacing:0.08em; color:#a3a3a3; text-transform:uppercase; margin-bottom:18px; }
+  .timeline-strip .tl-row { display:flex; align-items:center; margin-bottom:20px; position:relative; height:2px; background:#ececec; }
+  .timeline-strip .tl-pt { position:absolute; top:-4px; width:10px; height:10px; border-radius:50%; background:#111; }
+  .timeline-strip .tl-cols { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  .timeline-strip .tl-cols .k { font-size:12.5px; font-weight:600; color:#111; margin-bottom:6px; }
+  .timeline-strip .tl-cols .v { font-size:13px; color:#5b5b5e; line-height:1.55; }
+
+  .industry-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:36px; }
+  .industry { border:1px solid #ececec; border-radius:14px; padding:26px 24px; }
+  .industry h4 { font-size:15px; font-weight:600; margin-bottom:10px; }
+  .industry p { font-size:13.5px; color:#5b5b5e; line-height:1.6; }
+
+  .principles { margin-top:22px; display:flex; flex-direction:column; gap:12px; }
+  .principles .pr { font-size:13.5px; line-height:1.65; color:#3d3d40; padding-left:16px; border-left:2px solid #ececec; }
+  .principles .pr b { color:#111; font-weight:600; }
+
   .about-row { display:flex; gap:48px; margin-top:36px; flex-wrap:wrap; }
   .about-row .facts { min-width:200px; display:flex; flex-direction:column; gap:14px; }
   .about-row .facts .fact .k { font-size:11px; letter-spacing:0.08em; color:#a3a3a3; text-transform:uppercase; margin-bottom:3px; }
   .about-row .facts .fact .v { font-size:14px; color:#111; }
-  .about-row p { font-size:15px; line-height:1.75; color:#3d3d40; max-width:520px; flex:1; min-width:260px; }
+  .about-row .about-copy { flex:1; min-width:260px; max-width:520px; }
+  .about-row p { font-size:15px; line-height:1.75; color:#3d3d40; }
 
   footer { padding: 60px 0 50px; }
   footer .row { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
   footer .meta { font-size:12.5px; color:#9a9a9a; }
   footer a { color:#111; text-decoration:none; font-size:12.5px; border-bottom:1px solid #d6d6d6; }
 
-  @media (max-width:700px){ .offer-grid,.insight-grid,.products-compact{grid-template-columns:1fr;} .hero h1{font-size:32px;} h2.h{font-size:23px;} }
+  @media (max-width:700px){ .offer-grid,.insight-grid,.products-compact,.industry-grid,.timeline-strip .tl-cols{grid-template-columns:1fr;} .hero h1{font-size:32px;} h2.h{font-size:23px;} }
 </style>
 </head>
 <body>
@@ -115,6 +133,7 @@
       </div>
       <nav>
         <a href="#help">How we help</a>
+        <a href="#industries">Industries</a>
         <a href="blog/index.html">Insights</a>
         <a href="#why">Why it matters</a>
         <a href="#about">About</a>
@@ -145,6 +164,8 @@
         <div class="finding"><div class="n">02</div><div class="t"><b>Shadow AI is usually the biggest exposure channel.</b> Same tools, different contract, different data terms.</div></div>
         <div class="finding"><div class="n">03</div><div class="t"><b>You don't control the control plane.</b> The important switches still sit largely with the vendors.</div></div>
         <div class="finding"><div class="n">04</div><div class="t"><b>Adoption is near-universal. Governed operation is not.</b> That gap is where risk and wasted money concentrate.</div></div>
+        <div class="finding"><div class="n">05</div><div class="t"><b>Excessive agency jumped from 6th to 3rd.</b> An agent with permissions nobody scoped down is now a top-three OWASP GenAI/LLM risk — no attacker required.</div></div>
+        <div class="finding"><div class="n">06</div><div class="t"><b>Models get retired on the vendor's clock, not yours.</b> An observed ~60-day window once a successor ships — most regulated workflows aren't built to survive that.</div></div>
       </div>
       <div class="findings-cta"><a href="deck.html">See the full case ↗</a></div>
     </div>
@@ -177,6 +198,44 @@
           <div class="step">Ongoing</div>
           <h4>Advisory</h4>
           <p>Continued counsel as your AI strategy evolves — a second set of eyes trained to find what's actually broken before it costs you.</p>
+        </div>
+      </div>
+
+      <div class="timeline-strip">
+        <div class="tl-label">What the first 90 days looks like</div>
+        <div class="tl-row">
+          <div class="tl-pt" style="left:4%;"></div>
+          <div class="tl-pt" style="left:48%;"></div>
+          <div class="tl-pt" style="left:94%;"></div>
+        </div>
+        <div class="tl-cols">
+          <div><div class="k">Days 0–30</div><div class="v">Finish the assessment, secure mandate, land two or three visible quick wins.</div></div>
+          <div><div class="k">Days 31–60</div><div class="v">Stand up the core control-plane pieces. Start cost show-back so teams see their own usage.</div></div>
+          <div><div class="k">Days 61–90</div><div class="v">Get the first governed production use case live. Establish the executive narrative.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="industries">
+    <div class="wrap">
+      <div class="label">Industries</div>
+      <h2 class="h">The method is the same. The acceptable design isn't.</h2>
+      <p class="lead">A support chatbot means something different by sector — brand voice in retail, patient safety in healthcare, adverse-action rules in financial services.</p>
+      <div class="industry-grid">
+        <div class="industry">
+          <h4>Financial Services</h4>
+          <p>Advisor enablement, underwriting support, fraud detection — under model risk management, adverse-action, and explainability requirements.</p>
+        </div>
+        <div class="industry">
+          <h4>Healthcare &amp; Life Sciences</h4>
+          <p>Clinical documentation, prior authorization — where protected health information and clinical safety set the ceiling, not the roadmap.</p>
+        </div>
+        <div class="industry">
+          <h4>Professional Services</h4>
+          <p>Research, drafting, diligence — where confidentiality and citation accuracy are the product, not a feature to bolt on later.</p>
         </div>
       </div>
     </div>
@@ -227,7 +286,14 @@
       <div class="label">About</div>
       <h2 class="h">Built around one discipline.</h2>
       <div class="about-row">
-        <p>Alphaworx is a Dallas-based advisory and applied-AI company, founder-led by an operator with 20+ years diagnosing what's actually broken across trading, aviation, and energy — before turning that instinct toward enterprise AI strategy.</p>
+        <div class="about-copy">
+          <p>Alphaworx is a Dallas-based advisory and applied-AI company, founder-led by an operator with 20+ years diagnosing what's actually broken across trading, aviation, and energy — before turning that instinct toward enterprise AI strategy.</p>
+          <div class="principles">
+            <div class="pr"><b>Evidence over opinion —</b> every claim traces to a named source, not a vendor deck.</div>
+            <div class="pr"><b>Built and validated, not just advised —</b> AIR and ATRE go through the same adversarial review we bring to your strategy.</div>
+            <div class="pr"><b>Named tradeoffs —</b> no silver bullets, no security theater.</div>
+          </div>
+        </div>
         <div class="facts">
           <div class="fact"><div class="k">Headquarters</div><div class="v">Dallas, TX</div></div>
           <div class="fact"><div class="k">Focus</div><div class="v">Enterprise AI Strategy</div></div>
