@@ -23,6 +23,22 @@ header nav a:hover { color:#111; }
 .post-body h4 { font-size:15px; font-weight:600; margin:32px 0 10px; color:#111; }
 .post-body .diag { font-size:14px; color:#111; background:#f7f7f5; border-radius:8px; padding:14px 18px; margin:0 0 18px; }
 .post-body .diag b { letter-spacing:0.06em; font-size:11px; text-transform:uppercase; color:#a3a3a3; display:block; margin-bottom:4px; font-weight:600; }
+.fp-index { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:26px 0 34px; }
+.fp-index a { display:flex; align-items:baseline; gap:10px; border:1px solid #ececec; border-radius:10px; padding:12px 14px; text-decoration:none; color:#111; font-size:13px; font-weight:600; line-height:1.35; }
+.fp-index a:hover { border-color:#111; }
+.fp-index a span { color:#a3a3a3; font-weight:400; font-size:12px; }
+@media (max-width:560px){ .fp-index{grid-template-columns:1fr;} }
+.hier { border:1px solid #ececec; border-radius:12px; margin:26px 0 30px; overflow:hidden; }
+.hier .lvl { display:flex; align-items:baseline; gap:14px; padding:14px 18px; border-bottom:1px solid #ececec; }
+.hier .lvl:last-child { border-bottom:none; }
+.hier .lvl .n { font-size:11px; color:#a3a3a3; width:20px; flex:none; }
+.hier .lvl b { font-size:13.5px; width:130px; flex:none; }
+.hier .lvl small { font-size:12.5px; color:#888; line-height:1.5; }
+.flow { display:flex; gap:8px; margin:26px 0 30px; flex-wrap:wrap; }
+.flow .step { flex:1 1 130px; border:1px solid #ececec; border-radius:10px; padding:13px 14px; }
+.flow .step .n { font-size:10.5px; letter-spacing:0.08em; color:#a3a3a3; text-transform:uppercase; margin-bottom:6px; }
+.flow .step b { font-size:13px; display:block; margin-bottom:4px; }
+.flow .step small { font-size:12px; color:#888; line-height:1.5; }
 .post-cta { border-top:1px solid #ececec; border-bottom:1px solid #ececec; padding:26px 0; margin-top:10px; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; max-width:640px; }
 .post-cta p { font-size:13.5px; color:#5b5b5e; max-width:400px; }
 .post-cta a.work { font-size:13px; color:#fff; background:#111; padding:10px 18px; border-radius:6px; text-decoration:none; white-space:nowrap; }
@@ -42,6 +58,21 @@ footer a { color:#111; text-decoration:none; font-size:12.5px; border-bottom:1px
 <p>There's a reason I frame these as first principles rather than best practices. Best practices are borrowed — they describe what worked somewhere else, in someone else's context, at a moment that has usually already passed. In a field where the technology reinvents itself every couple of quarters, tactics expire fast. First principles are what's left when you strip the tactics away: the small set of things that stay true across model generations, vendor cycles, and hype waves. A leadership team that has done the work of writing its own down gets three things that a policy binder never delivers — decisions that are consistent instead of personality-driven, the ability to delegate judgment without delegating chaos, and a way to say no (or yes) that survives being challenged. A team that hasn't done that work re-argues every AI decision from scratch, under pressure, every time.</p>
 
 <p>These are the twelve first principles I developed to guide enterprise AI strategy. I use them as a decision filter: when a proposal arrives, I should be able to connect it to an outcome, an accountable owner, evidence, an authority grant, a risk boundary, and a review cadence. When I can't, one of these principles tells me what's missing. Each comes with why it matters, what failure looks like, and the one question that tests it.</p>
+
+<div class="fp-index">
+<a href="#p1"><span>01</span>Outcomes before activity</a>
+<a href="#p2"><span>02</span>Accountability must match authority</a>
+<a href="#p3"><span>03</span>Evidence before conclusions</a>
+<a href="#p4"><span>04</span>Value before scale</a>
+<a href="#p5"><span>05</span>Bound risk before production autonomy</a>
+<a href="#p6"><span>06</span>Put controls where decisions occur</a>
+<a href="#p7"><span>07</span>Share platforms, distribute ownership</a>
+<a href="#p8"><span>08</span>Adoption is part of the use case</a>
+<a href="#p9"><span>09</span>Distinguish reversible from irreversible bets</a>
+<a href="#p10"><span>10</span>Transparency is safer than optimism</a>
+<a href="#p11"><span>11</span>Data conditions govern what is possible</a>
+<a href="#p12"><span>12</span>Define how you will know it works</a>
+</div>
 
 <h3 id="p1"><span class="pnum">01</span>Outcomes before activity</h3>
 <p>AI demos are unusually cheap to build and unusually convincing to watch. That combination means visible activity can outrun actual performance for a long time — a growing portfolio of impressive pilots with no accountable value anywhere in it. The discipline is to translate every proposal into an owned business outcome with a baseline and a measure, before work starts. Not "we deployed a copilot" — "we cut claim-handling time 18%, and here's the owner who signed up for that number."</p>
@@ -101,7 +132,23 @@ footer a { color:#111; text-decoration:none; font-size:12.5px; border-bottom:1px
 <p>Here's what this looks like under pressure. An executive wants an autonomous customer-service agent deployed quickly, because a competitor just announced one. The undisciplined responses are the two easy ones: "no" (institutional hesitation dressed as prudence) or "yes" (a high-blast-radius commitment made on competitive anxiety).</p>
 <p>The doctrine produces a third answer. Translate the request into a customer outcome with an accountable business owner (01). Classify it: autonomous action in front of customers is high blast radius (05), but a bounded pilot is a two-way door (09). Check authority, data permissions, and budget (02, 11). Then move fast on a genuinely bounded version: a representative but low-risk queue, an evaluation threshold defined before launch (12), human escalation and stop conditions (05), cost instrumentation (03), and a dated decision on scaling (04). That is disciplined speed — faster than the "no," and vastly safer than the "yes."</p>
 
-<blockquote>When pressure rises, return to the hierarchy: principles shape the judgment, the mandate enables the decision, the process makes it repeatable, and the record makes accountability visible.</blockquote>
+<div class="flow">
+<div class="step"><div class="n">Step 1</div><b>Translate</b><small>Named customer outcome, accountable business owner.</small></div>
+<div class="step"><div class="n">Step 2</div><b>Classify</b><small>High blast radius — but a bounded pilot is a two-way door.</small></div>
+<div class="step"><div class="n">Step 3</div><b>Check</b><small>Authority, data permissions, budget — before work starts.</small></div>
+<div class="step"><div class="n">Step 4</div><b>Bound &amp; date it</b><small>Low-risk queue, eval threshold, stop conditions, a dated scale decision.</small></div>
+</div>
+
+<p>When pressure rises, the thing to return to is the operating hierarchy — each layer doing a job the others can't:</p>
+
+<div class="hier">
+<div class="lvl"><span class="n">01</span><b>First principles</b><small>Durable rules for judgment when the situation is ambiguous.</small></div>
+<div class="lvl"><span class="n">02</span><b>Mandate</b><small>Written authority, budget visibility, escalation rights, sponsorship.</small></div>
+<div class="lvl"><span class="n">03</span><b>Processes</b><small>Repeatable ways to turn authority into governed work.</small></div>
+<div class="lvl"><span class="n">04</span><b>Records</b><small>Evidence that decisions were made, controls operated, outcomes delivered.</small></div>
+</div>
+
+<blockquote>Principles shape the judgment. The mandate enables the decision. The process makes it repeatable. The record makes accountability visible.</blockquote>
 
 <p>None of this requires believing anything unusual about AI. It requires believing something unfashionable about organizations: that most AI failures are ordinary governance failures wearing a new costume, and that the organizations that get durable value from AI will be the ones that made deliberate decisions where everyone else shipped defaults.</p>
 
