@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Alphaworx — Enterprise AI Strategy</title>
 <meta name="description" content="The AI strategy gap is still small. It won't stay that way. Alphaworx helps enterprise leaders build a governed AI strategy — before the wrong one costs them.">
 <link rel="icon" type="image/png" href="/assets/mark.png">
 <meta property="og:title" content="Alphaworx — Enterprise AI Strategy">
@@ -12,281 +11,558 @@
 <meta property="og:url" content="https://alphaworx-io.onrender.com">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
+<title>Alphaworx — Enterprise AI Strategy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin:0; padding:0; }
-  body {
-    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif;
-    background:#ffffff; color:#111111;
-    -webkit-font-smoothing: antialiased;
+  :root {
+    --paper:#F7F8FA; --surface:#FFFFFF;
+    --ink:#0B0C0E; --ink2:#454952; --ink3:#8A8F99;
+    --rule:#E1E4E9; --rule2:#EEF0F3;
+    --cyan:#06B6D4; --cobalt:#2563EB; --amber:#F59E0B; --coral:#F43F5E; --violet:#7C3AED; --teal:#0D9488;
+    --hue:var(--cobalt);
+    --display:'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif;
+    --body:'Instrument Sans', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --wrap:1160px; --ease:cubic-bezier(.2,.7,.2,1);
   }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 0 32px; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { font-family:var(--body); background:var(--paper); color:var(--ink); -webkit-font-smoothing:antialiased; line-height:1.5; overflow-x:hidden; }
+  body::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:60; opacity:.05; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  a { color:inherit; }
+  .wrap { max-width:var(--wrap); margin:0 auto; padding:0 32px; }
+  .eyebrow { font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); display:flex; align-items:center; gap:10px; }
+  .eyebrow::before { content:""; width:18px; height:2px; border-radius:2px; background:linear-gradient(90deg, var(--cyan), var(--cobalt)); }
+  .mono { font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink3); }
+  .grad-text { background:linear-gradient(90deg, var(--cyan), var(--cobalt) 45%, var(--coral) 80%, var(--amber)); background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:sheen 6s linear infinite; }
+  @keyframes sheen { to { background-position:200% 0; } }
 
-  header { position:sticky; top:0; background:rgba(255,255,255,0.9); backdrop-filter:blur(6px); border-bottom:1px solid #f0f0f0; z-index:10; }
-  header .row { display:flex; align-items:center; justify-content:space-between; padding:18px 0; }
-  header .brand { display:flex; align-items:center; gap:12px; }
-  header img.mark { width:30px; height:30px; border-radius:8px; }
-  header .word { font-size:13px; letter-spacing:0.16em; font-weight:600; }
-  header .word .dim { color:#a3a3a3; font-weight:400; }
-  header nav { display:flex; gap:26px; }
-  header nav a { font-size:12.5px; color:#6b6b6e; text-decoration:none; letter-spacing:0.01em; }
-  header nav a:hover { color:#111; }
-  @media (max-width:640px){ header nav{display:none;} }
+  /* ---------- progress + header ---------- */
+  .progress { position:fixed; top:0; left:0; height:2px; width:0; background:linear-gradient(90deg, var(--cyan), var(--cobalt), var(--coral), var(--amber)); z-index:70; }
+  header { position:sticky; top:0; z-index:40; background:rgba(247,248,250,0.72); backdrop-filter:blur(14px) saturate(1.4); border-bottom:1px solid rgba(11,12,14,.08); }
+  header .row { display:flex; align-items:center; justify-content:space-between; height:64px; gap:24px; }
+  .brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
+  .brand img { width:28px; height:28px; border-radius:7px; }
+  .brand .word { font-family:var(--display); font-weight:600; font-size:14px; letter-spacing:.12em; }
+  .brand .word span { color:var(--ink3); font-weight:400; }
+  nav { display:flex; gap:22px; }
+  nav a { font-size:13.5px; white-space:nowrap; color:var(--ink2); text-decoration:none; background:linear-gradient(90deg,var(--cyan),var(--cobalt)) no-repeat 0 100%/0 2px; transition:background-size .3s var(--ease), color .2s; padding-bottom:2px; }
+  nav a:hover { color:var(--ink); background-size:100% 2px; }
+  .status { display:flex; align-items:center; gap:12px; font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--ink2); white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .status .dot { width:8px; height:8px; border-radius:50%; background:var(--cobalt); animation:pulse 2s infinite; }
+  .status .sep { color:var(--rule); }
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(37,99,235,.5)} 70%{box-shadow:0 0 0 9px rgba(37,99,235,0)} 100%{box-shadow:0 0 0 0 rgba(37,99,235,0)} }
+  @media (max-width:1240px){ .status .lbl{display:none;} }
+  @media (max-width:960px){ nav{display:none;} }
+  @media (max-width:620px){ .status .clock, .status .sep{display:none;} }
 
-  .hero { padding: 100px 0 90px; }
-  .eyebrow { font-size:11px; letter-spacing:0.14em; color:#a3a3a3; text-transform:uppercase; margin-bottom:16px; }
-  .hero h1 {
-    font-size: 44px; font-weight:300; letter-spacing:-0.02em; line-height:1.2;
-    max-width: 620px;
+  /* ---------- hero: luminous field ---------- */
+  .hero { position:relative; padding:104px 0 96px; overflow:hidden; isolation:isolate; }
+  .hero .mesh { position:absolute; inset:-12%; z-index:-2; width:124%; height:124%; filter:blur(70px) saturate(1.25); opacity:.95; }
+  .hero .veil { position:absolute; inset:0; z-index:-1; pointer-events:none;
+    background:radial-gradient(60% 70% at 32% 50%, rgba(247,248,250,.92) 0%, rgba(247,248,250,.72) 45%, rgba(247,248,250,0) 80%); }
+  .hero .grid { position:relative; display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:center; }
+  .hero h1 { font-family:var(--display); font-weight:500; font-size:clamp(42px, 5.4vw, 74px); line-height:.98; letter-spacing:-.03em; margin:22px 0 18px; text-wrap:balance; }
+  .hero h1 .w { display:inline-block; opacity:0; transform:translateY(22px); }
+  .hero h1 .w.in { animation:wordIn .75s var(--ease) forwards; }
+  @keyframes wordIn { to { opacity:1; transform:none; } }
+  .rotator { font-family:var(--display); font-weight:500; font-size:clamp(20px, 2.1vw, 28px); letter-spacing:-.015em; color:var(--ink2); height:1.35em; overflow:hidden; position:relative; margin-bottom:22px; }
+  .rotator span { position:absolute; left:0; top:0; white-space:nowrap; opacity:0; transform:translateY(100%); transition:transform .6s var(--ease), opacity .6s var(--ease); }
+  .rotator span.on { opacity:1; transform:none; }
+  .rotator span.out { opacity:0; transform:translateY(-100%); }
+  .rotator span b { color:var(--ink); font-weight:600; }
+  .hero p.sub { font-size:18px; line-height:1.6; color:var(--ink2); max-width:520px; }
+  .cta { margin-top:32px; display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+  .btn { position:relative; display:inline-flex; align-items:center; gap:10px; background:var(--ink); color:#fff; text-decoration:none; font-weight:600; font-size:14px; padding:14px 22px; border-radius:10px; transition:transform .25s var(--ease), box-shadow .25s var(--ease); will-change:transform; overflow:hidden; }
+  .btn::before { content:""; position:absolute; inset:0; background:linear-gradient(120deg, transparent 30%, rgba(255,255,255,.28) 50%, transparent 70%); transform:translateX(-120%); transition:transform .8s var(--ease); }
+  .btn:hover::before { transform:translateX(120%); }
+  .btn:hover { box-shadow:0 14px 34px -10px rgba(37,99,235,.45); }
+  .btn .arrow { transition:transform .25s var(--ease); }
+  .btn:hover .arrow { transform:translateX(3px); }
+  .link { font-size:14px; font-weight:500; text-decoration:none; color:var(--ink); background:linear-gradient(90deg,var(--cyan),var(--cobalt)) no-repeat 0 100%/100% 2px; padding-bottom:3px; transition:background-size .3s var(--ease); }
+  .link:hover { background-size:0 2px; }
+
+  /* glass readout */
+  .glass { position:relative; border-radius:18px; border:1px solid rgba(255,255,255,.7); background:linear-gradient(180deg, rgba(255,255,255,.62), rgba(255,255,255,.38)); backdrop-filter:blur(18px) saturate(1.3); box-shadow:0 40px 90px -40px rgba(11,12,14,.35), inset 0 1px 0 rgba(255,255,255,.9); padding:22px; }
+  .glass .head { display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink2); margin-bottom:18px; }
+  .glass .head i { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--cobalt); margin-right:8px; animation:pulse 2s infinite; }
+  .gauge { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .cell { background:rgba(255,255,255,.55); border:1px solid rgba(11,12,14,.06); border-radius:12px; padding:16px 16px 14px; }
+  .cell .k { font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); margin-bottom:8px; }
+  .cell .v { font-family:var(--display); font-weight:500; font-size:34px; letter-spacing:-.03em; line-height:1; font-variant-numeric:tabular-nums; display:flex; align-items:baseline; gap:5px; }
+  .cell .v small { font-size:14px; color:var(--ink3); font-family:var(--mono); letter-spacing:.04em; }
+  .cell .bar { margin-top:12px; height:6px; border-radius:3px; background:rgba(11,12,14,.08); overflow:hidden; }
+  .cell .bar i { display:block; height:100%; width:0; border-radius:3px; background:linear-gradient(90deg, var(--cyan), var(--cobalt)); transition:width 1.6s var(--ease) .6s; }
+  .cell .bar i.warm { background:linear-gradient(90deg, var(--amber), var(--coral)); }
+  .cell.wide { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .cell.wide .v { font-size:22px; }
+  .spark { width:150px; height:44px; }
+  .spark path { fill:none; stroke-width:2; stroke-linecap:round; }
+  .spark .a { stroke:url(#sg); stroke-dasharray:400; stroke-dashoffset:400; transition:stroke-dashoffset 1.8s var(--ease) .5s; }
+  .spark .g { stroke:var(--ink3); stroke-dasharray:400; stroke-dashoffset:400; transition:stroke-dashoffset 1.8s var(--ease) .5s; opacity:.6; }
+  .glass.in .spark path { stroke-dashoffset:0; }
+  @media (max-width:960px){ .hero .grid{grid-template-columns:1fr; gap:36px;} .hero{padding:84px 0 72px;} }
+
+  /* ---------- provider nexus ---------- */
+  .nexus { border-top:1px solid var(--rule); background:var(--surface); padding:26px 0 22px; }
+  .nx-head { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+  .nx-strip { overflow:hidden; -webkit-mask-image:linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image:linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+  .nx-track { display:flex; gap:56px; width:max-content; align-items:center; animation:marquee 60s linear infinite; padding:4px 0; }
+  .nx-strip:hover .nx-track { animation-play-state:paused; }
+  .nx-track span { font-family:var(--display); font-weight:600; font-size:22px; letter-spacing:-.01em; color:var(--ink3); white-space:nowrap; transition:color .3s var(--ease); position:relative; padding-left:22px; }
+  .nx-track span::before { content:""; position:absolute; left:0; top:50%; width:8px; height:8px; margin-top:-4px; border-radius:50%; background:var(--rule); transition:background .3s var(--ease), box-shadow .3s var(--ease); }
+  .nx-track span:hover { color:var(--ink); }
+  .nx-track span:hover::before { background:var(--cobalt); box-shadow:0 0 0 4px rgba(37,99,235,.15); }
+  .nx-track span:nth-child(3n)::before { background:color-mix(in srgb, var(--coral) 45%, #fff); }
+  .nx-track span:nth-child(3n+1)::before { background:color-mix(in srgb, var(--cyan) 45%, #fff); }
+  .nx-track span:nth-child(3n+2)::before { background:color-mix(in srgb, var(--amber) 45%, #fff); }
+
+  /* ---------- stat band ---------- */
+  .stats { border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); background:var(--surface); }
+  .stats .row { display:grid; grid-template-columns:repeat(4,1fr); }
+  .stat { padding:30px 24px 28px; border-left:1px solid var(--rule); position:relative; }
+  .stat::before { content:""; position:absolute; left:0; right:0; top:0; height:3px; background:var(--hue); opacity:0; transition:opacity .6s var(--ease); }
+  .stat.in::before { opacity:1; }
+  .stat:first-child { border-left:none; padding-left:0; }
+  .stat .v { font-family:var(--display); font-weight:500; font-size:46px; letter-spacing:-.03em; line-height:1; font-variant-numeric:tabular-nums; display:flex; align-items:baseline; gap:4px; }
+  .stat .v small { font-size:22px; color:var(--hue); }
+  .stat .l { margin-top:10px; font-size:13.5px; color:var(--ink2); line-height:1.45; max-width:230px; }
+  @media (max-width:860px){ .stats .row{grid-template-columns:1fr 1fr;} .stat:nth-child(3){border-left:none; padding-left:0;} .stat{border-top:1px solid var(--rule);} .stat:nth-child(-n+2){border-top:none;} }
+
+  /* ---------- sections ---------- */
+  section { padding:100px 0; }
+  .rule { border-top:1px solid var(--rule); }
+  h2.h { font-family:var(--display); font-weight:500; font-size:clamp(32px, 3.6vw, 48px); letter-spacing:-.025em; line-height:1.05; max-width:700px; margin:18px 0 18px; text-wrap:balance; }
+  p.lead { font-size:17px; line-height:1.7; color:var(--ink2); max-width:640px; }
+  .reveal { opacity:0; transform:translateY(24px); transition:opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal.in { opacity:1; transform:none; }
+  .reveal.d1{transition-delay:.08s} .reveal.d2{transition-delay:.16s} .reveal.d3{transition-delay:.24s}
+
+  /* hue classes for findings */
+  .h-econ{--hue:var(--amber)} .h-data{--hue:var(--coral)} .h-vendor{--hue:var(--violet)} .h-adopt{--hue:var(--cobalt)} .h-sec{--hue:var(--teal)} .h-rel{--hue:var(--cyan)}
+
+  /* ticker */
+  .ticker { overflow:hidden; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); background:var(--surface); padding:14px 0; -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .ticker .track { display:flex; gap:44px; width:max-content; animation:marquee 50s linear infinite; }
+  .ticker:hover .track { animation-play-state:paused; }
+  .ticker .item { display:flex; align-items:center; gap:12px; white-space:nowrap; font-size:14px; color:var(--ink); font-weight:600; }
+  .ticker .item i { width:8px; height:8px; border-radius:50%; background:var(--hue); box-shadow:0 0 0 4px color-mix(in srgb, var(--hue) 18%, transparent); }
+  .ticker .item .n { font-family:var(--mono); font-size:11px; color:var(--ink3); letter-spacing:.06em; font-weight:400; }
+  @keyframes marquee { to { transform:translateX(-50%); } }
+
+  /* ---------- scrollytelling ---------- */
+  .story { display:grid; grid-template-columns:1fr 1fr; gap:56px; margin-top:48px; align-items:start; }
+  .story .sticky { position:sticky; top:92px; }
+  .inst { position:relative; border-radius:18px; border:1px solid rgba(11,12,14,.08); background:#fff; box-shadow:0 40px 90px -50px rgba(11,12,14,.35); overflow:hidden; min-height:440px; transition:box-shadow .6s var(--ease); }
+  .inst::before { content:""; position:absolute; inset:0; background:radial-gradient(520px 260px at 90% -10%, color-mix(in srgb, var(--hue) 28%, transparent), transparent 65%); transition:background .6s var(--ease); pointer-events:none; }
+  .inst .bar { position:relative; display:flex; justify-content:space-between; align-items:center; padding:14px 18px; border-bottom:1px solid var(--rule); }
+  .inst .bar .t { font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink2); display:flex; align-items:center; gap:10px; }
+  .inst .bar .t i { width:8px; height:8px; border-radius:50%; background:var(--hue); transition:background .5s; }
+  .inst .bar .r { font-family:var(--mono); font-size:11px; letter-spacing:.08em; color:var(--ink3); font-variant-numeric:tabular-nums; }
+  .inst .slides { position:relative; padding:26px 24px 28px; min-height:380px; }
+  .inst .slide { position:absolute; inset:26px 24px 28px; opacity:0; transform:translateY(12px); transition:opacity .5s var(--ease), transform .5s var(--ease); pointer-events:none; }
+  .inst .slide.on { opacity:1; transform:none; pointer-events:auto; }
+  .inst .big { font-family:var(--display); font-weight:500; font-size:68px; letter-spacing:-.04em; line-height:1; font-variant-numeric:tabular-nums; display:flex; align-items:baseline; gap:8px; }
+  .inst .big small { font-size:24px; color:var(--hue); }
+  .inst .cap { margin-top:8px; font-size:14px; color:var(--ink2); max-width:380px; line-height:1.5; }
+  .bars { margin-top:26px; display:flex; flex-direction:column; gap:14px; }
+  .bar-row .lab { display:flex; justify-content:space-between; font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink3); margin-bottom:6px; }
+  .bar-row .lab b { color:var(--ink); font-weight:500; }
+  .bar-row .trk { height:10px; background:var(--rule2); border-radius:4px; overflow:hidden; }
+  .bar-row .fil { height:100%; width:0; background:var(--ink); border-radius:4px; transition:width 1.2s var(--ease) .15s; }
+  .bar-row .fil.a { background:linear-gradient(90deg, color-mix(in srgb, var(--hue) 60%, #fff), var(--hue)); }
+  .on .bar-row .fil { width:var(--w); }
+  .switch { margin-top:26px; display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .switch div { border:1px solid var(--rule); border-radius:10px; padding:12px 14px; font-size:13px; display:flex; justify-content:space-between; align-items:center; background:#fff; }
+  .switch div i { width:34px; height:18px; border-radius:9px; background:var(--rule); position:relative; flex:none; transition:background .5s var(--ease) .3s; }
+  .switch div i::after { content:""; position:absolute; top:2px; left:2px; width:14px; height:14px; border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.2); transition:left .5s var(--ease) .3s; }
+  .on .switch div.v i { background:var(--hue); }
+  .on .switch div.v i::after { left:18px; }
+  .switch .who { font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink3); margin-top:2px; }
+  .ladder { margin-top:22px; display:grid; grid-template-columns:repeat(6,1fr); gap:8px; align-items:end; height:120px; }
+  .ladder div { background:var(--rule2); border-radius:5px 5px 0 0; height:var(--h); position:relative; transition:background .5s var(--ease) .2s; }
+  .ladder div span { position:absolute; top:-20px; left:0; right:0; text-align:center; font-family:var(--mono); font-size:10.5px; color:var(--ink3); }
+  .on .ladder div.hi { background:var(--hue); }
+  .on .ladder div.was { background:var(--ink3); }
+  .clock { margin-top:24px; display:flex; align-items:center; gap:18px; }
+  .clock .ring { width:120px; height:120px; flex:none; }
+  .clock .ring circle { fill:none; stroke-width:8; }
+  .clock .ring .bg { stroke:var(--rule2); }
+  .clock .ring .fg { stroke:var(--hue); stroke-linecap:round; stroke-dasharray:314; stroke-dashoffset:314; transform:rotate(-90deg); transform-origin:center; transition:stroke-dashoffset 1.6s var(--ease) .2s; }
+  .on .clock .ring .fg { stroke-dashoffset:52; }
+  .clock .txt { font-size:14px; color:var(--ink2); line-height:1.5; }
+  .clock .txt b { color:var(--ink); }
+  .gapmini { margin-top:20px; width:100%; height:auto; display:block; }
+  .gapmini .g line { stroke:var(--rule2); }
+  .gapmini path { fill:none; stroke-width:2.5; stroke-linecap:round; }
+  .gapmini .a { stroke:var(--hue); stroke-dasharray:700; stroke-dashoffset:700; transition:stroke-dashoffset 1.6s var(--ease) .2s; }
+  .gapmini .gv { stroke:var(--ink3); stroke-dasharray:700; stroke-dashoffset:700; transition:stroke-dashoffset 1.6s var(--ease) .2s; }
+  .gapmini .area { fill:var(--hue); opacity:0; transition:opacity .8s var(--ease) 1.2s; }
+  .on .gapmini .a, .on .gapmini .gv { stroke-dashoffset:0; }
+  .on .gapmini .area { opacity:.12; }
+  .gapmini text { font-family:var(--mono); font-size:11px; fill:var(--ink3); }
+  .steps { display:flex; flex-direction:column; }
+  .step { min-height:62vh; display:flex; flex-direction:column; justify-content:center; padding:24px 0 24px 22px; border-left:2px solid var(--rule); opacity:.35; transition:opacity .5s var(--ease), border-color .5s var(--ease); }
+  .step.on { opacity:1; border-left-color:var(--hue); }
+  .step .n { font-family:var(--mono); font-size:12px; letter-spacing:.08em; color:var(--hue); margin-bottom:12px; }
+  .step h3 { font-family:var(--display); font-weight:500; font-size:clamp(24px, 2.4vw, 32px); letter-spacing:-.02em; line-height:1.15; margin-bottom:12px; text-wrap:balance; }
+  .step p { font-size:16px; line-height:1.65; color:var(--ink2); max-width:480px; }
+  @media (max-width:900px){ .story{grid-template-columns:1fr;} .story .sticky{position:relative; top:auto;} .inst{min-height:0;} .inst .slides{min-height:340px;} .step{min-height:0; padding:28px 0 28px 18px; opacity:1;} }
+
+  /* ---------- value gap: gates, numbers, discipline ---------- */
+  .gates { position:relative; display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:44px; padding-top:26px; }
+  .gates .pipe { position:absolute; left:12.5%; right:12.5%; top:0; height:4px; border-radius:2px; background:var(--rule2); overflow:hidden; }
+  .gates .pipe i { position:absolute; inset:0; background:linear-gradient(90deg, var(--cyan), var(--cobalt), var(--coral), var(--amber), var(--cyan)); background-size:200% 100%; opacity:0; transition:opacity .8s var(--ease); }
+  .gates.in .pipe i { opacity:1; animation:flow 4s linear infinite; }
+  @keyframes flow { to { background-position:-200% 0; } }
+  .gate { position:relative; background:var(--surface); border:1px solid var(--rule); border-radius:14px; padding:24px 22px 20px; transition:transform .3s var(--ease), box-shadow .3s var(--ease); }
+  .gate::before { content:""; position:absolute; top:-30px; left:50%; width:12px; height:12px; margin-left:-6px; border-radius:50%; background:var(--surface); border:3px solid var(--g); box-shadow:0 0 0 0 color-mix(in srgb, var(--g) 40%, transparent); }
+  .gates.in .gate.g-rare::before, .gates.in .gate.g-part::before { animation:leak 2.2s infinite; }
+  @keyframes leak { 0%{box-shadow:0 0 0 0 color-mix(in srgb, var(--g) 45%, transparent)} 70%{box-shadow:0 0 0 12px transparent} 100%{box-shadow:0 0 0 0 transparent} }
+  .gate:hover { transform:translateY(-4px); box-shadow:0 28px 60px -34px rgba(11,12,14,.4); }
+  .gate .g-n { font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--g); margin-bottom:12px; }
+  .gate h4 { font-family:var(--display); font-weight:600; font-size:17px; letter-spacing:-.01em; margin-bottom:10px; line-height:1.25; }
+  .gate p { font-size:13.5px; color:var(--ink2); line-height:1.6; }
+  .gate .g-status { margin-top:16px; display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--g); padding:6px 10px; border-radius:20px; background:color-mix(in srgb, var(--g) 10%, #fff); border:1px solid color-mix(in srgb, var(--g) 30%, #fff); }
+  .gate .g-status::before { content:""; width:6px; height:6px; border-radius:50%; background:var(--g); }
+  .g-rare { --g:var(--coral); } .g-part { --g:var(--amber); } .g-well { --g:var(--teal); }
+  @media (max-width:960px){ .gates{grid-template-columns:1fr 1fr;} .gates .pipe{display:none;} .gate::before{display:none;} .gates{padding-top:0;} }
+  @media (max-width:560px){ .gates{grid-template-columns:1fr;} }
+  .numbers { display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:44px; border:1px solid var(--rule); border-radius:14px; background:var(--surface); overflow:hidden; }
+  .numb { padding:24px 22px 22px; border-left:1px solid var(--rule); border-top:1px solid var(--rule); }
+  .numb:nth-child(3n+1) { border-left:none; } .numb:nth-child(-n+3) { border-top:none; }
+  .numb .v { font-family:var(--display); font-weight:500; font-size:40px; letter-spacing:-.03em; line-height:1; font-variant-numeric:tabular-nums; display:flex; align-items:baseline; gap:3px; }
+  .numb .v small { font-size:16px; color:var(--coral); font-family:var(--mono); letter-spacing:.02em; }
+  .numb .l { margin-top:10px; font-size:13px; color:var(--ink2); line-height:1.5; }
+  @media (max-width:800px){ .numbers{grid-template-columns:1fr 1fr;} .numb:nth-child(3n+1){border-left:1px solid var(--rule);} .numb:nth-child(2n+1){border-left:none;} .numb:nth-child(-n+3){border-top:1px solid var(--rule);} .numb:nth-child(-n+2){border-top:none;} }
+  .discipline { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:44px; }
+  .disc { padding:22px 0 0; border-top:2px solid var(--rule); position:relative; }
+  .disc::before { content:""; position:absolute; left:0; top:-2px; height:2px; width:0; background:linear-gradient(90deg, var(--cyan), var(--cobalt)); transition:width 1.2s var(--ease) .2s; }
+  .disc.in::before { width:100%; }
+  .disc .dn { font-family:var(--mono); font-size:11px; letter-spacing:.08em; color:var(--cobalt); margin-bottom:10px; }
+  .disc h4 { font-family:var(--display); font-weight:600; font-size:17px; letter-spacing:-.01em; margin-bottom:8px; line-height:1.25; }
+  .disc p { font-size:13.5px; color:var(--ink2); line-height:1.6; }
+  @media (max-width:900px){ .discipline{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .discipline{grid-template-columns:1fr;} }
+
+  /* ---------- cards ---------- */
+  .offer-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:40px; }
+  .card { position:relative; background:var(--surface); border:1px solid var(--rule); border-radius:14px; padding:26px 24px; transition:transform .3s var(--ease), box-shadow .3s var(--ease); overflow:hidden; }
+  .card::before { content:""; position:absolute; inset:-1px; border-radius:15px; padding:1px; background:conic-gradient(from var(--ang,0deg), var(--cyan), var(--cobalt), var(--coral), var(--amber), var(--cyan)); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; opacity:0; transition:opacity .35s; pointer-events:none; }
+  .card::after { content:""; position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .3s; background:radial-gradient(260px 260px at var(--mx,50%) var(--my,50%), rgba(37,99,235,.10), transparent 60%); }
+  .card:hover { transform:translateY(-4px); box-shadow:0 28px 60px -34px rgba(11,12,14,.4); }
+  .card:hover::before { opacity:1; animation:spin 3s linear infinite; }
+  .card:hover::after { opacity:1; }
+  @property --ang { syntax:'<angle>'; inherits:false; initial-value:0deg; }
+  @keyframes spin { to { --ang:360deg; } }
+  .card .step-l { font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--cobalt); margin-bottom:12px; position:relative; }
+  .card h4 { font-family:var(--display); font-weight:600; font-size:17px; letter-spacing:-.01em; margin-bottom:10px; position:relative; }
+  .card p { font-size:14px; color:var(--ink2); line-height:1.6; position:relative; }
+  @media (max-width:900px){ .offer-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .offer-grid{grid-template-columns:1fr;} }
+
+  .timeline { margin-top:60px; }
+  .timeline .track { position:relative; height:3px; background:var(--rule); border-radius:2px; margin:22px 0 20px; }
+  .timeline .track .fill { position:absolute; left:0; top:0; height:100%; width:100%; border-radius:2px; background:linear-gradient(90deg, var(--cyan), var(--cobalt), var(--coral), var(--amber)); transform-origin:left; transform:scaleX(0); transition:transform 1.8s var(--ease); }
+  .timeline.in .track .fill { transform:scaleX(1); }
+  .timeline .node { position:absolute; top:-6px; width:15px; height:15px; border-radius:50%; background:var(--surface); border:3px solid var(--cobalt); transform:scale(0); transition:transform .5s var(--ease); }
+  .timeline .node:nth-child(3){border-color:var(--coral)} .timeline .node:nth-child(4){border-color:var(--amber)}
+  .timeline.in .node { transform:scale(1); }
+  .timeline.in .node:nth-child(2){transition-delay:.4s} .timeline.in .node:nth-child(3){transition-delay:1s} .timeline.in .node:nth-child(4){transition-delay:1.6s}
+  .timeline .cols { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .timeline .cols .k { font-family:var(--mono); font-size:12px; letter-spacing:.06em; color:var(--ink); margin-bottom:6px; }
+  .timeline .cols .v { font-size:14px; color:var(--ink2); line-height:1.55; }
+  @media (max-width:700px){ .timeline .cols{grid-template-columns:1fr;} }
+
+  .three { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:40px; }
+  @media (max-width:800px){ .three{grid-template-columns:1fr;} }
+  .insight { text-decoration:none; display:block; }
+  .insight .cat { font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--hue); margin-bottom:12px; position:relative; }
+  .insight p { color:var(--ink3); }
+  .insight .go { margin-top:14px; font-size:13px; font-weight:500; color:var(--ink); display:inline-flex; gap:6px; align-items:center; position:relative; }
+  .insight .go span { transition:transform .25s var(--ease); }
+  .insight:hover .go span { transform:translateX(3px); }
+
+  .proof { background:var(--surface); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); }
+  .products { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:36px; }
+  .product { border:1px solid var(--rule); border-radius:14px; padding:24px; background:var(--paper); position:relative; overflow:hidden; }
+  .product::before { content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:linear-gradient(180deg, var(--cyan), var(--cobalt)); }
+  .product:nth-child(2)::before { background:linear-gradient(180deg, var(--coral), var(--amber)); }
+  .product .tag { font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink); margin-bottom:10px; }
+  .product p { font-size:14px; color:var(--ink2); line-height:1.6; }
+  @media (max-width:700px){ .products{grid-template-columns:1fr;} }
+
+  .about-row { display:grid; grid-template-columns:1.4fr .8fr; gap:56px; margin-top:36px; }
+  .about-row p { font-size:16px; line-height:1.7; color:var(--ink2); }
+  .principles { margin-top:24px; display:flex; flex-direction:column; gap:12px; }
+  .principles .pr { font-size:14px; line-height:1.6; color:var(--ink2); padding-left:16px; border-left:2px solid var(--cobalt); }
+  .principles .pr:nth-child(2){border-left-color:var(--coral)} .principles .pr:nth-child(3){border-left-color:var(--amber)}
+  .principles .pr b { color:var(--ink); }
+  .facts { display:flex; flex-direction:column; gap:16px; border-left:1px solid var(--rule); padding-left:28px; }
+  .fact .k { font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); margin-bottom:4px; }
+  .fact .v { font-size:14.5px; }
+  @media (max-width:800px){ .about-row{grid-template-columns:1fr; gap:32px;} .facts{border-left:none; padding-left:0; border-top:1px solid var(--rule); padding-top:20px;} }
+
+  .close { position:relative; overflow:hidden; isolation:isolate; border-top:1px solid var(--rule); }
+  .close .mesh { position:absolute; inset:-20%; z-index:-2; width:140%; height:140%; filter:blur(70px) saturate(1.2); opacity:.9; }
+  .close .veil { position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg, rgba(247,248,250,.9), rgba(247,248,250,.55) 60%, rgba(247,248,250,.2)); }
+  .close .box { position:relative; display:flex; justify-content:space-between; align-items:center; gap:32px; flex-wrap:wrap; }
+  .close h2.h { margin:12px 0 0; }
+  footer { padding:36px 0 44px; border-top:1px solid var(--rule); }
+  footer .row { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:13px; color:var(--ink3); }
+  footer a { color:var(--ink); text-decoration:none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation:none !important; transition:none !important; }
+    .reveal, .hero h1 .w { opacity:1; transform:none; }
+    .timeline .track .fill { transform:scaleX(1); } .timeline .node { transform:scale(1); }
+    .step { opacity:1; } .rotator span:first-child { opacity:1; transform:none; }
   }
-  .hero p.sub {
-    margin-top:22px; max-width: 520px; font-size:17px; line-height:1.6; color:#5b5b5e; font-weight:400;
-  }
-  .hero .cta { margin-top:34px; display:flex; gap:16px; flex-wrap:wrap; }
-  .hero a.btn {
-    display:inline-block; background:#111; color:#fff; text-decoration:none;
-    font-size:13px; letter-spacing:0.04em; padding:13px 22px; border-radius:6px;
-  }
-  .hero a.link {
-    display:inline-flex; align-items:center; color:#111; text-decoration:none;
-    font-size:13px; letter-spacing:0.02em; padding:13px 4px; border-bottom:1px solid transparent;
-  }
-  .hero a.link:hover { border-bottom-color:#111; }
-
-  .divider { border-top:1px solid #ececec; }
-  section { padding: 90px 0; }
-  .label { font-size:11px; letter-spacing:0.14em; color:#a3a3a3; text-transform:uppercase; margin-bottom:20px; }
-  h2.h { font-size:28px; font-weight:400; letter-spacing:-0.01em; max-width:560px; line-height:1.3; margin-bottom:20px; }
-  p.lead { font-size:15.5px; line-height:1.75; color:#3d3d40; max-width:640px; }
-
-  .findings { margin-top:36px; display:flex; flex-direction:column; }
-  .finding { display:flex; gap:20px; padding:20px 0; border-top:1px solid #ececec; }
-  .finding:last-child { border-bottom:1px solid #ececec; }
-  .finding .n { font-size:13px; color:#c4c4c4; font-weight:600; flex:none; width:20px; padding-top:2px; }
-  .finding .t { font-size:14.5px; line-height:1.6; color:#2c2c2e; }
-  .finding .t b { font-weight:600; color:#111; }
-  .findings-cta { margin-top:24px; }
-  .findings-cta a { font-size:13px; color:#111; text-decoration:none; border-bottom:1px solid #111; }
-
-  .offer-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; margin-top:36px; }
-  .offer { border:1px solid #ececec; border-radius:14px; padding:28px 26px; }
-  .offer .step { font-size:11px; letter-spacing:0.08em; color:#a3a3a3; text-transform:uppercase; margin-bottom:8px; }
-  .offer h4 { font-size:15px; font-weight:600; margin-bottom:10px; }
-  .offer p { font-size:13.5px; color:#5b5b5e; line-height:1.6; }
-
-  .insight-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:36px; }
-  .insight { border:1px solid #ececec; border-radius:14px; padding:22px 20px; text-decoration:none; display:block; color:inherit; }
-  .insight .cat { font-size:10.5px; letter-spacing:0.08em; color:#a3a3a3; text-transform:uppercase; margin-bottom:10px; }
-  .insight h4 { font-size:14px; font-weight:600; line-height:1.4; margin-bottom:8px; }
-  .insight p { font-size:12.5px; color:#888; line-height:1.5; }
-  .insight-cta { margin-top:24px; }
-  .insight-cta a { font-size:13px; color:#111; text-decoration:none; border-bottom:1px solid #111; }
-
-  .proof-strip { margin-top:0; border-top:1px solid #ececec; padding:26px 0; display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; }
-  .proof-strip p { font-size:14px; color:#3d3d40; line-height:1.6; max-width:560px; }
-  .proof-strip a { font-size:13px; color:#111; text-decoration:none; border-bottom:1px solid #111; white-space:nowrap; }
-
-  .products-compact { padding:26px 0 0; display:grid; grid-template-columns:1fr 1fr; gap:22px; }
-  .products-compact .p { }
-  .products-compact .tag { font-size:11px; letter-spacing:0.08em; color:#111; font-weight:600; margin-bottom:4px; }
-  .products-compact p { font-size:13px; color:#5b5b5e; line-height:1.55; }
-  .products-compact p a { color:#111; text-decoration:none; border-bottom:1px solid #111; white-space:nowrap; }
-
-  .timeline-strip { margin-top:40px; }
-  .timeline-strip .tl-label { font-size:11px; letter-spacing:0.08em; color:#a3a3a3; text-transform:uppercase; margin-bottom:18px; }
-  .timeline-strip .tl-row { display:flex; align-items:center; margin-bottom:20px; position:relative; height:2px; background:#ececec; }
-  .timeline-strip .tl-pt { position:absolute; top:-4px; width:10px; height:10px; border-radius:50%; background:#111; }
-  .timeline-strip .tl-cols { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
-  .timeline-strip .tl-cols .k { font-size:12.5px; font-weight:600; color:#111; margin-bottom:6px; }
-  .timeline-strip .tl-cols .v { font-size:13px; color:#5b5b5e; line-height:1.55; }
-
-  .industry-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin-top:36px; }
-  .industry { border:1px solid #ececec; border-radius:14px; padding:26px 24px; }
-  .industry h4 { font-size:15px; font-weight:600; margin-bottom:10px; }
-  .industry p { font-size:13.5px; color:#5b5b5e; line-height:1.6; }
-
-  .principles { margin-top:22px; display:flex; flex-direction:column; gap:12px; }
-  .principles .pr { font-size:13.5px; line-height:1.65; color:#3d3d40; padding-left:16px; border-left:2px solid #ececec; }
-  .principles .pr b { color:#111; font-weight:600; }
-
-  .about-row { display:flex; gap:48px; margin-top:36px; flex-wrap:wrap; }
-  .about-row .facts { min-width:200px; display:flex; flex-direction:column; gap:14px; }
-  .about-row .facts .fact .k { font-size:11px; letter-spacing:0.08em; color:#a3a3a3; text-transform:uppercase; margin-bottom:3px; }
-  .about-row .facts .fact .v { font-size:14px; color:#111; }
-  .about-row .about-copy { flex:1; min-width:260px; max-width:520px; }
-  .about-row p { font-size:15px; line-height:1.75; color:#3d3d40; }
-
-  footer { padding: 60px 0 50px; }
-  footer .row { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
-  footer .meta { font-size:12.5px; color:#9a9a9a; }
-  footer a { color:#111; text-decoration:none; font-size:12.5px; border-bottom:1px solid #d6d6d6; }
-
-  @media (max-width:700px){ .offer-grid,.insight-grid,.products-compact,.industry-grid,.timeline-strip .tl-cols{grid-template-columns:1fr;} .hero h1{font-size:32px;} h2.h{font-size:23px;} }
 </style>
 </head>
 <body>
 
-  <header>
-    <div class="wrap row">
-      <div class="brand">
-        <img class="mark" src="/assets/mark.png" alt="Alphaworx">
-        <div class="word">ALPHAWORX<span class="dim">.IO</span></div>
-      </div>
-      <nav>
-        <a href="#help">How we help</a>
-        <a href="#industries">Industries</a>
-        <a href="blog/index.html">Insights</a>
-        <a href="#why">Why it matters</a>
-        <a href="#about">About</a>
-      </nav>
-    </div>
-  </header>
+<div class="progress" id="progress"></div>
+
+<header>
+  <div class="wrap row">
+    <a class="brand" href="#top"><img src="/assets/mark.png" alt="Alphaworx"><div class="word">ALPHAWORX<span>.IO</span></div></a>
+    <nav>
+      <a href="#why">Why it matters</a><a href="#value">The value gap</a><a href="#help">How we help</a><a href="#industries">Industries</a><a href="#insights">Insights</a><a href="#about">About</a>
+    </nav>
+    <div class="status"><span class="dot"></span><span class="lbl">Enterprise AI era</span><span class="sep">·</span><span id="day">Day —</span><span class="sep">·</span><span class="clock" id="clock">--:--:-- UTC</span></div>
+  </div>
+</header>
+
+<main id="top">
 
   <section class="hero">
-    <div class="wrap">
-      <div class="eyebrow">Enterprise AI Strategy</div>
-      <h1>The AI strategy gap is still small.<br>It won't stay that way.</h1>
-      <p class="sub">Three years in, most companies are still improvising. The ones building a real strategy now are the ones that won't be left behind.</p>
-      <div class="cta">
-        <a class="btn" href="mailto:info@alphaworx.io">Work with us</a>
-        <a class="link" href="deck.html">See the full case ↗</a>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <section id="why">
-    <div class="wrap">
-      <div class="label">Why it matters</div>
-      <h2 class="h">The evidence is already in.</h2>
-      <div class="findings">
-        <div class="finding"><div class="n">01</div><div class="t"><b>Token prices fall while the actual bill rises.</b> Configuration choices alone can move the cost of the same job 5–9×.</div></div>
-        <div class="finding"><div class="n">02</div><div class="t"><b>Shadow AI is usually the biggest exposure channel.</b> Same tools, different contract, different data terms.</div></div>
-        <div class="finding"><div class="n">03</div><div class="t"><b>You don't control the control plane.</b> The important switches still sit largely with the vendors.</div></div>
-        <div class="finding"><div class="n">04</div><div class="t"><b>Adoption is near-universal. Governed operation is not.</b> That gap is where risk and wasted money concentrate.</div></div>
-        <div class="finding"><div class="n">05</div><div class="t"><b>Excessive agency jumped from 6th to 3rd.</b> An agent with permissions nobody scoped down is now a top-three OWASP GenAI/LLM risk — no attacker required.</div></div>
-        <div class="finding"><div class="n">06</div><div class="t"><b>Models get retired on the vendor's clock, not yours.</b> An observed ~60-day window once a successor ships — most regulated workflows aren't built to survive that.</div></div>
-      </div>
-      <div class="findings-cta"><a href="deck.html">See the full case ↗</a></div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <section id="help">
-    <div class="wrap">
-      <div class="label">How we help</div>
-      <h2 class="h">A governed operating system, not a subscription.</h2>
-      <p class="lead">Access to a model isn't a strategy. We help enterprise leaders install the structure that turns scattered pilots into a system that can be run, measured, and defended.</p>
-      <div class="offer-grid">
-        <div class="offer">
-          <div class="step">Step 1</div>
-          <h4>Initial Assessment</h4>
-          <p>We run the same diagnostic we'd run ourselves — cost, data exposure, security, and ownership — to find what's actually broken before recommending anything.</p>
+    <canvas class="mesh" id="mesh"></canvas>
+    <div class="veil"></div>
+    <div class="wrap grid">
+      <div>
+        <div class="eyebrow">Enterprise AI Strategy</div>
+        <h1 id="h1">The AI strategy gap is still small. It won't stay that way.</h1>
+        <div class="rotator" id="rot">
+          <span class="on"><b>Adopted</b> everywhere. <b>Governed</b> almost nowhere.</span>
+          <span>Token prices fall. <b>The bill still rises.</b></span>
+          <span>The control plane is <b>the vendor's</b>, not yours.</span>
+          <span>Models retire on <b>their</b> clock — not yours.</span>
+          <span>Access to a model <b>isn't a strategy.</b></span>
         </div>
-        <div class="offer">
-          <div class="step">Step 2</div>
-          <h4>Platform Hub Design</h4>
-          <p>We help you stand up a thin platform hub with real mandate — the structure that turns scattered pilots into a governed system.</p>
-        </div>
-        <div class="offer">
-          <div class="step">Step 3</div>
-          <h4>Operating Cadence</h4>
-          <p>We install the ongoing cadence — portfolio discipline, vendor strategy, agent readiness — that keeps the system defensible as it scales.</p>
-        </div>
-        <div class="offer">
-          <div class="step">Ongoing</div>
-          <h4>Advisory</h4>
-          <p>Continued counsel as your AI strategy evolves — a second set of eyes trained to find what's actually broken before it costs you.</p>
+        <p class="sub">Three years in, most companies are still improvising. The ones building a real strategy now are the ones that won't be left behind.</p>
+        <div class="cta">
+          <a class="btn magnet" href="mailto:info@alphaworx.io">Work with us <span class="arrow">→</span></a>
+          <a class="link" href="deck.html">See the full case ↗</a>
         </div>
       </div>
 
-      <div class="timeline-strip">
-        <div class="tl-label">What the first 90 days looks like</div>
-        <div class="tl-row">
-          <div class="tl-pt" style="left:4%;"></div>
-          <div class="tl-pt" style="left:48%;"></div>
-          <div class="tl-pt" style="left:94%;"></div>
-        </div>
-        <div class="tl-cols">
-          <div><div class="k">Days 0–30</div><div class="v">Finish the assessment, secure mandate, land two or three visible quick wins.</div></div>
-          <div><div class="k">Days 31–60</div><div class="v">Stand up the core control-plane pieces. Start cost show-back so teams see their own usage.</div></div>
-          <div><div class="k">Days 61–90</div><div class="v">Get the first governed production use case live. Establish the executive narrative.</div></div>
+      <div class="glass reveal" id="glass">
+        <div class="head"><span><i></i>Live readout</span><span id="glass-day">DAY —</span></div>
+        <div class="gauge">
+          <div class="cell"><div class="k">Expect substantial agent use by 2027</div><div class="v"><span class="num" data-to="74">0</span><small>%</small></div><div class="bar"><i data-w="74"></i></div></div>
+          <div class="cell"><div class="k">Report mature agent governance</div><div class="v"><span class="num" data-to="21">0</span><small>%</small></div><div class="bar"><i class="warm" data-w="21"></i></div></div>
+          <div class="cell"><div class="k">Cost swing, same job</div><div class="v"><span class="num" data-to="9.2" data-fmt="dec">0</span><small>×</small></div><div class="bar"><i class="warm" data-w="92"></i></div></div>
+          <div class="cell"><div class="k">Breached orgs · shadow-AI incident</div><div class="v"><span class="num" data-to="43">0</span><small>%</small></div><div class="bar"><i data-w="43"></i></div></div>
+          <div class="cell wide">
+            <div><div class="k">Adoption vs. governed operation</div><div class="v">The gap<small>widening</small></div></div>
+            <svg class="spark" viewBox="0 0 150 44" aria-hidden="true">
+              <defs><linearGradient id="sg" x1="0" x2="1"><stop offset="0" stop-color="#06B6D4"/><stop offset=".6" stop-color="#2563EB"/><stop offset="1" stop-color="#F43F5E"/></linearGradient></defs>
+              <path class="g" d="M4,38 C50,37 100,34 146,30"/>
+              <path class="a" d="M4,38 C50,36 95,22 146,6"/>
+            </svg>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="divider"></div>
-
-  <section id="industries">
+  <div class="nexus">
     <div class="wrap">
-      <div class="label">Industries</div>
-      <h2 class="h">The method is the same. The acceptable design isn't.</h2>
-      <p class="lead">A support chatbot means something different by sector — brand voice in retail, patient safety in healthcare, adverse-action rules in financial services.</p>
-      <div class="industry-grid">
-        <div class="industry">
-          <h4>Financial Services</h4>
-          <p>Advisor enablement, underwriting support, fraud detection — under model risk management, adverse-action, and explainability requirements.</p>
-        </div>
-        <div class="industry">
-          <h4>Healthcare &amp; Life Sciences</h4>
-          <p>Clinical documentation, prior authorization — where protected health information and clinical safety set the ceiling, not the roadmap.</p>
-        </div>
-        <div class="industry">
-          <h4>Professional Services</h4>
-          <p>Research, drafting, diligence — where confidentiality and citation accuracy are the product, not a feature to bolt on later.</p>
-        </div>
+      <div class="nx-head"><span class="eyebrow">Model-agnostic by design</span><span class="mono">We work across the frontier labs and the platforms that host them</span></div>
+    </div>
+    <div class="nx-strip" aria-label="Providers we work across">
+      <div class="nx-track" id="nx">
+        <span>OpenAI</span><span>Anthropic</span><span>Google DeepMind</span><span>Meta</span><span>Mistral</span><span>xAI</span><span>Cohere</span><span>Amazon Bedrock</span><span>Microsoft Azure</span><span>Google Cloud</span><span>NVIDIA</span><span>Hugging Face</span>
       </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <section id="insights">
-    <div class="wrap">
-      <div class="label">Insights</div>
-      <h2 class="h">Straight talk on enterprise AI strategy.</h2>
-      <div class="insight-grid">
-        <a class="insight" href="blog/why-ai-pilots-stall.html">
-          <div class="cat">Economics</div>
-          <h4>Why AI pilots stall before production</h4>
-          <p>The hand-off between a pilot and a defensible system is where most efforts break.</p>
-        </a>
-        <a class="insight" href="blog/shadow-ai-biggest-exposure.html">
-          <div class="cat">Data Exposure</div>
-          <h4>Shadow AI is your biggest exposure</h4>
-          <p>Same tools your team already uses — different contract, different data terms.</p>
-        </a>
-        <a class="insight" href="blog/you-dont-control-the-control-plane.html">
-          <div class="cat">Vendor Strategy</div>
-          <h4>You don't control the control plane</h4>
-          <p>The important switches in your AI stack still sit with the vendor, not you.</p>
-        </a>
-      </div>
-      <div class="insight-cta"><a href="blog/index.html">All insights →</a></div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <div class="wrap">
-    <div class="proof-strip">
-      <p>We don't just advise. AIR and ATRE are AI systems we've architected and validated ourselves — the same governance discipline we bring to your strategy.</p>
-      <a href="#products">See what we've built ↓</a>
-    </div>
-    <div class="products-compact" id="products">
-      <div class="p"><div class="tag">AIR — Atlas Intelligence Research</div><p>An autonomous research agent that runs its own drafts through a five-layer adversarial self-review before publishing. <a href="https://theprimerdesk.onrender.com" target="_blank" rel="noopener noreferrer">See it live ↗</a></p></div>
-      <div class="p"><div class="tag">ATRE — Atlas Trading &amp; Risk Engine</div><p>A quantitative portfolio and risk management system, validated out-of-sample before it informs a decision.</p></div>
     </div>
   </div>
 
+  <div class="stats">
+    <div class="wrap row">
+      <div class="stat reveal h-data"><div class="v"><span class="num" data-to="43">0</span><small>%</small></div><div class="l">of breached organizations had a shadow-AI incident in 2026 — up from 20%.</div></div>
+      <div class="stat reveal d1 h-econ"><div class="v"><span class="num" data-to="9.2" data-fmt="dec">0</span><small>×</small></div><div class="l">cost swing on the same job, from configuration choices alone.</div></div>
+      <div class="stat reveal d2 h-adopt"><div class="v"><span class="num" data-to="21">0</span><small>%</small></div><div class="l">report mature agent governance today — while 74% expect substantial agent use by 2027.</div></div>
+      <div class="stat reveal d3 h-rel"><div class="v"><span class="num" data-to="60">0</span><small>days</small></div><div class="l">observed model retirement window once a successor ships.</div></div>
+    </div>
+  </div>
+
+  <section id="why">
+    <div class="wrap">
+      <div class="eyebrow reveal">Why it matters</div>
+      <h2 class="h reveal d1">The evidence is <span class="grad-text">already in.</span></h2>
+      <p class="lead reveal d2">Six findings, each one sourced. Scroll through them — the instrument on the left shows the number behind each.</p>
+    </div>
+    <div class="ticker reveal d2" aria-hidden="true" style="margin-top:36px">
+      <div class="track" id="track">
+        <div class="item h-econ"><i></i><span class="n">01</span>Token prices fall while the actual bill rises.</div>
+        <div class="item h-data"><i></i><span class="n">02</span>Shadow AI is usually the biggest exposure channel.</div>
+        <div class="item h-vendor"><i></i><span class="n">03</span>You don't control the control plane.</div>
+        <div class="item h-adopt"><i></i><span class="n">04</span>Adoption is near-universal. Governed operation is not.</div>
+        <div class="item h-sec"><i></i><span class="n">05</span>Excessive agency jumped from 6th to 3rd.</div>
+        <div class="item h-rel"><i></i><span class="n">06</span>Models get retired on the vendor's clock, not yours.</div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="story">
+        <div class="sticky">
+          <div class="inst h-econ" id="inst">
+            <div class="bar"><div class="t"><i></i>Finding readout</div><div class="r" id="inst-n">01 / 06</div></div>
+            <div class="slides">
+              <div class="slide on"><div class="big">9.2<small>×</small></div><div class="cap">Cost of the identical 50k-input / 2k-output job across configurations.</div>
+                <div class="bars"><div class="bar-row"><div class="lab"><span>Cheapest config</span><b>$0.06</b></div><div class="trk"><div class="fil" style="--w:11%"></div></div></div><div class="bar-row"><div class="lab"><span>Priciest config</span><b>$0.55</b></div><div class="trk"><div class="fil a" style="--w:100%"></div></div></div></div></div>
+              <div class="slide"><div class="big">43<small>%</small></div><div class="cap">of breached organizations had a shadow-AI incident. Average cost: $5.39M per incident.</div>
+                <div class="bars"><div class="bar-row"><div class="lab"><span>2025</span><b>20%</b></div><div class="trk"><div class="fil" style="--w:20%"></div></div></div><div class="bar-row"><div class="lab"><span>2026</span><b>43%</b></div><div class="trk"><div class="fil a" style="--w:43%"></div></div></div><div class="bar-row"><div class="lab"><span>Breached orgs with no AI governance</span><b>68%</b></div><div class="trk"><div class="fil" style="--w:68%"></div></div></div></div></div>
+              <div class="slide"><div class="big">4<small>of 4</small></div><div class="cap">The switches that matter sit on the vendor's side of the control plane.</div>
+                <div class="switch"><div class="v"><div>Pricing<div class="who">Vendor</div></div><i></i></div><div class="v"><div>Deprecation<div class="who">Vendor</div></div><i></i></div><div class="v"><div>Rate limits<div class="who">Vendor</div></div><i></i></div><div class="v"><div>Data-use terms<div class="who">Vendor</div></div><i></i></div></div></div>
+              <div class="slide"><div class="big">74<small>% vs 21%</small></div><div class="cap">Expect substantial agent use by 2027 — versus report mature agent governance today.</div>
+                <svg class="gapmini" viewBox="0 0 420 200" aria-hidden="true"><g class="g"><line x1="20" y1="40" x2="400" y2="40"/><line x1="20" y1="100" x2="400" y2="100"/><line x1="20" y1="160" x2="400" y2="160"/></g><path class="area" d="M20,165 C140,160 240,110 400,30 L400,150 C240,158 140,163 20,165 Z"/><path class="gv" d="M20,165 C140,163 240,158 400,150"/><path class="a" d="M20,165 C140,160 240,110 400,30"/><text x="20" y="190">NOV 2022</text><text x="400" y="190" text-anchor="end">2027</text></svg></div>
+              <div class="slide"><div class="big">6th <small>→ 3rd</small></div><div class="cap">Excessive agency's rank in the OWASP GenAI/LLM Top 10, 2025 to 2026. No attacker required.</div>
+                <div class="ladder"><div style="--h:40%"><span>#6</span></div><div style="--h:50%"><span>#5</span></div><div style="--h:60%"><span>#4</span></div><div class="hi" style="--h:80%"><span>#3</span></div><div style="--h:90%"><span>#2</span></div><div style="--h:100%"><span>#1</span></div></div></div>
+              <div class="slide"><div class="big">~60<small>days</small></div><div class="cap">Observed retirement window once a successor model ships.</div>
+                <div class="clock"><svg class="ring" viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="50"/><circle class="fg" cx="60" cy="60" r="50"/></svg><div class="txt"><b>Day 50 of 60.</b> Regulated workflows need explicit version pinning and golden-set regression suites before the clock runs out — not an IT ticket after.</div></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="steps" id="steps">
+          <div class="step on h-econ"><div class="n">FINDING 01 — ECONOMICS</div><h3>Token prices fall while the actual bill rises.</h3><p>Configuration choices alone — caching, batching, tokenizer settings — can move the cost of the same job 5–9× before a single line of business logic changes.</p></div>
+          <div class="step h-data"><div class="n">FINDING 02 — DATA EXPOSURE</div><h3>Shadow AI is usually the biggest exposure channel.</h3><p>Same tools your team already uses — different contract, different data terms. The one number moving the right way: personal-account use fell from 78% to 47% as governed alternatives rolled out.</p></div>
+          <div class="step h-vendor"><div class="n">FINDING 03 — VENDOR STRATEGY</div><h3>You don't control the control plane.</h3><p>You own the orchestration, retrieval, agent wiring, and prompts. The vendor owns pricing, deprecation, rate limits, and data-use terms — and "reserved capacity" guarantees a price, not that capacity is actually available.</p></div>
+          <div class="step h-adopt"><div class="n">FINDING 04 — ADOPTION VS. GOVERNANCE</div><h3>Adoption is near-universal. Governed operation is not.</h3><p>That gap is where risk and wasted money concentrate — and it's what a new AI strategy lead inherits on day one.</p></div>
+          <div class="step h-sec"><div class="n">FINDING 05 — SECURITY</div><h3>Excessive agency jumped from 6th to 3rd.</h3><p>Three separable root causes — excessive functionality, permissions, and autonomy — and none of them need an attacker to trigger. Shared API keys for agents are a critical finding on their own.</p></div>
+          <div class="step h-rel"><div class="n">FINDING 06 — RELIABILITY</div><h3>Models get retired on the vendor's clock, not yours.</h3><p>Most regulated workflows aren't built to survive a ~60-day window. Reproducible inference exists — but only off the hosted API, at a real cost premium.</p></div>
+        </div>
+      </div>
+      <div class="reveal" style="margin-top:36px"><a class="link" href="deck.html">See the full case — all 41 slides ↗</a></div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section id="value">
+    <div class="wrap">
+      <div class="eyebrow reveal">The value gap</div>
+      <h2 class="h reveal d1">Getting the right answer clears <span class="grad-text">one gate out of four.</span></h2>
+      <p class="lead reveal d2">Our AIR research desk audited the documented enterprise AI pilots that failed — and most of them failed with the technology working. The money leaks at four gates, and every leak traces back to an operating choice made months before a model was trained.</p>
+
+      <div class="gates reveal d2" id="gates">
+        <div class="pipe"><i></i></div>
+        <div class="gate g-rare"><div class="g-n">Gate 01</div><h4>Is there value on the table?</h4><p>Is the problem worth money, is the value ownable, and is the counterfactual — do nothing, fix the process, buy it — worse? Assessed before any measurement exists, so it's usually skipped.</p><div class="g-status">Rarely managed</div></div>
+        <div class="gate g-well"><div class="g-n">Gate 02</div><h4>Does the model work?</h4><p>Accuracy, latency, unit cost, reliability under the production distribution. The one gate with a mature tooling market and a clear owner — and the one that matters least often.</p><div class="g-status">Well managed</div></div>
+        <div class="gate g-part"><div class="g-n">Gate 03</div><h4>Does the work change?</h4><p>Output reaches a decision-maker at the decision moment, in a form they trust and act on. That requires process redesign, not deployment.</p><div class="g-status">Partly managed</div></div>
+        <div class="gate g-rare"><div class="g-n">Gate 04</div><h4>Does anyone collect?</h4><p>Freed capacity has to be converted — headcount not hired, hours redeployed to revenue, a loss avoided. Someone must own that conversion, and it's almost never the pilot's owner.</p><div class="g-status">Rarely managed</div></div>
+      </div>
+
+      <div class="numbers">
+        <div class="numb reveal"><div class="v"><small>$</small><span class="num" data-to="62">0</span><small>m</small></div><div class="l">spent on a cancer-treatment engine that never advised a patient outside a test</div></div>
+        <div class="numb reveal d1"><div class="v"><span class="num" data-to="95">0</span><small>%</small></div><div class="l">of organizations getting zero return on GenAI (MIT NANDA)</div></div>
+        <div class="numb reveal d2"><div class="v"><span class="num" data-to="85">0</span><small>%</small></div><div class="l">of users' AI time savings reallocated — never banked (25,000-worker payroll study)</div></div>
+        <div class="numb reveal"><div class="v"><span class="num" data-to="19">0</span><small>% slower</small></div><div class="l">with AI tools — while feeling 20% faster (METR randomized trial)</div></div>
+        <div class="numb reveal d1"><div class="v"><span class="num" data-to="70">0</span><small>%</small></div><div class="l">of orders at a "human-free" drive-thru AI still needed a human (SEC)</div></div>
+        <div class="numb reveal d2"><div class="v"><small>$</small><span class="num" data-to="407.9" data-fmt="dec">0</span><small>m</small></div><div class="l">Zillow's one-year write-down — scaled before the model's error was priced</div></div>
+      </div>
+
+      <div class="discipline">
+        <div class="disc reveal"><div class="dn">01</div><h4>Write the P&amp;L line first.</h4><p>Before any tool is evaluated: one sentence naming the account that will move, who owns it, the size of the move, and the date it's visible. If it can't be written, the pilot isn't ready.</p></div>
+        <div class="disc reveal d1"><div class="dn">02</div><h4>Kill rate is a health metric.</h4><p>Write the kill criterion into the charter with a number, a date, and a name. A program that has terminated nothing in eighteen months has stopped measuring.</p></div>
+        <div class="disc reveal d2"><div class="dn">03</div><h4>The sponsor gives up the resource.</h4><p>Make the accountable executive the one whose headcount line falls, not the one whose budget rises. It puts the strongest sceptic in charge of go/no-go.</p></div>
+        <div class="disc reveal d3"><div class="dn">04</div><h4>Buy the workflow, build the edge.</h4><p>External partnerships reached deployment about twice as often as internal builds. Build only where proprietary data or workflow depth is the advantage.</p></div>
+      </div>
+
+      <div class="reveal" style="margin-top:32px; display:flex; gap:22px; flex-wrap:wrap; align-items:center;">
+        <a class="link" href="https://theprimerdesk.onrender.com" target="_blank" rel="noopener noreferrer">Read the full AIR brief — The Value Gap ↗</a>
+        <span class="mono">AIR Research · evidence cutoff 26 Aug 2026 · every figure cited to source</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section id="help">
+    <div class="wrap">
+      <div class="eyebrow reveal">How we help</div>
+      <h2 class="h reveal d1">A governed operating system, <span class="grad-text">not a subscription.</span></h2>
+      <p class="lead reveal d2">Access to a model isn't a strategy. We help enterprise leaders install the structure that turns scattered pilots into a system that can be run, measured, and defended.</p>
+      <div class="offer-grid">
+        <div class="card spot reveal"><div class="step-l">Step 1</div><h4>Initial Assessment</h4><p>We run the same diagnostic we'd run ourselves — cost, data exposure, security, and ownership — to find what's actually broken before recommending anything.</p></div>
+        <div class="card spot reveal d1"><div class="step-l">Step 2</div><h4>Platform Hub Design</h4><p>We help you stand up a thin platform hub with real mandate — the structure that turns scattered pilots into a governed system.</p></div>
+        <div class="card spot reveal d2"><div class="step-l">Step 3</div><h4>Operating Cadence</h4><p>We install the ongoing cadence — portfolio discipline, vendor strategy, agent readiness — that keeps the system defensible as it scales.</p></div>
+        <div class="card spot reveal d3"><div class="step-l">Ongoing</div><h4>Advisory</h4><p>Continued counsel as your AI strategy evolves — a second set of eyes trained to find what's actually broken before it costs you.</p></div>
+      </div>
+      <div class="timeline reveal" id="timeline">
+        <div class="eyebrow">What the first 90 days looks like</div>
+        <div class="track"><div class="fill"></div><div class="node" style="left:0;"></div><div class="node" style="left:calc(50% - 7px);"></div><div class="node" style="left:calc(100% - 15px);"></div></div>
+        <div class="cols">
+          <div><div class="k">DAYS 0–30</div><div class="v">Finish the assessment, secure mandate, land two or three visible quick wins.</div></div>
+          <div><div class="k">DAYS 31–60</div><div class="v">Stand up the core control-plane pieces. Start cost show-back so teams see their own usage.</div></div>
+          <div><div class="k">DAYS 61–90</div><div class="v">Get the first governed production use case live. Establish the executive narrative.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section id="industries">
+    <div class="wrap">
+      <div class="eyebrow reveal">Industries</div>
+      <h2 class="h reveal d1">The method is the same. The acceptable design isn't.</h2>
+      <p class="lead reveal d2">A support chatbot means something different by sector — brand voice in retail, patient safety in healthcare, adverse-action rules in financial services.</p>
+      <div class="three">
+        <div class="card spot reveal"><h4>Financial Services</h4><p>Advisor enablement, underwriting support, fraud detection — under model risk management, adverse-action, and explainability requirements.</p></div>
+        <div class="card spot reveal d1"><h4>Healthcare &amp; Life Sciences</h4><p>Clinical documentation, prior authorization — where protected health information and clinical safety set the ceiling, not the roadmap.</p></div>
+        <div class="card spot reveal d2"><h4>Professional Services</h4><p>Research, drafting, diligence — where confidentiality and citation accuracy are the product, not a feature to bolt on later.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section id="insights">
+    <div class="wrap">
+      <div class="eyebrow reveal">Insights</div>
+      <h2 class="h reveal d1">Straight talk on enterprise AI strategy.</h2>
+      <div class="three">
+        <a class="card spot insight reveal h-econ" href="blog/why-ai-pilots-stall.html"><div class="cat">Economics</div><h4>Why AI pilots stall before production</h4><p>The hand-off between a pilot and a defensible system is where most efforts break.</p><div class="go">Read <span>→</span></div></a>
+        <a class="card spot insight reveal d1 h-data" href="blog/shadow-ai-biggest-exposure.html"><div class="cat">Data Exposure</div><h4>Shadow AI is your biggest exposure</h4><p>Same tools your team already uses — different contract, different data terms.</p><div class="go">Read <span>→</span></div></a>
+        <a class="card spot insight reveal d2 h-vendor" href="blog/you-dont-control-the-control-plane.html"><div class="cat">Vendor Strategy</div><h4>You don't control the control plane</h4><p>The important switches in your AI stack still sit with the vendor, not you.</p><div class="go">Read <span>→</span></div></a>
+      </div>
+      <div class="reveal" style="margin-top:28px"><a class="link" href="blog/index.html">All insights →</a></div>
+    </div>
+  </section>
+
+  <section class="proof">
+    <div class="wrap">
+      <div class="eyebrow reveal">Proof</div>
+      <h2 class="h reveal d1">We don't just advise. We build and validate.</h2>
+      <p class="lead reveal d2">AIR and ATRE are AI systems we've architected and validated ourselves — the same governance discipline we bring to your strategy.</p>
+      <div class="products">
+        <div class="product reveal"><div class="tag">AIR — Atlas Intelligence Research</div><p>An autonomous research agent that runs its own drafts through a five-layer adversarial self-review before publishing. <a class="link" href="https://theprimerdesk.onrender.com" target="_blank" rel="noopener noreferrer">See it live ↗</a></p></div>
+        <div class="product reveal d1"><div class="tag">ATRE — Atlas Trading &amp; Risk Engine</div><p>A quantitative portfolio and risk management system, validated out-of-sample before it informs a decision.</p></div>
+      </div>
+    </div>
+  </section>
+
   <section id="about">
     <div class="wrap">
-      <div class="label">About</div>
-      <h2 class="h">Built around one discipline.</h2>
+      <div class="eyebrow reveal">About</div>
+      <h2 class="h reveal d1">Built around one discipline.</h2>
       <div class="about-row">
-        <div class="about-copy">
+        <div class="reveal d2">
           <p>Alphaworx is a Dallas-based advisory and applied-AI company, founder-led by an operator with 20+ years diagnosing what's actually broken across trading, aviation, and energy — before turning that instinct toward enterprise AI strategy.</p>
           <div class="principles">
             <div class="pr"><b>Evidence over opinion —</b> every claim traces to a named source, not a vendor deck.</div>
@@ -294,25 +570,132 @@
             <div class="pr"><b>Named tradeoffs —</b> no silver bullets, no security theater.</div>
           </div>
         </div>
-        <div class="facts">
+        <div class="facts reveal d3">
           <div class="fact"><div class="k">Headquarters</div><div class="v">Dallas, TX</div></div>
           <div class="fact"><div class="k">Focus</div><div class="v">Enterprise AI Strategy</div></div>
-          <div class="fact"><div class="k">Type</div><div class="v">Privately held</div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="divider"></div>
-
-  <footer>
-    <div class="wrap">
-      <div class="row">
-        <div class="meta">© 2026 Alphaworx Ltd</div>
-        <a href="mailto:info@alphaworx.io">info@alphaworx.io</a>
+  <section class="close">
+    <canvas class="mesh" id="mesh2"></canvas>
+    <div class="veil"></div>
+    <div class="wrap box">
+      <div>
+        <div class="eyebrow reveal">Work with us</div>
+        <h2 class="h reveal d1">The gap is closeable. <span class="grad-text">It won't stay small.</span></h2>
       </div>
+      <a class="btn magnet reveal d2" href="mailto:info@alphaworx.io">info@alphaworx.io <span class="arrow">→</span></a>
     </div>
-  </footer>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap row">
+    <div>© 2026 Alphaworx Ltd</div>
+    <div class="mono" id="foot-day"></div>
+    <a href="mailto:info@alphaworx.io">info@alphaworx.io</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = window.matchMedia('(pointer:fine)').matches;
+
+  // ----- live readouts -----
+  const start = new Date(Date.UTC(2022, 10, 30));
+  const days = Math.floor((Date.now() - start.getTime()) / 86400000);
+  document.getElementById('day').textContent = 'Day ' + days.toLocaleString();
+  document.getElementById('glass-day').textContent = 'DAY ' + days.toLocaleString();
+  document.getElementById('foot-day').textContent = 'Day ' + days.toLocaleString() + ' of the enterprise AI era';
+  const clock = document.getElementById('clock');
+  const tick = () => { clock.textContent = new Date().toISOString().slice(11, 19) + ' UTC'; };
+  tick(); setInterval(tick, 1000);
+
+  // ----- scroll progress -----
+  const bar = document.getElementById('progress');
+  const onScroll = () => { const h = document.documentElement; bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight || 1) * 100) + '%'; };
+  document.addEventListener('scroll', onScroll, { passive:true }); onScroll();
+
+  // ----- headline word reveal -----
+  const h1 = document.getElementById('h1');
+  h1.innerHTML = h1.textContent.split(' ').map(w => '<span class="w' + (w === 'gap' ? ' grad-text' : '') + '">' + w + '</span>').join(' ');
+  h1.querySelectorAll('.w').forEach((el, i) => { el.style.animationDelay = (0.05 * i) + 's'; requestAnimationFrame(() => el.classList.add('in')); });
+
+  // ----- rotating tagline -----
+  const rot = [...document.querySelectorAll('#rot span')]; let ri = 0;
+  if (!reduced) setInterval(() => { rot[ri].classList.remove('on'); rot[ri].classList.add('out'); const prev = ri; ri = (ri + 1) % rot.length; rot[ri].classList.remove('out'); rot[ri].classList.add('on'); setTimeout(() => rot[prev].classList.remove('out'), 650); }, 3000);
+
+  // ----- luminous mesh (canvas, blurred by CSS) -----
+  function mesh(id, palette, speed) {
+    const cv = document.getElementById(id); if (!cv) return; const ctx = cv.getContext('2d');
+    let W, H, mx = .5, my = .5, tmx = .5, tmy = .5;
+    const blobs = palette.map((c, i) => ({ c, r: .28 + (i % 3) * .07, a: i * 1.7, b: i * .9, s: (.6 + i * .17) * speed }));
+    const size = () => { const r = cv.getBoundingClientRect(); W = cv.width = Math.max(2, Math.round(r.width * .5)); H = cv.height = Math.max(2, Math.round(r.height * .5)); };
+    size(); new ResizeObserver(size).observe(cv);
+    if (fine) window.addEventListener('mousemove', e => { tmx = e.clientX / innerWidth; tmy = e.clientY / innerHeight; }, { passive:true });
+    let t0 = performance.now();
+    function draw(now) {
+      const t = (now - t0) / 1000; mx += (tmx - mx) * .03; my += (tmy - my) * .03;
+      ctx.clearRect(0, 0, W, H); ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = '#F7F8FA'; ctx.fillRect(0, 0, W, H);
+      ctx.globalCompositeOperation = 'multiply';
+      for (const b of blobs) {
+        const x = W * (.5 + .38 * Math.cos(t * .11 * b.s + b.a) + (mx - .5) * .12);
+        const y = H * (.5 + .34 * Math.sin(t * .13 * b.s + b.b) + (my - .5) * .12);
+        const r = Math.max(W, H) * b.r;
+        const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0, b.c); g.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill();
+      }
+      if (!reduced) requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  }
+  mesh('mesh', ['rgba(6,182,212,.75)', 'rgba(37,99,235,.65)', 'rgba(245,158,11,.55)', 'rgba(244,63,94,.45)', 'rgba(124,58,237,.35)', 'rgba(6,182,212,.5)'], 1);
+  mesh('mesh2', ['rgba(37,99,235,.6)', 'rgba(244,63,94,.45)', 'rgba(245,158,11,.5)', 'rgba(6,182,212,.55)'], .8);
+
+  // ----- ticker loop -----
+  const track = document.getElementById('track'); track.innerHTML += track.innerHTML;
+  const nx = document.getElementById('nx'); nx.innerHTML += nx.innerHTML;
+
+  // ----- reveals + count-ups + bars -----
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (!e.isIntersecting) return; e.target.classList.add('in');
+      e.target.querySelectorAll('.num').forEach(countUp);
+      e.target.querySelectorAll('.cell .bar i').forEach(b => { b.style.width = b.dataset.w + '%'; });
+      io.unobserve(e.target); });
+  }, { threshold: 0.18 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  function countUp(el) {
+    if (el.dataset.done) return; el.dataset.done = '1';
+    const to = parseFloat(el.dataset.to), dec = el.dataset.fmt === 'dec';
+    if (reduced) { el.textContent = dec ? to.toFixed(1) : to; return; }
+    const t0 = performance.now(), dur = 1400;
+    const step = (t) => { const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); const v = to * e; el.textContent = dec ? v.toFixed(1) : Math.round(v); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+
+  // ----- scrollytelling -----
+  const hues = ['h-econ', 'h-data', 'h-vendor', 'h-adopt', 'h-sec', 'h-rel'];
+  const steps = [...document.querySelectorAll('#steps .step')], slides = [...document.querySelectorAll('#inst .slide')], inst = document.getElementById('inst'), instN = document.getElementById('inst-n');
+  const setActive = (i) => { steps.forEach((s, k) => s.classList.toggle('on', k === i)); slides.forEach((s, k) => s.classList.toggle('on', k === i)); inst.classList.remove(...hues); inst.classList.add(hues[i]); instN.textContent = String(i + 1).padStart(2, '0') + ' / 06'; };
+  const sio = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) setActive(steps.indexOf(e.target)); }); }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+  steps.forEach(s => sio.observe(s));
+
+  // ----- spotlight + magnetic -----
+  if (fine && !reduced) {
+    document.querySelectorAll('.spot').forEach(c => c.addEventListener('mousemove', e => { const r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px'); }));
+    document.querySelectorAll('.magnet').forEach(b => {
+      b.addEventListener('mousemove', e => { const r = b.getBoundingClientRect(); const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2); b.style.transform = 'translate(' + (dx * .18) + 'px,' + (dy * .22) + 'px)'; });
+      b.addEventListener('mouseleave', () => { b.style.transform = ''; });
+    });
+  }
+})();
+</script>
 
 </body>
 </html>
