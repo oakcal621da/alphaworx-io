@@ -1,16 +1,16 @@
 # Proton contact delivery on Render
 
 The existing `alphaworx-io` service (`srv-da0fmo1t0dsc739jvr4g`) is a Static Site
-tracking `main`. It cannot run the SMTP integration. Keep it in place until the
-redesign is approved for release. The separate paid Python web service is
+tracking `main`. It serves the approved redesign and calls the separate SMTP
+integration through its public configuration URL. The paid Python web service is
 `alphaworx-contact`, deployed from `codex/proton-contact`.
 
 - Service ID: `srv-dae6i5ad0e5s73fbkav0`
 - URL: https://alphaworx-contact.onrender.com
 - Environment: https://dashboard.render.com/web/srv-dae6i5ad0e5s73fbkav0/env
 - Compute approved September 5, 2026: $7/month, 0.5 CPU, 512 MB RAM.
-- Initial deployment has an empty `PROTON_SMTP_TOKEN`; direct sending remains
-  disabled until a dedicated Proton token is saved and the service redeployed.
+- Proton authentication and end-to-end inbox receipt were confirmed on September
+  5, 2026. Credentials are stored only in the web service's Render environment.
 
 ## Render service
 

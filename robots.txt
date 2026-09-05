@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://alphaworx-io.onrender.com/sitemap.xml
+Sitemap: https://alphaworx.io/sitemap.xml

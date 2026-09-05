@@ -114,9 +114,9 @@ def test_render_sitemap_lists_static_pages_and_every_post():
 
     assert xml.startswith('<?xml version="1.0" encoding="UTF-8"?>')
     assert "<urlset" in xml
-    assert "<loc>https://alphaworx-io.onrender.com/</loc>" in xml
-    assert "<loc>https://alphaworx-io.onrender.com/deck.html</loc>" in xml
-    assert "<loc>https://alphaworx-io.onrender.com/blog/</loc>" in xml
-    assert "<loc>https://alphaworx-io.onrender.com/blog/example-post.html</loc>" in xml
-    assert "<loc>https://alphaworx-io.onrender.com/blog/second-post.html</loc>" in xml
+    assert "<loc>https://alphaworx.io/</loc>" in xml
+    assert "<loc>https://alphaworx.io/deck.html</loc>" in xml
+    assert "<loc>https://alphaworx.io/blog/</loc>" in xml
+    assert "<loc>https://alphaworx.io/blog/example-post.html</loc>" in xml
+    assert "<loc>https://alphaworx.io/blog/second-post.html</loc>" in xml
     assert "<lastmod>2026-08-17</lastmod>" in xml

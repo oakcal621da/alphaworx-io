@@ -11,12 +11,12 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CONTENT_DIR = REPO_ROOT / "content" / "blog"
 OUTPUT_DIR = REPO_ROOT / "blog"
-SITE_URL = "https://alphaworx-io.onrender.com"
+SITE_URL = "https://alphaworx.io"
 
 NAV = (
     '<nav>'
-    '<a href="../index.html#why">Why it matters</a>'
-    '<a href="../index.html#value">The value gap</a>'
+    '<a href="../index.html#opportunity">Opportunity</a>'
+    '<a href="../index.html#workflow">Our approach</a>'
     '<a href="../index.html#help">How we help</a>'
     '<a href="index.html" class="on">Insights</a>'
     '<a href="../index.html#about">About</a>'
