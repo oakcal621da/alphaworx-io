@@ -1,0 +1,21 @@
+# Paid web service required for outbound Proton SMTP (port 587).
+# Separate contact service and review preview; its Render origin is allowed
+# automatically. The existing static site and domain stay in place.
+services:
+  - type: web
+    name: alphaworx-contact
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 90
+    healthCheckPath: /healthz
+    autoDeployTrigger: off
+    envVars:
+      - key: PROTON_SMTP_USERNAME
+        value: info@alphaworx.io
+      - key: PROTON_SMTP_TOKEN
+        sync: false
+      - key: CONTACT_SIGNING_KEY
+        generateValue: true
+      - key: PUBLIC_ORIGIN
+        value: https://alphaworx.io
