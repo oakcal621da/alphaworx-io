@@ -164,7 +164,7 @@ def test_markdown_headings_sources_and_escaped_content():
     assert '<script>' not in page
 
 
-def test_all_nine_guides_rebuild_with_valid_sources_data_and_unique_anchors():
+def test_all_guides_rebuild_with_valid_sources_data_and_unique_anchors():
     import json
     import re
     from html.parser import HTMLParser
@@ -179,7 +179,7 @@ def test_all_nine_guides_rebuild_with_valid_sources_data_and_unique_anchors():
             if tag=='a' and a.get('href','').startswith('#'):self.anchors.append(a['href'][1:])
             if tag=='h1':self.h1s+=1
     guides=registry()
-    assert len(guides)==9
+    assert len(guides)==11
     posts={p['slug']:p for p in load_posts()}
     for slug,guide in guides.items():
         fields=posts[slug]
@@ -199,3 +199,19 @@ def test_all_nine_guides_rebuild_with_valid_sources_data_and_unique_anchors():
             assert source['url'] in page
         revised=fields['body_html'].replace('<p>','<p>Revision marker. ',1)
         assert 'Revision marker.' in render_post(fields,revised)
+
+
+def test_research_feature_is_discoverable_once_and_links_to_attributed_articles():
+    from build_blog import load_posts
+    posts=load_posts()
+    index=render_index(posts)
+    briefing=next(p for p in posts if p['slug']=='enterprise-ai-after-the-demo')
+    assert index.count('href="enterprise-ai-after-the-demo.html"')==1
+    assert 'class="research-feature"' in index
+    assert '/assets/research-feature.css?v=1' in index.split('</head>')[0]
+    assert 'href="who-owns-the-ai-decision.html"' in index
+    page=render_post(briefing,briefing['body_html'])
+    assert 'class="research-origin"' in page
+    assert 'https://theprimerdesk.onrender.com/reports/' in page
+    assert 'https://alphaworx.io/blog/who-owns-the-ai-decision.html' in page
+    assert '/blog/enterprise-ai-after-the-demo.html' in render_sitemap(posts)

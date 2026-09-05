@@ -466,5 +466,167 @@
       }
     ],
     "kind": "explorer"
+  },
+  "who-owns-the-ai-decision": {
+    "kind": "explorer",
+    "layout": "ownership",
+    "quote": "A mandate becomes useful when people know which decisions they can make.",
+    "art": [
+      "AUTHORITY CONNECTED TO EVIDENCE",
+      "Executive mandate",
+      "Shared AI capabilities",
+      "Business outcomes"
+    ],
+    "lab": [
+      "Follow the decision through the organization.",
+      "Meridian wants to release a customer-service assistant. Choose a role to see its authority, its boundary, and the evidence it brings."
+    ],
+    "steps": [
+      {
+        "label": "Business",
+        "title": "Define what an acceptable outcome looks like.",
+        "text": "The service owner sets acceptance criteria, assigns reviewers, and owns customer outcomes. A promising demo does not grant authority to expand data access.",
+        "owner": "Head of Customer Service",
+        "evidence": "Baseline performance, reviewed examples, exception handling, and named operating capacity."
+      },
+      {
+        "label": "AI function",
+        "title": "Provide a dependable approved route.",
+        "text": "The AI lead coordinates shared tools, evaluations, dependencies, and the release record. Its deployment authority must be delegated explicitly.",
+        "owner": "AI function / CAIO",
+        "evidence": "Evaluation results, service commitments, dependency register, and documented delegated authority."
+      },
+      {
+        "label": "Security & data",
+        "title": "Set and test the access boundary.",
+        "text": "Control owners specify permitted identities, data, and actions. A new repository or outbound tool triggers review of the changed scope.",
+        "owner": "Security lead + relevant data owner",
+        "evidence": "Role-based access tests, tool permissions, retained-data inventory, and exception decisions."
+      },
+      {
+        "label": "Finance",
+        "title": "Make the investment case inspectable.",
+        "text": "Finance agrees cost allocation and challenges benefit assumptions. Time released is recorded separately from a demonstrated reduction in spend.",
+        "owner": "Finance Director",
+        "evidence": "Cost per accepted outcome, included and excluded expenses, benefit baseline, and review thresholds."
+      },
+      {
+        "label": "Executive sponsor",
+        "title": "Resolve the tradeoff and record the decision.",
+        "text": "The sponsor decides portfolio priority and funding within applicable constraints. Approval records conditions, owners, and the next review, rather than treating release as permanent permission.",
+        "owner": "Executive sponsor",
+        "evidence": "A proceed, revise, or stop decision with conditions, delegated stop authority, and a review date."
+      }
+    ],
+    "questions": [
+      "Who owns the business outcome and the acceptance criteria?",
+      "What authority does our AI lead actually hold?",
+      "Which changes trigger security, data, or specialist review?",
+      "Who can pause the workflow, and how is that decision escalated?",
+      "What evidence must finance and the sponsor see before further funding?"
+    ],
+    "sources": [
+      {
+        "title": "McKinsey · How organizations are rewiring to capture value",
+        "url": "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai-how-organizations-are-rewiring-to-capture-value"
+      },
+      {
+        "title": "NIST · AI RMF Playbook",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework/nist-ai-rmf-playbook"
+      },
+      {
+        "title": "OWASP · Excessive agency",
+        "url": "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/"
+      }
+    ],
+    "research": {
+      "url": "https://theprimerdesk.onrender.com/reports/understanding-enterprise-ai-risk-the-adoption-problems-hiding-behind-the-hype.html",
+      "label": "Research background · AIR enterprise AI risk primer",
+      "note": "Adapted from the organizational ownership themes in AIR’s August 16, 2026 primer. The mandate and Meridian scenario are Alphaworx’s proposed operating approach."
+    }
+  },
+  "enterprise-ai-after-the-demo": {
+    "kind": "explorer",
+    "quote": "The next investment needs an operating case as well as a demonstration.",
+    "art": [
+      "FROM CAPABILITY TO OPERATING EVIDENCE",
+      "Useful demonstration",
+      "Tested operating conditions",
+      "Accountable investment"
+    ],
+    "lab": [
+      "Six questions before the next investment.",
+      "Explore Meridian’s proposed service assistant. Each topic pairs an operating response with a limitation and the evidence to request."
+    ],
+    "steps": [
+      {
+        "label": "Value",
+        "title": "What counts as completed, useful work?",
+        "text": "Response: define acceptance and compare the workflow with a baseline. Limit: reported time savings alone do not demonstrate a cash benefit.",
+        "owner": "Business owner + Finance",
+        "evidence": "Accepted outputs, review effort, repeat work, and a documented benefit baseline."
+      },
+      {
+        "label": "Data",
+        "title": "Which information can the assistant actually reach?",
+        "text": "Response: review source access and test retrieval by role. Limit: permission-aware retrieval still exposes content allowed by overly broad source permissions.",
+        "owner": "Data owner + Security",
+        "evidence": "Representative allow/deny tests and a record of connected sources."
+      },
+      {
+        "label": "Actions",
+        "title": "What can it do after generating an answer?",
+        "text": "Response: restrict tools and enforce authorization downstream. Limit: a smaller action set does not guarantee correct answers or remove all failure modes.",
+        "owner": "Security + workflow owner",
+        "evidence": "Permitted operations, approval conditions, and revocation tests."
+      },
+      {
+        "label": "Reliability",
+        "title": "What happens when the normal path fails?",
+        "text": "Response: test difficult cases and provide escalation and fallback. Limit: a finite evaluation set cannot cover every future input or service change.",
+        "owner": "Operating owner",
+        "evidence": "Regression results, reviewed exceptions, and an exercised fallback."
+      },
+      {
+        "label": "Providers",
+        "title": "Which changes depend on somebody else?",
+        "text": "Response: inventory dependencies and assign change monitoring. Limit: an alternative still requires evaluation and may have different capacity or contract terms.",
+        "owner": "Technology + Procurement",
+        "evidence": "Dependency register, change owner, and migration rehearsal."
+      },
+      {
+        "label": "Ownership",
+        "title": "Who can fund, approve, or stop this workflow?",
+        "text": "Response: agree delegated authority and review conditions. Limit: a named role only works when it has time, evidence, and the authority to act.",
+        "owner": "Executive sponsor + AI lead",
+        "evidence": "Decision record, accountable owners, escalation route, and next review date."
+      }
+    ],
+    "questions": [
+      "What evidence would make us expand, revise, or stop this workflow?",
+      "Have we priced accepted work including review and exceptions?",
+      "Can we demonstrate the data and action boundaries?",
+      "What is the remaining limitation after each proposed control?",
+      "Who owns the next decision and when will it be reviewed?"
+    ],
+    "sources": [
+      {
+        "title": "Microsoft · Retrieval and access control",
+        "url": "https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview"
+      },
+      {
+        "title": "OWASP · Excessive agency",
+        "url": "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/"
+      },
+      {
+        "title": "NIST · AI RMF Playbook",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework/nist-ai-rmf-playbook"
+      }
+    ],
+    "research": {
+      "url": "https://theprimerdesk.onrender.com/reports/understanding-enterprise-ai-risk-the-adoption-problems-hiding-behind-the-hype.html",
+      "label": "Read the full AIR research primer",
+      "note": "Research foundation: Understanding Enterprise AI Risk, AIR / The Primer Desk. Evidence cutoff August 16, 2026. This executive adaptation selects operating themes; it does not reproduce or independently audit every claim in the full report."
+    }
   }
 }

@@ -18,6 +18,15 @@ const scenarios={
  controls:{label:'Core controls established',levels:[[1,1,0,0,1,0],[0,0,1,0,0,0],[0,0,1,0,0,0],[1,0,0,0,1,0],[1,0,1,1,1,0]]}
 };
 const levels=['Routine','Review','Priority'];
+// Dimension-specific discussion prompts, not measured control effectiveness.
+const evidencePatterns=[
+ ['Tag usage to the workflow and include review and rework within an agreed cost boundary.','Attribution makes spend visible; it does not control demand or prove a cash benefit.','A reconciled sample of usage, reviewer time, accepted outcomes, and the pre-AI baseline.','Finance + business owner','why-ai-pilots-stall'],
+ ['Review source permissions and enforce role-appropriate retrieval and approved data handling.','Correct permission enforcement still exposes content allowed by overly broad source permissions.','Allow/deny retrieval tests for representative roles, connected-source inventory, and retention settings.','Data owner + Security','shadow-ai-biggest-exposure'],
+ ['Maintain a dependency register, assign change monitoring, and rehearse an alternative route.','An alternative can have different quality, capacity, and contract terms; portability requires testing.','Provider dependencies, notice owner, evaluated fallback, and migration rehearsal.','Technology + Procurement','model-deprecation-reliability-risk'],
+ ['Give the agent a scoped identity and minimum tools; check authorization outside the model.','Narrow permissions constrain reachable actions but do not guarantee correct output or remove all attacks.','Permitted operations, downstream authorization tests, approval conditions, and credential revocation test.','Security + workflow owner','excessive-agency-ai-risk-no-attacker'],
+ ['Evaluate difficult cases, route exceptions to a person, and exercise a fallback.','A finite test set cannot establish correctness for every future input or provider change.','Representative evaluation cases, reviewed exceptions, escalation thresholds, and fallback exercise.','Operating owner + domain reviewers','model-deprecation-reliability-risk'],
+ ['Record who can fund, approve, change, and pause the workflow, with a clear escalation route.','Naming a role is insufficient if it lacks time, evidence, or delegated authority.','Decision record, accepted responsibilities, stop authority, and next review date.','Executive sponsor + AI lead','who-owns-the-ai-decision']
+];
 const cases=[
  ['Support drafting',78,82,32,'Candidate for a focused pilot','A bounded support workflow with accessible knowledge and a clear review gate.','Head of Customer Service','Validate response quality and repeat contacts before expanding.'],
  ['Contract review',64,68,42,'Validate the review process','Potential value depends on source quality and specialist review capacity.','Legal Operations Lead','Agree an evaluation set and retain legal approval of advice.'],
@@ -46,6 +55,7 @@ root.innerHTML=`<div class="assessment-label"><span>MERIDIAN INDUSTRIAL GROUP ·
 const get=id=>document.getElementById(id),chart=get('assessment-chart'),tabs=[...root.querySelectorAll('[data-view]')];
 let view=0,scenario='baseline',selectedCell=[0,1];
 function detail(kicker,title,body,owner,next,nextLabel='Next action'){
+ const evidence=get('assessment-evidence');if(evidence)evidence.hidden=true;
  Object.entries({'kicker':kicker,'title':title,'body':body,'owner':owner,'next':next}).forEach(([key,value])=>get('assessment-detail-'+key).textContent=value);
  get('assessment-next-label').textContent=nextLabel;
 }
@@ -54,6 +64,11 @@ function selectHeat(r,c){
  chart.querySelectorAll('.heat-cell').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.row===r&&+b.dataset.col===c)));
  const [title,body,action]=patterns[c];
  detail(`${units[r]} · ${dimensions[c]} · ${levels[severity]}`,severity===0?'Maintain the established controls.':title,severity===0?'In this sample, an owner and a documented control are in place. Routine review still checks that they work as the workflow changes.':body,owners[r]+(c===1||c===3?' + Security':''),severity===0?'Review evidence at the agreed cadence and after material changes.':action);
+ let panel=get('assessment-evidence');
+ if(!panel){panel=document.createElement('section');panel.id='assessment-evidence';panel.className='assessment-evidence';panel.setAttribute('aria-label','Control response and evidence');get('assessment-footnote').before(panel);}
+ const [response,limit,evidence,reviewers,slug]=evidencePatterns[c];
+ panel.hidden=false;
+ panel.innerHTML=`<div class="assessment-evidence-heading"><p class="small-label">${units[r]} / ${dimensions[c]} · ILLUSTRATIVE CONTROL REVIEW</p><a class="link" href="/blog/${slug}.html">Explore the guidance ↗</a></div><div class="assessment-evidence-grid"><div><h4>${severity===0?'Response to maintain':'Proposed response'}</h4><p>${response}</p></div><div><h4>Remaining limitation</h4><p>${limit}</p></div><div><h4>Evidence to request</h4><p>${evidence}</p><p class="evidence-reviewers">Review with: ${reviewers}</p></div></div>`;
 }
 function heat(){
  chart.innerHTML=`<div class="heat-scroll" role="region" aria-label="Exposure heat map, scroll horizontally on small screens" tabindex="0"><table class="heat-table"><caption>Choose a cell to inspect the sample finding.</caption><thead><tr><th scope="col">Business unit</th>${dimensions.map(x=>`<th scope="col">${x}</th>`).join('')}</tr></thead><tbody>${units.map((u,r)=>`<tr><th scope="row">${u}</th>${dimensions.map((d,c)=>{const l=levels[scenarios[scenario].levels[r][c]];return `<td><button class="heat-cell" type="button" data-row="${r}" data-col="${c}" data-level="${l}" aria-pressed="false" aria-label="${u}, ${d}: ${l}">${l}</button></td>`}).join('')}</tr>`).join('')}</tbody></table></div><div class="heat-legend"><span><i style="background:#e3ebf1"></i>Routine · maintain</span><span><i style="background:#526f83"></i>Review · investigate</span><span><i style="background:#25465b"></i>Priority · address first</span></div>`;

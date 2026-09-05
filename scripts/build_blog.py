@@ -116,6 +116,18 @@ def render_post(fields, body_html):
 
 def render_index(posts):
     ordered = sorted(posts, key=lambda p: p["date"], reverse=True)
+    featured = next((p for p in ordered if p.get('featured') == 'true'), None)
+    feature = ''
+    if featured:
+        feature = (
+            f'<a class="research-feature" href="{html.escape(featured["slug"])}.html">'
+            '<div><span class="cat">Featured research · Executive briefing</span>'
+            f'<h2>{html.escape(featured["title"])}</h2><p>{html.escape(featured["excerpt"])}</p>'
+            '<span class="research-feature-cta">Explore the briefing ↗</span></div>'
+            '<div class="research-feature-map" aria-hidden="true"><span>THE OPERATING QUESTIONS</span>'
+            '<b>01 / Value</b><b>02 / Data</b><b>03 / Actions</b><b>04 / Reliability</b>'
+            '<b>05 / Providers</b><b>06 / Ownership</b><small>Adapted from AIR research</small></div></a>'
+        )
     cards = "".join(
         f'<a class="post-card {hue_for(p["category"])}" href="{p["slug"]}.html">'
         f'<div class="cat">{p["category"]}</div>'
@@ -123,7 +135,7 @@ def render_index(posts):
         f'<p>{p["excerpt"]}</p>'
         f'<div class="date">{format_byline(p["date"])}</div>'
         f'</a>'
-        for p in ordered
+        for p in ordered if p is not featured
     )
     return (
         "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\">"
@@ -132,14 +144,14 @@ def render_index(posts):
         "<meta name=\"description\" content=\"Straight talk on enterprise AI strategy.\">"
         "<link rel=\"icon\" type=\"image/png\" href=\"../assets/mark.png\">"
         + FONTS + SOCIAL +
-        '<link rel="stylesheet" href="/assets/editorial.css?v=review-1"><link rel="stylesheet" href="/assets/essay.css"></head><body>'
+        '<link rel="stylesheet" href="/assets/editorial.css?v=review-1"><link rel="stylesheet" href="/assets/essay.css"><link rel="stylesheet" href="/assets/research-feature.css?v=1"></head><body>'
         + HEADER +
         "<main id=\"main\" class=\"wrap\"><div class=\"list-hero\">"
         "<div class=\"label\">Insights</div>"
         "<h1>Straight talk on <span class=\"grad-text\">enterprise AI strategy.</span></h1>"
         "<p>No hype, no vendor pitch decks — the same diagnostic thinking behind our advisory work, written out.</p>"
         "</div>"
-        f"<div class=\"post-grid\">{cards}</div>"
+        + feature + f"<div class=\"post-grid\">{cards}</div>"
         "</main>"
         + FOOTER +
         "</body></html>"
