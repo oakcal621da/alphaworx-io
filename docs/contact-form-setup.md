@@ -2,8 +2,15 @@
 
 The existing `alphaworx-io` service (`srv-da0fmo1t0dsc739jvr4g`) is a Static Site
 tracking `main`. It cannot run the SMTP integration. Keep it in place until the
-redesign is approved for release. Deploy this app as a separate paid Python web
-service, `alphaworx-contact`, using the reviewed feature branch.
+redesign is approved for release. The separate paid Python web service is
+`alphaworx-contact`, deployed from `codex/proton-contact`.
+
+- Service ID: `srv-dae6i5ad0e5s73fbkav0`
+- URL: https://alphaworx-contact.onrender.com
+- Environment: https://dashboard.render.com/web/srv-dae6i5ad0e5s73fbkav0/env
+- Compute approved September 5, 2026: $7/month, 0.5 CPU, 512 MB RAM.
+- Initial deployment has an empty `PROTON_SMTP_TOKEN`; direct sending remains
+  disabled until a dedicated Proton token is saved and the service redeployed.
 
 ## Render service
 
@@ -40,7 +47,7 @@ to `smtp.protonmail.ch:587` using certificate-verified STARTTLS.
 If the site is served by this Python app, the contact form discovers `/api/contact/config`
 automatically. If keeping the existing static hosting, set
 `ALPHAWORX_CONTACT_CONFIG_URL` in `assets/contact-config.js` to the new service's
-`https://<service>.onrender.com/api/contact/config` URL. The backend permits CORS
+`https://alphaworx-contact.onrender.com/api/contact/config` URL. The backend permits CORS
 only for the configured public site and its own Render origin. This does not require
 a domain or mail DNS change. Publish the revised static homepage separately when ready.
 
