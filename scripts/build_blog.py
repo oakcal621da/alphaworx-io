@@ -80,6 +80,9 @@ def format_byline(date_str):
 
 
 def render_post(fields, body_html):
+    if fields["slug"] == "twelve-first-principles-enterprise-ai":
+        from render_principles import render_principles
+        return render_principles(fields, body_html)
     return (
         "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"

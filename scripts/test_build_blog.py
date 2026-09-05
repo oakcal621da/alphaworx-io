@@ -135,3 +135,22 @@ def test_every_published_article_is_in_index_and_sitemap():
     essay=next(p for p in posts if p['slug']=='twelve-first-principles-enterprise-ai')
     for i in range(1,13):
         assert f'id="p{i}"' in essay['body_html']
+
+
+def test_principles_guide_survives_rebuild_with_source_and_legacy_links():
+    from build_blog import load_posts
+    essay=next(p for p in load_posts() if p['slug']=='twelve-first-principles-enterprise-ai')
+    page=render_post(essay, essay['body_html'])
+    assert 'DESIGN PREVIEW' not in page
+    assert 'noindex' not in page
+    assert 'href="/assets/principles-guide.css?v=1"' in page
+    assert 'src="/assets/principles-guide.js?v=1"' in page
+    assert 'https://alphaworx.io/blog/twelve-first-principles-enterprise-ai.html' in page
+    for n in range(1,13):
+        assert f'id="p{n}"' in page
+        assert f'id="principle-{n}"' in page
+    assert 'When principles conflict' in page
+    assert 'The doctrine in practice' in page
+    assert 'href="/#contact"' in page
+    amended=essay['body_html'].replace('Outcomes before activity','A revised source principle')
+    assert 'A revised source principle' in render_post(essay,amended)
