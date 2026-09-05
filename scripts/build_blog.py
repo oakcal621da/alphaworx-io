@@ -5,6 +5,7 @@ No third-party dependencies — stdlib only, matching the rest of this
 static site's zero-build-step approach.
 """
 import re
+import html
 from datetime import datetime
 from pathlib import Path
 
@@ -55,24 +56,23 @@ def parse_frontmatter(text):
 
 
 def markdown_to_html(body):
-    """Convert a small Markdown subset to HTML.
-
-    Supports: blank-line-separated paragraphs, a '> ' prefix for a
-    single-paragraph blockquote, and **bold** inline text. That's the
-    full set this site's posts use — anything more isn't needed yet.
-    """
-    blocks = re.split(r"\n\s*\n", body.strip())
-    html_blocks = []
-    for block in blocks:
-        block = block.strip()
+    """Render paragraphs, headings, quotes, bold, and HTTPS source links."""
+    def inline(text):
+        text = html.escape(text)
+        text = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", text)
+        return re.sub(r"\[([^\]]+)\]\((https://[^\s)]+)\)", r'<a href="\2">\1</a>', text)
+    output=[]
+    for block in re.split(r"\n\s*\n", body.strip()):
+        block=block.strip()
         if not block:
             continue
-        block = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", block)
-        if block.startswith("> "):
-            html_blocks.append(f"<blockquote>{block[2:].strip()}</blockquote>")
+        if block.startswith('## '):
+            output.append('<h2>'+inline(block[3:])+'</h2>')
+        elif block.startswith('> '):
+            output.append('<blockquote>'+inline(block[2:])+'</blockquote>')
         else:
-            html_blocks.append(f"<p>{block}</p>")
-    return "\n".join(html_blocks)
+            output.append('<p>'+inline(block)+'</p>')
+    return "\n".join(output)
 
 
 def format_byline(date_str):
@@ -83,6 +83,10 @@ def render_post(fields, body_html):
     if fields["slug"] == "twelve-first-principles-enterprise-ai":
         from render_principles import render_principles
         return render_principles(fields, body_html)
+    from render_insight import guide_for, render_insight
+    guide = guide_for(fields["slug"])
+    if guide:
+        return render_insight(fields, body_html, guide)
     return (
         "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
@@ -162,7 +166,7 @@ def render_sitemap(posts):
     for p in ordered:
         entries.append(
             f"<url><loc>{SITE_URL}/blog/{p['slug']}.html</loc>"
-            f"<lastmod>{p['date']}</lastmod></url>"
+            f"<lastmod>{p.get('updated', p['date'])}</lastmod></url>"
         )
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'

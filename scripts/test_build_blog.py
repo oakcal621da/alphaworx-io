@@ -154,3 +154,48 @@ def test_principles_guide_survives_rebuild_with_source_and_legacy_links():
     assert 'href="/#contact"' in page
     amended=essay['body_html'].replace('Outcomes before activity','A revised source principle')
     assert 'A revised source principle' in render_post(essay,amended)
+
+
+def test_markdown_headings_sources_and_escaped_content():
+    from build_blog import markdown_to_html
+    page=markdown_to_html('## A & B\n\nRead [the source](https://example.org/?a=1&b=2).\n\n<script>bad()</script>')
+    assert '<h2>A &amp; B</h2>' in page
+    assert '<a href="https://example.org/?a=1&amp;b=2">the source</a>' in page
+    assert '<script>' not in page
+
+
+def test_all_nine_guides_rebuild_with_valid_sources_data_and_unique_anchors():
+    import json
+    import re
+    from html.parser import HTMLParser
+    from build_blog import load_posts
+    from render_insight import registry
+    class Audit(HTMLParser):
+        def __init__(self):
+            super().__init__(); self.ids=[]; self.anchors=[]; self.h1s=0
+        def handle_starttag(self,tag,attrs):
+            a=dict(attrs)
+            if 'id' in a:self.ids.append(a['id'])
+            if tag=='a' and a.get('href','').startswith('#'):self.anchors.append(a['href'][1:])
+            if tag=='h1':self.h1s+=1
+    guides=registry()
+    assert len(guides)==9
+    posts={p['slug']:p for p in load_posts()}
+    for slug,guide in guides.items():
+        fields=posts[slug]
+        page=render_post(fields,fields['body_html'])
+        audit=Audit();audit.feed(page)
+        assert audit.h1s==1,slug
+        assert len(audit.ids)==len(set(audit.ids)),slug
+        assert set(audit.anchors)<=set(audit.ids),slug
+        assert 'noindex' not in page
+        assert '/assets/insight-guides.js?v=1' in page
+        assert '<lastmod>2026-09-05</lastmod>' in render_sitemap([fields])
+        data=json.loads(re.search(r'id="insight-data">(.*?)</script>',page,re.S)[1])
+        assert data['questions']==guide['questions']
+        assert len(data['questions'])>=4
+        for source in guide['sources']:
+            assert source['url'].startswith('https://')
+            assert source['url'] in page
+        revised=fields['body_html'].replace('<p>','<p>Revision marker. ',1)
+        assert 'Revision marker.' in render_post(fields,revised)

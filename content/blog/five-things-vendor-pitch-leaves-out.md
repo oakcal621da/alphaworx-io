@@ -2,21 +2,39 @@
 title: Five things the AI vendor pitch leaves out
 category: Vendor Reality Check
 date: 2026-08-04
-excerpt: Each of these contradicts a piece of vendor consensus, rests on disclosed evidence, and can be proven wrong by a specific, named piece of counter-evidence.
+excerpt: Five questions that turn an attractive AI proposal into an operating decision you can defend.
 slug: five-things-vendor-pitch-leaves-out
+updated: 2026-09-05
 ---
-Most vendor claims about enterprise AI aren't false. They're incomplete in a specific, predictable direction — true enough to survive a sales call, missing exactly the part that shows up on the invoice or the risk register three months later. Here are five, each stated so it could be proven wrong if the evidence changed.
 
-**One: falling token prices and rising task costs are both true at once.** The industry quotes whichever one suits the conversation. The same body of evidence that shows a steady annual decline in the price of a fixed capability level also shows the price of running frontier models rising several-fold per year. Add the mechanics vendors don't lead with — a tokenizer that produces meaningfully more tokens for the same text, a model's internal reasoning billed as output, a residency multiplier for certain configurations — and a genuine headline price cut can still arrive as a bigger bill.
+A vendor presentation is designed to make a capability easy to understand. An enterprise purchase also needs to explain the conditions under which that capability will work, what it costs to operate, and who carries the unresolved risk. These five questions help connect the sales conversation to the service the business will actually receive.
 
-**Two: the standard fix for unpredictable spend buys a price, not a supply.** Reserved-capacity offerings are pitched as solving cost unpredictability. Read the fine print and most vendors say plainly that a reservation doesn't guarantee capacity is actually available when you need it — only a price if it is. The buyer trades price risk for availability risk and, in most risk registers, that risk doesn't even get a row.
+## 1. What does an accepted result cost?
 
-**Three: "we don't train on your data" is the weakest of the guarantees that actually matter.** It's nearly universal on commercial tiers and nearly irrelevant to the incidents that actually cause loss. The guarantee that matters is retention scope — and it's typically narrower than buyers assume, often excluding exactly the stateful, multi-turn features the industry is racing toward.
+A unit price can be accurate and still be insufficient for comparing two solutions. Define the task, required quality, volume, latency, and review effort before comparing bills. Include the parts of the service that the demonstration did not need: retrieval, integration, exceptions, evaluation, support, and the work of checking the result.
 
-> Each of these contradicts a specific consensus view, rests on disclosed evidence, and can be falsified.
+Ask the vendor to run a representative workload with agreed success criteria. Record failed attempts and corrections as well as successes. A low processing cost is useful only in relation to the result being purchased. Keep the underlying assumptions so that a later change in volume, configuration, or review time can be assessed without reconstructing the entire business case.
 
-**Four: security here is bought with capability, and the price is now published.** The best publicly benchmarked defense against prompt injection holds a meaningfully lower task-success rate than an undefended system, at a real token-cost premium. Every control that measurably works does so by removing capability. "We'll add guardrails later" isn't a plan — guardrails are a design constraint, not a feature you bolt on.
+## 2. What is actually committed when we need capacity?
 
-**Five: AI deployment is an information-governance audit that arrives whether or not you asked for one.** The common fear is that an AI assistant creates a new data-leakage risk. The more common reality is closer to the opposite: the assistant didn't create the over-permissioned file share, it made two decades of accumulated permission drift searchable in plain English. The remediation isn't an AI control — it's access review and retention cleanup that should have happened years ago, and now has a deadline.
+Separate pricing, quota, capacity availability, service levels, and the behavior during an outage. Different products and agreements handle these differently. Neither a reservation label nor a premium tier is enough to establish the promise your operation relies on.
 
-None of these five are reasons to avoid deploying AI. They're reasons to price the whole picture before a vendor's pitch deck prices half of it for you.
+Bring a concrete scenario to procurement: demand doubles during a business event, a region is unavailable, or a request is delayed beyond the workflow’s tolerance. Ask which term or configuration governs the response. Then decide what your organization will queue, route elsewhere, handle manually, or stop. The useful deliverable is a shared operating expectation rather than an adjective such as “enterprise-grade.”
+
+## 3. What is stored, where, and for how long?
+
+Training use, operational logs, application state, uploaded files, and connected systems are distinct parts of a data review. [OpenAI’s API data controls](https://developers.openai.com/api/docs/guides/your-data) provide a concrete example of endpoint-specific retention and feature conditions. Check the corresponding details for the exact vendor product and agreement being considered.
+
+Draw the data path with the application owner. Include the downstream tools that receive content, the administrators who can access it, deletion procedures, and any special conditions for the features you need. Ask for evidence of the configured arrangement. A general statement about model training should not stand in for answers about everything else that happens to the information.
+
+## 4. What happens to quality when controls are enabled?
+
+Evaluate the configuration you intend to operate. Permission limits, review steps, content filtering, and restricted data access can change completion rate, latency, cost, or the kinds of requests the system can fulfill. Measure those tradeoffs on the workflow; do not assume that a demonstration with different conditions predicts production performance.
+
+Include difficult but legitimate requests as well as misuse cases. A system that blocks necessary work may encourage users to seek another route, while one that completes everything may exceed the intended boundary. Define the acceptable balance with the business and security owners. The result should be a specific configuration with known limits, supported by evidence that can be revisited.
+
+## 5. Which existing data problems will the assistant expose?
+
+An assistant may operate within permissions that are already too broad. Microsoft notes that [overshared content can increase risk in Copilot](https://learn.microsoft.com/en-us/microsoft-365/copilot/security-microsoft-365-copilot). This makes access review a concrete part of deployment planning rather than an assumption inherited from the existing repository.
+
+Test the experience of different user roles and review stale content, sharing links, ownerless repositories, and unnecessary connectors. Ask who will maintain those conditions after launch. The purchase decision should identify work your organization must do as clearly as work the vendor promises to do. A stronger agreement starts with both sides understanding that boundary.

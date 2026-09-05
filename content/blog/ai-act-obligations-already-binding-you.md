@@ -2,15 +2,33 @@
 title: The AI Act obligations already binding you
 category: Governance & Law
 date: 2026-07-28
-excerpt: The heaviest EU AI Act obligations were pushed to December 2027. The cheap ones have been live for over a year, and most companies haven't checked which is which.
+excerpt: The EU AI Act has several clocks. Start with the system, your role, and the obligation—not a headline about delay.
 slug: ai-act-obligations-already-binding-you
+updated: 2026-09-05
 ---
-When the EU's high-risk conformity obligations under the AI Act were pushed back sixteen months, a lot of boards heard "the AI Act got delayed" and adjusted their timeline accordingly. That's not quite what happened, and the gap between the two versions is exactly the kind of thing that turns into an expensive surprise.
 
-The deferral applies to one specific obligation set — the standalone high-risk conformity regime, now due December 2027. It does not apply to the obligations that were already binding on any company deploying AI in the EU: baseline AI-literacy requirements have applied since early 2025, and a set of prohibited-practice safeguards and content-marking requirements came due well before the deferral even took effect. The heavy compliance machinery got more runway. The cheap-to-breach obligations did not, and they're the ones most likely to be sitting unaddressed on a company's actual risk register right now.
+A revised deadline for one set of AI obligations does not answer which duties apply to a particular workflow today. Enterprise leaders need a system-by-system view of purpose, geography, legal role, and operating evidence. The dates below reflect European Commission guidance checked on September 5, 2026; the explorer is an orientation aid, not a legal classification of your organization.
 
-There's a pattern worth noticing across the EU rule and the state-level rules moving alongside it: the obligations that survive political revision are consistently the transparency, documentation, and incident-reporting ones. Substantive duties — proving a system doesn't discriminate, assessing risk before deployment — are the ones getting deferred, narrowed, or rewritten. Procedural duties aren't. A governance program built around evidence production and disclosure is the one most likely to still be useful after the next revision, which is a different design brief than a lot of 2024-era compliance programs were built around.
+## Separate the obligation tracks
 
-> The obligations a typical deployer can breach cheaply are already live; the obligations that require a conformity-assessment programme are not. Compliance sequencing should follow that order, not the reverse.
+The Commission’s [AI Act overview](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai) distinguishes several application dates. Prohibited-practice and AI-literacy provisions began applying on February 2, 2025. General-purpose model obligations followed on August 2, 2025, with transitional provisions. Article 50 transparency obligations apply from August 2, 2026, subject to specific exceptions and transition conditions.
 
-The instinct, on hearing about a sixteen-month deferral, is to slow down. The better move is usually the opposite: data governance, logging, and human-oversight documentation take longer to retrofit than to build in from the start, and every month of new deployment on ungoverned foundations is a month of retrofit debt accumulating quietly in the background. The deferral bought time for the conformity-assessment programme. It didn't buy time for the parts of the Act that were never deferred in the first place.
+The Commission’s [implementation FAQ](https://digital-strategy.ec.europa.eu/en/faqs/navigating-ai-act) describes revised high-risk timelines of December 2, 2027 for Annex III uses and August 2, 2028 for relevant product-embedded systems. Those later dates are not a blanket pause on the Act. Keep each obligation and its applicable transition in a separate row of the register so one headline cannot silently replace several different decisions.
+
+## Identify the role before assigning the task
+
+Providing an AI system and deploying one are different legal roles. A company can have more than one role across its activities, and a provider relationship with a vendor does not by itself settle the customer’s obligations. Map what the organization develops, brands, puts into service, and uses, including how outputs reach people in the EU.
+
+For an initial review, record the intended purpose, affected users, relevant markets, vendor and contract, launch date, and the person responsible for the workflow. Use that record with qualified counsel to determine scope and classification. The practical value of an inventory is that it gives the legal review a defined system to assess. A generic list of AI tools cannot explain how any one tool is being used.
+
+## Put transparency into the actual experience
+
+The Commission’s [Article 50 FAQ](https://digital-strategy.ec.europa.eu/en/faqs/transparency-obligations-under-article-50-ai-act) distinguishes user notification, machine-readable marking, and deployer disclosures for specified content and uses. It also describes a limited December 2, 2026 transition for Article 50(2) marking obligations on systems placed on the market before August 2, 2026. That is not a general grace period for every transparency duty.
+
+Translate the legal determination into a user experience and an owner. Decide where a notice appears, who supplies marking, how content is reviewed, and which team checks that the requirement survives a redesign or integration change. Keep a representative record of the released experience. A statement in a policy file is weak evidence if the customer-facing workflow does something different.
+
+## Build a register that produces decisions
+
+For each in-scope workflow, connect the relevant duty to an accountable person, a concrete control, evidence, and a review trigger. Useful triggers include a change of purpose, an expanded user group, new data, a new model or feature, and a revised legal requirement. Distinguish an unresolved classification question from a confirmed control gap; they need different next actions.
+
+In Meridian’s illustrative review, a customer assistant and an employment-related screening use would not be placed on one undifferentiated “AI compliance” timeline. Each would receive its own role and purpose analysis. The executive decision is which evidence and remediation to fund now, and which specialist questions must be resolved before further deployment. The record should make those choices visible without claiming that completion of a checklist establishes legal compliance.

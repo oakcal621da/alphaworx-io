@@ -2,16 +2,33 @@
 title: The 90-day platform stand-up
 category: Operating System
 date: 2026-08-15
-excerpt: What a thin platform hub actually needs to have real mandate from day one.
+excerpt: A practical first-quarter plan for installing decision rights, a usable approved path, and evidence that the operating model works.
 slug: the-90-day-platform-stand-up
+updated: 2026-09-05
 ---
 
-Most companies don't lack an AI strategy because nobody's thought about it. They lack one because the thinking never got installed as an actual operating structure — a hub with a mandate, a cadence, and the authority to say no.
+A platform hub earns its place by making important work easier to run. It needs a mandate, but it also needs customers inside the business and a service those customers can use. Treat the first 90 days as a sequence of operating commitments, with evidence at each review, rather than a promise to finish enterprise AI governance in one quarter.
 
-A thin platform hub isn't a committee and it isn't a full center of excellence with its own P&L. It's a small, senior team — often four to eight people — sitting at the intersection of engineering, security, legal, and the business, with the explicit mandate to own provisioning, vendor relationships, and the shared infrastructure that every team building on AI actually needs.
+## Days 1–30: establish the mandate and ship a useful route
 
-The first 90 days matter disproportionately, because that's the window where the hub either earns real authority or gets treated as a formality everyone routes around. That means shipping something people actually feel in the first month — usually governed, fast provisioning that's a genuine upgrade over whatever ad hoc access existed before — not spending the whole quarter writing a charter nobody reads.
+Choose an executive sponsor who can resolve a dispute about budget, risk, or ownership. Write down who can approve a use case, grant access, accept an exception, and pause a deployment. Give business units ownership of outcomes while making the hub responsible for a defined set of shared capabilities. Staffing should follow those responsibilities; there is no universal headcount that makes the model work.
 
-> Adoption is near-universal. Governed operation is not. That gap is where risk and wasted money concentrate.
+Then select one workflow where the approved path can be materially better than the current one. For Meridian, that might be access to an approved drafting workspace with clear data conditions and a response time for support. Begin an inventory of active systems and known experiments. Mark gaps honestly. A partially verified register is more useful than a supposedly complete one that nobody maintains.
 
-By day 90, a real platform hub should be able to name every production AI system in the company, who owns it, what it costs, and what happens if the underlying model gets deprecated next week. Most companies can't answer that today. That's the gap a hub with real mandate closes.
+## Days 31–60: connect the service to evidence
+
+Instrument the workflow you shipped. Identify which team uses it, what work it supports, its operating cost, and how exceptions are handled. Agree a small set of quality checks with the business owner. Record the underlying service and model dependencies so changes can be traced to affected work.
+
+Establish an intake review that produces a decision rather than another queue. Each request should describe the intended outcome, data needed, actions allowed, owner, and next evidence milestone. Use standard routes for familiar low-impact requests and targeted review for unusual permissions or consequences. The hub should shorten repeated decisions by making the acceptable pattern clear, while preserving escalation for cases that do not fit.
+
+## Days 61–90: test the operating model under pressure
+
+Exercise a failure you can survive. Walk through a provider change, an unexpected cost increase, a quality regression, or a request to connect a sensitive repository. Identify who gets notified, who decides, and which fallback is available. If the answer depends on an informal favor from one individual, the operating model has a dependency worth fixing.
+
+Hold a portfolio review that compares evidence against the original commitments. Continue what is useful, repair what is constrained, and stop work that lacks a credible value case. Publish the resulting decisions to the teams affected. The quarter should end with a repeatable cadence and a prioritized backlog—not with a declaration that governance is complete.
+
+## Judge the hub by the decisions it enables
+
+Useful measures include the time to provision an approved route, the proportion of known production workflows with verified owners, unresolved data exceptions, and the ability to trace a change to its business impact. Set the denominator and verification method before presenting a percentage. An inventory statistic should never imply visibility over systems that have not been discovered.
+
+NIST’s voluntary [AI RMF Playbook](https://www.nist.gov/itl/ai-risk-management-framework/nist-ai-rmf-playbook) offers a broader set of governance actions. The phased plan here is Alphaworx’s illustrative operating approach, not a NIST implementation schedule. Adapt the sequence to the organization’s existing controls and priorities. A hub that already has mature identity and procurement processes should build on them rather than create parallel bureaucracy.

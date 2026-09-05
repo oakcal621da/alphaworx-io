@@ -2,15 +2,33 @@
 title: Model deprecation is a reliability risk, not an IT ticket
 category: Reliability
 date: 2026-07-07
-excerpt: Vendors retire model versions on non-extendable timelines. Most companies have no pinning or regression discipline for when that happens.
+excerpt: A model change is a change to the service your business relies on. Plan the evaluation, cutover, and fallback before the deadline.
 slug: model-deprecation-reliability-risk
+updated: 2026-09-05
 ---
-Every AI vendor eventually retires a model version. That's not a hypothetical — it's a published lifecycle, usually with an observed retirement window of around 60 days once a successor ships. What's hypothetical is whether your company finds out about it from the vendor's changelog or from a production system that quietly starts behaving differently.
 
-Most organizations treat this as an IT notification problem: forward the deprecation email, someone updates a config, done. That undersells what's actually happening. A model swap can shift output quality, tone, and edge-case behavior in ways that never show up in a smoke test — they show up three weeks later in a customer complaint or a compliance review, with nobody able to say which model version produced the output in question.
+A retirement notice may arrive as a technical update, but its consequences belong to the business workflow. A replacement can connect successfully and still alter the quality, cost, latency, or behavior of the service. The useful question is not simply whether the application runs. It is whether the new configuration remains acceptable for the work it performs.
 
-The organizations handling this well treat it the way mature engineering teams treat any dependency upgrade: explicit version pinning instead of silent auto-upgrade, a golden-set regression suite that runs before a new model version goes live, and a retirement calendar tracked by model and by which internal system depends on it. None of this is exotic. It's the same discipline applied to any third-party library — just not yet applied, in most companies, to the model quietly sitting at the center of a production workflow.
+## Track the actual dependency and its lifecycle
 
-> Vendor-set lifecycles; auto-upgrade or hard failure depending on deployment type. Retirement dates are explicitly non-extendable.
+Record the provider, deployment, model identifier, version where available, region, and update behavior for each production workflow. Distinguish an alias that may change from an explicitly selected version. Assign an owner to notices and link the dependency to the service that would be affected.
 
-The gap shows up hardest in regulated environments, where a 60-day observed retirement window simply doesn't fit a revalidation cycle built for slower change. A model that has to be re-approved before it can be trusted with a regulated workflow can't be re-approved on a vendor's clock — which means the pinning and regression discipline isn't optional hygiene, it's the only thing standing between a vendor's release schedule and an unplanned outage in a system nobody thought of as fragile.
+Microsoft’s [Foundry lifecycle policy](https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-retirements) and [retirement schedule](https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-retirement-schedule) show why dates and replacement paths need to be checked for the actual deployment. There is no single retirement window that applies to every provider and model. Pinning can make behavior more reproducible while the version remains available; it does not create an indefinite entitlement to that service.
+
+## Re-evaluate the work, not just the connection
+
+Build a representative set of cases with the people who own the workflow. Include difficult inputs, retrieval failures, refusals, formatting requirements, and the decisions that must remain with a person. Keep the evidence used to define an acceptable answer so that reviewers are comparing against a stable task rather than their memory of a good demo.
+
+Run the candidate configuration against the current one where possible. Examine quality, completion time, operating cost, tool use, and the amount of human correction required. A higher average result can coexist with unacceptable behavior on a small but consequential slice of work. Review those differences explicitly and record which tradeoffs the owner accepts.
+
+## Make the cutover a controlled release
+
+Choose a release path that fits the consequence of failure. A small internal drafting workflow may allow a straightforward supervised trial. A customer-facing operation may need staged traffic, parallel review, or a narrower initial task. Define monitoring and stop conditions before switching the default.
+
+For Meridian’s service assistant, the acceptance record could include policy accuracy, appropriate escalation, permitted tool actions, latency, and reviewer workload. Engineering owns the release mechanism; the business owner accepts the service behavior. Both need to know who will make the decision if early results differ from the evaluation. A calendar reminder alone cannot make that decision for them.
+
+## Prepare a fallback that survives retirement
+
+“Roll back to the old model” stops being an option once the old service is unavailable. Rehearse the fallback you will actually have: a validated alternate configuration, a reduced feature set, a human queue, or a controlled pause. State the capacity and limitations of that route so operations can make realistic commitments.
+
+After cutover, keep the decision record and compare live observations with the evaluation. Feed new failure cases into future tests. The migration is complete when the organization can explain what changed, who accepted it, and how it will detect a regression. That evidence makes the next provider update a managed dependency change rather than a repeat of the same urgent discovery exercise.

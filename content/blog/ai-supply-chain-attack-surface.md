@@ -2,15 +2,33 @@
 title: Your AI's supply chain is now an attack surface
 category: Security
 date: 2026-07-21
-excerpt: Model files can execute code the moment they're loaded. Researchers have found over 200,000 vulnerable instances of the protocol connecting AI assistants to outside tools.
+excerpt: Model artifacts, application dependencies, and tool servers need distinct trust decisions before they enter a production workflow.
 slug: ai-supply-chain-attack-surface
+updated: 2026-09-05
 ---
-A model file doesn't look like software. That's exactly the problem — because in the formats most teams still use, it is software, and treating it like a data asset instead of executable code is how a supply-chain vulnerability ends up onboarded through a data-procurement process that was never built to catch it.
 
-The mechanism is old and well understood in security circles, just newly relevant here. A common model serialization format is built on a system that can run arbitrary code the moment the file is opened. Researchers have already found real examples on public model-sharing platforms carrying hidden payloads, engineered specifically to evade the scanning tools meant to catch them. The proof-of-concept stage is where this sits today. The technique doesn't require a proof-of-concept stage to stay proven.
+An AI application depends on more than a model endpoint. Downloaded artifacts, inference libraries, tool servers, connectors, and deployment configuration can all influence what runs and what it can reach. A supply-chain review should follow those components through their lifecycle, from selection to replacement, rather than treating the model as an isolated purchase.
 
-The newer version of the same problem lives one layer up, in the protocols that let AI assistants reach outside tools and data sources. A widely used transport mechanism in one such protocol has been found to execute operating system commands without sanitization, across every major SDK implementing it — not as scattered coding mistakes, but as a systemic design choice. Security researchers have identified well over 200,000 vulnerable instances in the wild, with thousands of servers found responding to unauthenticated requests.
+## Ask what happens when the artifact is loaded
 
-> Model files execute code on load; tool protocols place sanitization downstream. Scanners have documented gaps; a protocol designer's risk transfer cannot be undone by the adopter.
+Some formats contain more than inert weights. [Hugging Face’s pickle-scanning documentation](https://huggingface.co/docs/hub/security-pickle) explains that loading a malicious pickle can execute arbitrary code and describes limits of scanning. This does not mean every model format executes code; it means the loader and serialization format belong in the security decision.
 
-The uncomfortable part isn't the vulnerability count — it's who's responsible for closing it. When the organization that designed the protocol confirms the behavior was intentional and assigns sanitization responsibility to whoever adopts it downstream, that's a legitimate engineering decision and a real risk transfer landing on every company that plugs in. The response looks exactly like the controls a mature security team already applies to any third-party executable: signed model registries, process isolation for tool servers, explicit version pinning, and treating every model file and every tool connection as untrusted until proven otherwise. The tooling and vocabulary already exist. What's missing in most companies is the decision to route AI components through a software-procurement process instead of a data one.
+Record where the artifact came from, its version and digest, how it is loaded, and whether custom code runs during initialization. Favor formats and loading modes that avoid unnecessary execution, while still reviewing any associated code and dependencies. A positive scan result is a reason to investigate. A clean scan should be one piece of evidence, not a substitute for provenance and controlled execution.
+
+## Treat a tool server as an application with authority
+
+An integration protocol does not settle whether a particular server is safe to run or connect. Inspect its publisher, execution environment, network access, credentials, and the operations it exposes. A local process and a remotely hosted service create different review questions. In either case, the business should understand why the connection is needed.
+
+The [MCP security guidance](https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices) addresses concerns including authorization and token handling. Our operating recommendation is to approve the specific server, version, transport, and permissions as a unit. Avoid treating a protocol name as a certification of all implementations. Changes to a server or its tool definitions should trigger a review proportional to the authority involved.
+
+## Keep an inventory that can answer an incident question
+
+When a component is found to be unsafe, the urgent question is which workflows use it and what it could access. A list of approved vendors alone will not answer that. Connect component versions and deployment locations to application owners, credentials, data sources, and the business activities they support.
+
+For Meridian’s supplier-analysis workflow, the record might link a document parser, model artifact, retrieval service, and supplier-system connector. The parser’s role is different from the connector’s authority. That distinction helps responders isolate the affected path rather than disable every AI application. Include the source of updates and the owner who decides when a new version enters production.
+
+## Make replacement and revocation routine
+
+Pinning a reviewed version helps with reproducibility, but it does not make that version safe indefinitely. Review security notices, plan updates, and retain a tested way to replace a component or remove its access. Separate the production credentials from experimental environments so a trial does not inherit the authority of the live service.
+
+Rehearse a focused incident: an approved tool server is withdrawn, a dependency needs an urgent update, or a model artifact can no longer be trusted. Identify the owner, the revocation path, the workflows that stop, and the evidence needed to restore service. The result should be a repeatable operating response. Buying another scanner cannot by itself establish those decision rights.

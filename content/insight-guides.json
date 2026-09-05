@@ -1,0 +1,470 @@
+{
+  "why-ai-pilots-stall": {
+    "quote": "The useful denominator is an accepted business outcome.",
+    "art": [
+      "PILOT → PRODUCTION",
+      "A useful answer",
+      "An accepted outcome",
+      "An accountable operation"
+    ],
+    "lab": [
+      "Find the cost hiding in the workflow",
+      "Meridian is comparing a drafting assistant with its current service process. Change the assumptions to see what AI processing and human review contribute."
+    ],
+    "steps": [],
+    "questions": [
+      "What is the unit of value, and what is its current baseline?",
+      "How much review and exception work remains per task?",
+      "What evidence earns the next stage of investment?",
+      "Who can pause the system and own the fallback?"
+    ],
+    "sources": [
+      {
+        "title": "NIST AI RMF Playbook",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework/nist-ai-rmf-playbook"
+      }
+    ],
+    "kind": "cost"
+  },
+  "shadow-ai-biggest-exposure": {
+    "quote": "Govern the route people actually use.",
+    "art": [
+      "ONE TASK · THREE ROUTES",
+      "Personal account",
+      "Managed workspace",
+      "Connected workflow"
+    ],
+    "lab": [
+      "Same task. Different exposure.",
+      "A Meridian analyst wants to summarize a supplier proposal. Explore how the account and integration change the questions to ask."
+    ],
+    "steps": [
+      {
+        "label": "Personal account",
+        "title": "Which agreement covers this upload?",
+        "text": "The familiar product name does not establish an approved data path. Check the actual account, terms, retention, and the sensitivity of the proposal before uploading it.",
+        "owner": "Business owner + security",
+        "evidence": "Approved account and permitted data classification"
+      },
+      {
+        "label": "Managed workspace",
+        "title": "What does the managed route permit?",
+        "text": "A managed workspace can provide organizational controls, but access still needs a defined purpose. Confirm who can share outputs or add connectors and how requests are logged.",
+        "owner": "Workspace administrator + information owner",
+        "evidence": "Workspace settings and sharing review"
+      },
+      {
+        "label": "Connected workflow",
+        "title": "What can the integration retrieve?",
+        "text": "A connector expands the reachable data. Test the real user permissions and remove sources the task does not require. A sanctioned tool can still expose overshared material.",
+        "owner": "Application owner + data owner",
+        "evidence": "Connector scope and representative permission tests"
+      }
+    ],
+    "questions": [
+      "Which account and agreement govern each workflow?",
+      "What data may people submit or retrieve?",
+      "Is the approved path fast enough for the real task?",
+      "Who handles a suspected disclosure or unapproved integration?"
+    ],
+    "sources": [
+      {
+        "title": "OpenAI API data controls",
+        "url": "https://developers.openai.com/api/docs/guides/your-data"
+      },
+      {
+        "title": "Microsoft Copilot security",
+        "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/security-microsoft-365-copilot"
+      }
+    ],
+    "kind": "explorer"
+  },
+  "you-dont-control-the-control-plane": {
+    "quote": "An exit plan is an operating option you have tested.",
+    "art": [
+      "THE DEPENDENCY BOUNDARY",
+      "Your workflow",
+      "Shared interface",
+      "Provider decisions"
+    ],
+    "lab": [
+      "Which dependency deserves a plan?",
+      "Meridian is reviewing a critical AI service. Explore the questions behind four provider-controlled conditions."
+    ],
+    "steps": [
+      {
+        "label": "Lifecycle",
+        "title": "A version is scheduled to retire",
+        "text": "Trace the notice to the workflows that use that version. Assign a migration owner and a date for representative testing.",
+        "owner": "Service owner",
+        "evidence": "Dependency inventory and migration window"
+      },
+      {
+        "label": "Capacity",
+        "title": "Peak demand exceeds the allocation",
+        "text": "Confirm the actual deployment limits and queue behavior. Decide which work can wait, degrade, or move to another route.",
+        "owner": "Operations + procurement",
+        "evidence": "Load test and service terms"
+      },
+      {
+        "label": "Data conditions",
+        "title": "A feature stores application state",
+        "text": "Review the feature’s actual retention and deletion behavior, including any contractual exceptions.",
+        "owner": "Privacy + application owner",
+        "evidence": "Feature-level data-flow record"
+      },
+      {
+        "label": "Exit",
+        "title": "A preferred alternative is available",
+        "text": "Test the alternative on your evaluation set and estimate the changes to prompts, integrations, and staff workflow.",
+        "owner": "Business owner + engineering",
+        "evidence": "Migration rehearsal and accepted tradeoffs"
+      }
+    ],
+    "questions": [
+      "Which provider changes could interrupt a material workflow?",
+      "Which fallback has been tested with real work?",
+      "What do our actual capacity and data terms commit to?",
+      "Who owns the lifecycle calendar and exit rehearsal?"
+    ],
+    "sources": [
+      {
+        "title": "Microsoft model retirement schedule",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-retirement-schedule"
+      },
+      {
+        "title": "OpenAI API data controls",
+        "url": "https://developers.openai.com/api/docs/guides/your-data"
+      }
+    ],
+    "kind": "explorer"
+  },
+  "the-90-day-platform-stand-up": {
+    "quote": "The first quarter should produce a service, a decision record, and a cadence.",
+    "art": [
+      "THE FIRST 90 DAYS",
+      "01–30 / Establish",
+      "31–60 / Instrument",
+      "61–90 / Exercise"
+    ],
+    "lab": [
+      "Build the mandate into the work",
+      "Explore Meridian’s illustrative first-quarter plan. Each phase has an accountable role and a concrete output to review."
+    ],
+    "steps": [
+      {
+        "label": "Days 1–30",
+        "title": "Make the approved path usable",
+        "text": "Agree decision rights and deliver one sanctioned workflow with clear data conditions, an owner, and a support route.",
+        "owner": "Executive sponsor + hub lead",
+        "evidence": "Signed mandate, initial register, and a working access route"
+      },
+      {
+        "label": "Days 31–60",
+        "title": "Make the operation observable",
+        "text": "Connect usage, cost, quality checks, exceptions, and provider dependencies to the business workflow.",
+        "owner": "Platform lead + business owner",
+        "evidence": "Operating dashboard and intake decision records"
+      },
+      {
+        "label": "Days 61–90",
+        "title": "Prove that decisions can be made",
+        "text": "Exercise a realistic disruption and review the portfolio against agreed evidence. Record what expands, changes, or stops.",
+        "owner": "Sponsor + portfolio owners",
+        "evidence": "Failure rehearsal, portfolio decisions, and next-quarter backlog"
+      }
+    ],
+    "questions": [
+      "Who can approve, pause, or stop a deployment?",
+      "Which useful approved route will we ship first?",
+      "Can we connect cost and quality evidence to a business owner?",
+      "What disruption will we rehearse before the quarter ends?"
+    ],
+    "sources": [
+      {
+        "title": "NIST AI RMF Playbook",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework/nist-ai-rmf-playbook"
+      }
+    ],
+    "kind": "explorer"
+  },
+  "excessive-agency-ai-risk-no-attacker": {
+    "quote": "Every permission is a decision about what a mistake may change.",
+    "art": [
+      "THE ACTION BOUNDARY",
+      "Read",
+      "Prepare",
+      "Act"
+    ],
+    "lab": [
+      "What did we actually authorize?",
+      "Meridian needs an assistant that reads an approved email queue and prepares summaries. Toggle optional permissions to see how its reachable actions expand."
+    ],
+    "steps": [],
+    "questions": [
+      "Which individual actions does the task require?",
+      "Are resource permissions enforced by the receiving service?",
+      "What exactly does a human see before approving an action?",
+      "Can we pause the workflow and identify what changed?"
+    ],
+    "sources": [
+      {
+        "title": "OWASP: excessive agency",
+        "url": "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/"
+      }
+    ],
+    "kind": "permissions"
+  },
+  "ai-supply-chain-attack-surface": {
+    "quote": "Trust the reviewed component and configuration—not the label on the ecosystem.",
+    "art": [
+      "THE COMPONENT CHAIN",
+      "Artifact",
+      "Runtime",
+      "Tool connection"
+    ],
+    "lab": [
+      "Follow the trust boundary",
+      "Explore a fictional Meridian supplier-analysis workflow. Each layer asks a different question of the owner approving it."
+    ],
+    "steps": [
+      {
+        "label": "Artifact",
+        "title": "What is being loaded?",
+        "text": "Verify origin, version, digest, serialization format, and whether loading invokes custom code.",
+        "owner": "ML or application owner",
+        "evidence": "Artifact record and approved loading procedure"
+      },
+      {
+        "label": "Runtime",
+        "title": "Where does the code execute?",
+        "text": "Constrain credentials, filesystem access, network reach, and dependencies to the task.",
+        "owner": "Platform engineering + security",
+        "evidence": "Runtime configuration and dependency inventory"
+      },
+      {
+        "label": "Tool connection",
+        "title": "What authority crosses the interface?",
+        "text": "Review the server implementation, identity, allowed resources, and tool operations.",
+        "owner": "Integration owner",
+        "evidence": "Scoped authorization and reviewed server version"
+      },
+      {
+        "label": "Update",
+        "title": "What changes after approval?",
+        "text": "Track notices and revisions. Re-evaluate changes that alter execution or authority, and keep a revocation path.",
+        "owner": "Service owner",
+        "evidence": "Change record and recovery rehearsal"
+      }
+    ],
+    "questions": [
+      "Can we identify the exact artifacts and versions in production?",
+      "Does loading or connecting execute code we have reviewed?",
+      "What credentials and resources can each component reach?",
+      "Can we revoke or replace a component without losing the incident trail?"
+    ],
+    "sources": [
+      {
+        "title": "Hugging Face: pickle scanning",
+        "url": "https://huggingface.co/docs/hub/security-pickle"
+      },
+      {
+        "title": "MCP security best practices",
+        "url": "https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices"
+      }
+    ],
+    "kind": "explorer"
+  },
+  "model-deprecation-reliability-risk": {
+    "quote": "A successful API call is not a successful migration.",
+    "art": [
+      "THE RELEASE PATH",
+      "Discover",
+      "Evaluate",
+      "Cut over"
+    ],
+    "lab": [
+      "Rehearse the migration before the deadline",
+      "Meridian has received a retirement notice for a model used in customer service. Walk through the decisions that connect the notice to a safe operating change."
+    ],
+    "steps": [
+      {
+        "label": "Discover",
+        "title": "Which workflows depend on this version?",
+        "text": "Confirm the precise deployment and date, including update behavior. Identify every affected business owner.",
+        "owner": "Service owner",
+        "evidence": "Verified dependency list and current provider notice"
+      },
+      {
+        "label": "Evaluate",
+        "title": "Does the replacement satisfy the task?",
+        "text": "Compare representative cases, critical failures, cost, latency, and reviewer effort. Review differences with the accountable business owner.",
+        "owner": "Evaluation lead + business owner",
+        "evidence": "Accepted evaluation and explicit tradeoffs"
+      },
+      {
+        "label": "Release",
+        "title": "What evidence would stop the cutover?",
+        "text": "Choose a bounded release, monitoring, escalation, and a person authorized to pause it.",
+        "owner": "Engineering + operations",
+        "evidence": "Release plan and stop conditions"
+      },
+      {
+        "label": "Fallback",
+        "title": "What remains available after retirement?",
+        "text": "Rehearse a route that does not depend on the retired version. State its capacity and limitations.",
+        "owner": "Operations owner",
+        "evidence": "Usable fallback and recovery record"
+      }
+    ],
+    "questions": [
+      "Which deployed versions and update policies do we depend on?",
+      "Who accepts behavioral changes after evaluation?",
+      "What live signal pauses the release?",
+      "Does the fallback still exist after the retirement date?"
+    ],
+    "sources": [
+      {
+        "title": "Microsoft Foundry lifecycle policy",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-retirements"
+      },
+      {
+        "title": "Microsoft model retirement schedule",
+        "url": "https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/model-retirement-schedule"
+      }
+    ],
+    "kind": "explorer"
+  },
+  "five-things-vendor-pitch-leaves-out": {
+    "quote": "Buy the operating conditions, not just the demonstration.",
+    "art": [
+      "THE BUYER’S VIEW",
+      "The claim",
+      "The condition",
+      "The evidence"
+    ],
+    "lab": [
+      "Bring a better question to procurement",
+      "Explore the evidence Meridian should request before approving a new enterprise AI agreement. These are diligence prompts, not claims about every vendor."
+    ],
+    "steps": [
+      {
+        "label": "Unit economics",
+        "title": "Show the cost of an accepted result",
+        "text": "Use a representative workload and include corrections, review, and supporting services.",
+        "owner": "Finance + business owner",
+        "evidence": "Task-level cost and quality comparison"
+      },
+      {
+        "label": "Capacity",
+        "title": "Show the actual service commitment",
+        "text": "Separate price arrangements from quota, availability, and recovery behavior.",
+        "owner": "Procurement + operations",
+        "evidence": "Applicable terms and a peak-demand plan"
+      },
+      {
+        "label": "Data",
+        "title": "Show the feature-level data path",
+        "text": "Trace retention, application state, access, deletion, and downstream integrations.",
+        "owner": "Privacy + application owner",
+        "evidence": "Configured data-flow record"
+      },
+      {
+        "label": "Controls",
+        "title": "Show the governed configuration working",
+        "text": "Test useful task completion and misuse handling with the intended controls enabled.",
+        "owner": "Security + evaluation lead",
+        "evidence": "Representative governed evaluation"
+      },
+      {
+        "label": "Readiness",
+        "title": "Show what must change inside our organization",
+        "text": "Identify access and content issues that could affect deployment, with an owner for each.",
+        "owner": "Information owners",
+        "evidence": "Prioritized remediation and ownership"
+      }
+    ],
+    "questions": [
+      "Can we compare cost per accepted task using our workload?",
+      "Which contractual terms govern demand and interruption?",
+      "Have we checked the data behavior of every required feature?",
+      "Have we evaluated the intended controls and permissions?",
+      "Who owns the information cleanup and ongoing access review?"
+    ],
+    "sources": [
+      {
+        "title": "OpenAI API data controls",
+        "url": "https://developers.openai.com/api/docs/guides/your-data"
+      },
+      {
+        "title": "Microsoft Copilot security",
+        "url": "https://learn.microsoft.com/en-us/microsoft-365/copilot/security-microsoft-365-copilot"
+      }
+    ],
+    "kind": "explorer"
+  },
+  "ai-act-obligations-already-binding-you": {
+    "quote": "One AI program can contain several legal roles and several deadlines.",
+    "art": [
+      "THE OBLIGATION CLOCKS",
+      "2025 / Early duties",
+      "2026 / Transparency",
+      "2027–28 / High risk"
+    ],
+    "lab": [
+      "Which clock are you looking at?",
+      "Select an obligation track. This is a dated overview, not an applicability test; scope, exceptions, and transitional conditions require a system-specific review."
+    ],
+    "steps": [
+      {
+        "label": "Early duties",
+        "title": "Start with literacy and prohibited practices",
+        "text": "The Commission dates these provisions to February 2, 2025. Check which activities and personnel are in scope for your systems.",
+        "owner": "Legal + workforce and system owners",
+        "evidence": "Role-specific review and documented operating measures"
+      },
+      {
+        "label": "Transparency",
+        "title": "Review the Article 50 track",
+        "text": "The main application date is August 2, 2026. Distinguish provider marking, interaction notices, and applicable deployer disclosure duties. See the linked FAQ for the narrow legacy-system marking transition.",
+        "owner": "Legal + product or content owner",
+        "evidence": "Applicable duty mapped to the released experience"
+      },
+      {
+        "label": "High risk",
+        "title": "Classify before planning conformity work",
+        "text": "Commission guidance gives December 2, 2027 for Annex III uses and August 2, 2028 for relevant product-embedded systems. Review the exact system and transition conditions.",
+        "owner": "Legal + accountable system owner",
+        "evidence": "Classification rationale and implementation plan"
+      },
+      {
+        "label": "Change review",
+        "title": "Keep the determination current",
+        "text": "A new purpose, user population, feature, or deployment arrangement can require another review. Assign a trigger and a named decision owner.",
+        "owner": "Governance lead",
+        "evidence": "Dated review record and unresolved questions"
+      }
+    ],
+    "questions": [
+      "Have we recorded purpose, geography, and legal role for each system?",
+      "Which duties and transitions actually apply to that use?",
+      "Where are relevant notices and controls visible in the workflow?",
+      "Who reviews a change in purpose, feature, or applicable law?"
+    ],
+    "sources": [
+      {
+        "title": "European Commission: AI Act overview",
+        "url": "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai"
+      },
+      {
+        "title": "European Commission: Article 50 questions",
+        "url": "https://digital-strategy.ec.europa.eu/en/faqs/transparency-obligations-under-article-50-ai-act"
+      },
+      {
+        "title": "European Commission: navigating the AI Act",
+        "url": "https://digital-strategy.ec.europa.eu/en/faqs/navigating-ai-act"
+      }
+    ],
+    "kind": "explorer"
+  }
+}
