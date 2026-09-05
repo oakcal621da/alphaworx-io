@@ -1,0 +1,23 @@
+.post-body h3 { font-size:20px; font-weight:600; letter-spacing:-0.01em; margin:44px 0 14px; color:var(--ink); scroll-margin-top:90px; }
+.post-body h3 .pnum { color:var(--ink3); font-weight:400; margin-right:10px; }
+.post-body h4 { font-size:15px; font-weight:600; margin:32px 0 10px; color:var(--ink); }
+.post-body .diag { font-size:14px; color:var(--ink); background:var(--paper); border-radius:8px; padding:14px 18px; margin:0 0 18px; }
+.post-body .diag b { letter-spacing:0.06em; font-size:11px; text-transform:uppercase; color:var(--ink3); display:block; margin-bottom:4px; font-weight:600; }
+.fp-index { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:26px 0 34px; }
+.fp-index a { display:flex; align-items:baseline; gap:10px; border:1px solid var(--rule); border-radius:10px; padding:12px 14px; text-decoration:none; color:var(--ink); font-size:13px; font-weight:600; line-height:1.35; }
+.fp-index a:hover { border-color:var(--ink); }
+.fp-index a span { color:var(--ink3); font-weight:400; font-size:12px; }
+@media (max-width:560px){ .fp-index{grid-template-columns:1fr;} }
+.hier { border:1px solid var(--rule); border-radius:12px; margin:26px 0 30px; overflow:hidden; }
+.hier .lvl { display:flex; align-items:baseline; gap:14px; padding:14px 18px; border-bottom:1px solid var(--rule); }
+.hier .lvl:last-child { border-bottom:none; }
+.hier .lvl .n { font-size:11px; color:var(--ink3); width:20px; flex:none; }
+.hier .lvl b { font-size:13.5px; width:130px; flex:none; }
+.hier .lvl small { font-size:12.5px; color:var(--ink2); line-height:1.5; }
+.flow { display:flex; gap:8px; margin:26px 0 30px; flex-wrap:wrap; }
+.flow .step { flex:1 1 130px; border:1px solid var(--rule); border-radius:10px; padding:13px 14px; }
+.flow .step .n { font-size:10.5px; letter-spacing:0.08em; color:var(--ink3); text-transform:uppercase; margin-bottom:6px; }
+.flow .step b { font-size:13px; display:block; margin-bottom:4px; }
+.flow .step small { font-size:12px; color:var(--ink2); line-height:1.5; }
+
+@media(max-width:560px){.hier .lvl{flex-wrap:wrap;gap:8px;}.hier .lvl small{flex-basis:100%;}}

@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The AI Strategy Gap — Alphaworx</title>
+<link rel="canonical" href="https://alphaworx.io/deck.html"><meta property="og:image" content="https://alphaworx.io/assets/share-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Alphaworx — From strategy to execution."><meta name="twitter:card" content="summary_large_image">
 <style>
   * { box-sizing:border-box; margin:0; padding:0; }
   html, body { height:100%; overflow:hidden; background:#e5e5e5; }
@@ -118,9 +119,11 @@
     .chip { padding-top:0.4vw; padding-bottom:0.4vw; }
     .two-col .col h4 { margin-bottom:0.5vw; }
   }
+.deck-home{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;gap:22px;padding:12px 24px;background:#f5f3ee;border-bottom:1px solid #ddddd6;font:13px Arial,sans-serif}.deck-home a{color:#25465b;text-decoration:none}.deck-home a:first-child{margin-right:auto}@media print{.deck-home{display:none}}
 </style>
 </head>
 <body>
+<nav class="deck-home" aria-label="Site navigation"><a href="/">← Alphaworx</a><a href="/blog/">Insights</a><a href="/#contact">Let’s talk ↗</a></nav>
   <div class="deck">
 
     <div class="slide active" data-slide="1">
@@ -867,24 +870,6 @@
   <div class="progress" id="progress" style="width:2.4%"></div>
   <div class="hint">Use ← → arrow keys, or click, to navigate</div>
 
-<script>
-  const slides = Array.from(document.querySelectorAll('.slide'));
-  let current = 0;
-
-  function show(index) {
-    if (index < 0 || index >= slides.length) return;
-    slides[current].classList.remove('active');
-    current = index;
-    slides[current].classList.add('active');
-    document.getElementById('progress').style.width = ((current + 1) / slides.length * 100) + '%';
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === ' ') show(current + 1);
-    if (e.key === 'ArrowLeft') show(current - 1);
-  });
-
-  document.querySelector('.deck').addEventListener('click', () => show(current + 1));
-</script>
+<script src="/assets/deck.js" defer></script>
 </body>
 </html>

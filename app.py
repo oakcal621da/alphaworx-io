@@ -14,11 +14,12 @@ from email.message import EmailMessage
 from email.utils import formatdate, make_msgid
 from uuid import uuid4
 
-from flask import Flask, abort, jsonify, request, send_from_directory
+from flask import Flask, abort, jsonify, request, send_from_directory, redirect
 from itsdangerous import BadSignature, SignatureExpired, URLSafeTimedSerializer
 from werkzeug.exceptions import BadRequest, RequestEntityTooLarge
 
 ROOT = Path(__file__).resolve().parent
+SECURITY_HEADERS = json.loads((ROOT / "security-headers.json").read_text())
 TOPICS = {
     'General conversation', 'AI strategy assessment', 'Executive AI advisory',
     'AI for growth', 'AI for efficiency', 'Customer experience',
@@ -81,8 +82,10 @@ def create_app(overrides=None):
 
     @app.after_request
     def headers(response):
-        response.headers['X-Content-Type-Options'] = 'nosniff'
-        response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+        response.headers.update(SECURITY_HEADERS)
+        if request.host.startswith(('127.0.0.1', 'localhost')):
+            response.headers.pop('Strict-Transport-Security', None)
+            response.headers['Content-Security-Policy'] = SECURITY_HEADERS['Content-Security-Policy'].replace('; upgrade-insecure-requests', '')
         if request.path.startswith('/api/'):
             response.headers['Cache-Control'] = 'no-store'
             if allowed_origin():
@@ -199,11 +202,33 @@ def create_app(overrides=None):
     def homepage():
         return send_from_directory(ROOT, 'index.html')
 
+    @app.get('/blog')
+    def blog_redirect():
+        return redirect('/blog/', code=301)
+
+    @app.get('/blog/')
+    def blog_index():
+        return send_from_directory(ROOT / 'blog', 'index.html')
+
+    @app.get('/privacy')
+    def privacy_redirect():
+        return redirect('/privacy/', code=301)
+
+    @app.get('/privacy/')
+    def privacy():
+        return send_from_directory(ROOT / 'privacy', 'index.html')
+
+    @app.errorhandler(404)
+    def missing_page(_error):
+        if request.path.startswith('/api/'):
+            return fail('Not found.', 404)
+        return send_from_directory(ROOT, '404.html'), 404
+
     @app.get('/<path:filename>')
     def public_file(filename):
         # Serve published content only, never the repository, backend or env files.
         path = Path(filename)
-        if filename not in {'index.html', 'deck.html', 'robots.txt', 'sitemap.xml'}:
+        if filename not in {'index.html', 'deck.html', '404.html', 'robots.txt', 'sitemap.xml'}:
             if not path.parts or path.parts[0] not in {'assets', 'blog'}:
                 abort(404)
             if any(part.startswith('.') or part == '..' for part in path.parts):

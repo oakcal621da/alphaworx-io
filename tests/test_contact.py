@@ -94,12 +94,26 @@ class ContactTests(unittest.TestCase):
 
     def test_static_allowlist_and_size_limit(self):
         for path in ['/.env', '/.git/config', '/app.py', '/requirements.txt', '/docs/contact-form-setup.md', '/assets/../app.py']:
-            self.assertEqual(self.client.get(path).status_code, 404, path)
-        for path in ['/', '/assets/contact.js', '/blog/index.html', '/robots.txt']:
+            with self.client.get(path) as response:
+                self.assertEqual(response.status_code, 404, path)
+        for path in ['/', '/assets/contact.js', '/blog/index.html', '/blog/', '/robots.txt']:
             with self.client.get(path) as response:
                 self.assertEqual(response.status_code, 200, path)
         result = self.client.post('/api/contact', data='x'*17000, content_type='application/json', headers={'Origin': 'https://alphaworx.io'})
         self.assertEqual(result.status_code, 413)
+
+    def test_privacy_missing_pages_and_security_headers(self):
+        self.assertEqual(self.client.get('/privacy').status_code, 301)
+        with self.client.get('/privacy/') as response:
+            self.assertEqual(response.status_code, 200)
+            self.assertIn('within 12 months after the last contact', response.text)
+        with self.client.get('/missing-page', base_url='https://alphaworx.io') as response:
+            self.assertEqual(response.status_code, 404)
+            self.assertIn('Back to Alphaworx', response.text)
+            self.assertEqual(response.headers['X-Frame-Options'], 'DENY')
+            self.assertIn("frame-ancestors 'none'", response.headers['Content-Security-Policy'])
+            self.assertIn('max-age=', response.headers['Strict-Transport-Security'])
+        self.assertEqual(self.client.get('/api/missing').json['error'], 'Not found.')
 
     def test_cors_only_for_expected_site(self):
         response = self.client.options('/api/contact', headers={'Origin': 'https://alphaworx.io'})

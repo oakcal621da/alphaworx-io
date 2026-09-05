@@ -27,6 +27,9 @@ async function loadDelivery(){
 }
 loadDelivery();
 topic.addEventListener('change',()=>{topicChosen=true;});
+// A contact link from an article or the deck opens the same form on arrival.
+if(location.hash==='#contact'){document.body.classList.add('contact-open');dialog.showModal();}
+
 function setStatus(message,state='info'){status.textContent=message;status.dataset.state=state;}
 function close(){dialog.close();}
 dialog.querySelectorAll('[data-close-contact]').forEach(b=>b.addEventListener('click',close));

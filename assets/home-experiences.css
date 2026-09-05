@@ -10,7 +10,7 @@ button,a,summary { -webkit-tap-highlight-color:transparent; }
 .skip-link { position:fixed; top:8px; left:12px; padding:12px 18px; background:white; color:#1e242b; z-index:100; transform:translateY(-160%); }
 .skip-link:focus { transform:none; }
 header .row { height:auto; min-height:76px; gap:24px; }
-nav { gap:20px; }
+nav { gap:20px; align-items:center; }
 nav a { font-size:14px; }
 .motion-toggle,.menu-toggle { flex-shrink:0; border:1px solid #d7dde4; border-radius:7px; padding:9px 12px; font-size:12px; color:#495868; background:#fff; cursor:pointer; }
 .motion-toggle:hover,.experience-button:hover { border-color:#97a6b7; background:#f9fafb; }

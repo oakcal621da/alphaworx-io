@@ -72,10 +72,10 @@ def test_render_post_includes_title_category_and_body():
 
     assert "<title>Example Post — Alphaworx Insights</title>" in html
     assert "<div class=\"cat\">Economics</div>" in html
-    assert "<h2>Example Post</h2>" in html
+    assert "<h1>Example Post</h1>" in html
     assert "Alphaworx Insights · August 2026" in html
     assert "<p>Body text.</p>" in html
-    assert 'href="../index.html"' in html
+    assert 'href="/"' in html
 
 
 def test_render_index_lists_every_post_with_link():
@@ -120,3 +120,18 @@ def test_render_sitemap_lists_static_pages_and_every_post():
     assert "<loc>https://alphaworx.io/blog/example-post.html</loc>" in xml
     assert "<loc>https://alphaworx.io/blog/second-post.html</loc>" in xml
     assert "<lastmod>2026-08-17</lastmod>" in xml
+
+
+def test_every_published_article_is_in_index_and_sitemap():
+    from build_blog import load_posts, OUTPUT_DIR
+    posts=load_posts()
+    slugs={p['slug'] for p in posts}
+    assert {p.stem for p in OUTPUT_DIR.glob('*.html')} - {'index'} == slugs
+    index=render_index(posts)
+    sitemap=render_sitemap(posts)
+    for slug in slugs:
+        assert f'href="{slug}.html"' in index
+        assert f'/blog/{slug}.html</loc>' in sitemap
+    essay=next(p for p in posts if p['slug']=='twelve-first-principles-enterprise-ai')
+    for i in range(1,13):
+        assert f'id="p{i}"' in essay['body_html']
