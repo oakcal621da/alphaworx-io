@@ -1,0 +1,837 @@
+<meta charset="utf-8">
+<title>Alphaworx</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:#F7F8FA; --surface:#FFFFFF; --ink:#0B0C0E; --ink2:#454952; --ink3:#8A8F99; --rule:#E1E4E9; --rule2:#EEF0F3;
+    --cyan:#06B6D4; --cobalt:#2563EB; --amber:#F59E0B; --coral:#F43F5E; --violet:#7C3AED; --teal:#0D9488;
+    --display:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif; --body:'Instrument Sans',-apple-system,'Helvetica Neue',Arial,sans-serif; --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+    --wrap:1200px; --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body { font-family:var(--body); background:var(--paper); color:var(--ink); -webkit-font-smoothing:antialiased; line-height:1.5; overflow-x:hidden; }
+  body::after { content:""; position:fixed; inset:0; pointer-events:none; z-index:60; opacity:.05; mix-blend-mode:multiply; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  a { color:inherit; }
+  .wrap { max-width:var(--wrap); margin:0 auto; padding:0 36px; }
+  .mono { font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink3); }
+  .eyebrow { font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); display:flex; align-items:center; gap:10px; }
+  .eyebrow::before { content:""; width:18px; height:2px; border-radius:0; background:linear-gradient(90deg,var(--cyan),var(--cobalt)); }
+  .grad { background:linear-gradient(90deg,var(--cyan),var(--cobalt) 60%,#1E40AF); background-size:200% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:sheen 6s linear infinite; }
+  @keyframes sheen { to { background-position:200% 0; } }
+  .btn { position:relative; display:inline-flex; align-items:center; gap:10px; background:var(--ink); color:#fff; text-decoration:none; font-weight:600; font-size:14px; padding:14px 22px; border-radius:0; overflow:hidden; transition:box-shadow .25s var(--ease), transform .25s var(--ease); cursor:pointer; border:0; font-family:var(--body); }
+  .btn::before { content:""; position:absolute; inset:0; background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%); transform:translateX(-120%); transition:transform .8s var(--ease); }
+  .btn:hover::before { transform:translateX(120%); } .btn:hover { box-shadow:0 14px 34px -10px rgba(37,99,235,.45); transform:translateY(-1px); }
+  .link { font-size:14px; font-weight:500; text-decoration:none; color:var(--ink); background:linear-gradient(90deg,var(--cyan),var(--cobalt)) no-repeat 0 100%/100% 2px; padding-bottom:3px; transition:background-size .3s var(--ease); }
+  .link:hover { background-size:0 2px; }
+  .reveal { opacity:0; transform:translateY(24px); transition:opacity .9s var(--ease), transform .9s var(--ease); }
+  .reveal.in { opacity:1; transform:none; }
+  .reveal.d1{transition-delay:.1s} .reveal.d2{transition-delay:.2s} .reveal.d3{transition-delay:.3s}
+
+  /* header */
+  .progress { position:fixed; top:0; left:0; height:2px; width:0; background:linear-gradient(90deg,var(--cyan),var(--cobalt)); z-index:70; }
+  header { position:sticky; top:0; z-index:40; background:rgba(247,248,250,.72); backdrop-filter:blur(14px) saturate(1.4); border-bottom:1px solid rgba(11,12,14,.08); }
+  header .row { display:flex; align-items:center; justify-content:space-between; height:64px; gap:24px; }
+  .brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
+  .brand img { width:28px; height:28px; border-radius:0; }
+  .brand .word { font-family:var(--display); font-weight:600; font-size:14px; letter-spacing:.12em; }
+  .brand .word span { color:var(--ink3); font-weight:400; }
+  nav { display:flex; gap:22px; }
+  nav a { font-size:13.5px; white-space:nowrap; color:var(--ink2); text-decoration:none; background:linear-gradient(90deg,var(--cyan),var(--cobalt)) no-repeat 0 100%/0 2px; transition:background-size .3s var(--ease), color .2s; padding-bottom:2px; }
+  nav a:hover { color:var(--ink); background-size:100% 2px; }
+  .status { display:flex; align-items:center; gap:12px; font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; color:var(--ink2); white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .status .dot { width:8px; height:8px; border-radius:50%; background:var(--cobalt); animation:pulse 2s infinite; }
+  @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(37,99,235,.5)} 70%{box-shadow:0 0 0 9px rgba(37,99,235,0)} 100%{box-shadow:0 0 0 0 rgba(37,99,235,0)} }
+  @media (max-width:1100px){ .status .lbl{display:none;} } @media (max-width:900px){ nav{display:none;} } @media (max-width:560px){ .status{display:none;} }
+
+  /* ============ HERO: THE FLOW ============ */
+  .hero { position:relative; min-height:calc(100vh - 64px); display:flex; align-items:center; padding:64px 0 72px; overflow:hidden; isolation:isolate; }
+  .hero .veil { background:radial-gradient(70% 80% at 30% 45%, rgba(247,248,250,.97) 0%, rgba(247,248,250,.85) 45%, rgba(247,248,250,.3) 85%); }
+  .hero-in { position:relative; width:100%; display:grid; grid-template-columns:minmax(0,520px) 1fr; align-items:center; gap:48px; }
+  .hcopy .sub { margin-top:0; }
+  .schem { border:1px solid rgba(11,12,14,.12); background:rgba(255,255,255,.72); backdrop-filter:blur(12px); padding:18px 22px 16px; box-shadow:0 40px 90px -50px rgba(11,12,14,.35); }
+  .schem .sh { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink2); margin-bottom:10px; }
+  .schem .sh i { display:inline-block; width:6px; height:6px; background:var(--cobalt); margin-right:8px; vertical-align:middle; }
+  .schem .sh span:last-child { color:var(--ink3); }
+  .schem svg { width:100%; height:auto; display:block; }
+  .schem text { font-family:var(--mono); font-size:10.5px; fill:var(--ink3); letter-spacing:.05em; }
+  .schem text.v { font-family:var(--display); font-weight:600; font-size:15px; letter-spacing:-.01em; fill:var(--ink); }
+  .schem text.v.c { fill:var(--coral); } .schem text.v.b { fill:var(--cobalt); }
+  .schem text.g { font-size:9.5px; }
+  .schem .bar { transition:height 1s var(--ease), y 1s var(--ease); }
+  .schem .stream { opacity:0; transition:opacity 1.2s var(--ease) .6s; }
+  .schem.in .stream { opacity:1; }
+  .schem .sf { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-top:10px; font-family:var(--mono); font-size:10px; letter-spacing:.04em; color:var(--ink3); }
+  @media (max-width:900px){ .hero{min-height:0; padding:64px 0 64px;} .hero-in{grid-template-columns:1fr;} .hero .veil{background:linear-gradient(180deg, rgba(247,248,250,.95), rgba(247,248,250,.7));} }
+
+  /* ============ DIAGNOSTIC SECTION ============ */
+  .diagsec { position:relative; padding:96px 0 88px; border-top:1px solid var(--rule); background:var(--surface); }
+  .dh { font-family:var(--display); font-weight:500; font-size:clamp(30px,3.6vw,46px); letter-spacing:-.028em; line-height:1.04; margin:18px 0 16px; text-wrap:balance; max-width:680px; }
+  .hero .mesh { position:absolute; inset:-12%; z-index:-2; width:124%; height:124%; filter:blur(70px) saturate(1.25); opacity:.9; }
+  .hero .veil { position:absolute; inset:0; z-index:-1; background:radial-gradient(70% 80% at 28% 40%, rgba(247,248,250,.95) 0%, rgba(247,248,250,.75) 45%, rgba(247,248,250,.1) 85%); pointer-events:none; }
+  .top { display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:end; margin-bottom:34px; }
+  .hero h1 { font-family:var(--display); font-weight:500; font-size:clamp(44px,6vw,86px); line-height:.94; letter-spacing:-.035em; margin:20px 0 18px; text-wrap:balance; }
+  .hero h1 .w { display:inline-block; opacity:0; transform:translateY(22px); } .hero h1 .w.in { animation:wordIn .75s var(--ease) forwards; }
+  @keyframes wordIn { to { opacity:1; transform:none; } }
+  .hero p.sub, .diagsec p.sub { font-size:18px; line-height:1.6; color:var(--ink2); max-width:560px; }
+  .side { font-size:14px; color:var(--ink2); line-height:1.65; max-width:420px; justify-self:end; border-left:2px solid var(--cobalt); padding-left:18px; }
+  .hero .side b { color:var(--ink); }
+
+  .diag { display:grid; grid-template-columns:.9fr 1.1fr; gap:22px; align-items:stretch; }
+  .glass { position:relative; border-radius:0; border:1px solid rgba(255,255,255,.75); background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.55)); backdrop-filter:blur(18px) saturate(1.3); box-shadow:0 40px 90px -40px rgba(11,12,14,.35), inset 0 1px 0 rgba(255,255,255,.9); }
+  .qpanel { padding:22px 24px 20px; display:flex; flex-direction:column; gap:14px; }
+  .qhead { display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink2); }
+  .qhead i { display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--cobalt); margin-right:8px; animation:pulse 2s infinite; }
+  .q { display:flex; flex-direction:column; gap:8px; }
+  .q .ql { font-size:13.5px; font-weight:500; color:var(--ink); display:flex; gap:10px; align-items:baseline; }
+  .q .ql .qn { font-family:var(--mono); font-size:10.5px; color:var(--ink3); letter-spacing:.06em; }
+  .seg { display:flex; gap:6px; flex-wrap:wrap; }
+  .seg button { font-family:var(--body); font-size:12.5px; padding:8px 11px; border-radius:0; border:1px solid rgba(11,12,14,.12); background:rgba(255,255,255,.7); color:var(--ink2); cursor:pointer; transition:all .25s var(--ease); }
+  .seg button:hover { border-color:var(--ink3); color:var(--ink); }
+  .seg button.on { background:var(--ink); color:#fff; border-color:var(--ink); }
+  .qfoot { margin-top:6px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+  .qfoot .hint { font-size:12px; color:var(--ink3); }
+  .ghost { font-family:var(--body); font-size:12.5px; color:var(--ink2); background:transparent; border:1px solid rgba(11,12,14,.15); padding:8px 12px; border-radius:0; cursor:pointer; }
+  .ghost:hover { border-color:var(--ink); color:var(--ink); }
+
+  .out { padding:22px 24px 18px; display:grid; grid-template-columns:1fr 1.35fr; gap:18px; }
+  .out .score { display:flex; flex-direction:column; justify-content:space-between; }
+  .gauge { position:relative; width:100%; max-width:220px; aspect-ratio:1; }
+  .gauge svg { width:100%; height:100%; }
+  .gauge .track { fill:none; stroke:rgba(11,12,14,.08); stroke-width:12; }
+  .gauge .arc { fill:none; stroke:url(#gg); stroke-width:12; stroke-linecap:round; stroke-dasharray:502; stroke-dashoffset:502; transition:stroke-dashoffset 1.2s var(--ease); transform:rotate(-90deg); transform-origin:center; }
+  .gauge .num { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .gauge .num b { font-family:var(--display); font-weight:500; font-size:56px; letter-spacing:-.04em; line-height:1; font-variant-numeric:tabular-nums; }
+  .gauge .num span { font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); margin-top:4px; }
+  .verdict { margin-top:14px; font-size:14px; line-height:1.55; color:var(--ink2); }
+  .verdict b { color:var(--ink); }
+  .band { display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; padding:6px 10px; border-radius:0; border:1px solid; margin-bottom:10px; }
+  .wf { display:flex; flex-direction:column; }
+  .wf .wh { font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink2); margin-bottom:6px; display:flex; justify-content:space-between; }
+  .wf svg { width:100%; height:auto; }
+  .wf text { font-family:var(--mono); font-size:10px; fill:var(--ink3); letter-spacing:.04em; }
+  .wf text.v { fill:var(--ink); font-size:12px; font-family:var(--display); font-weight:600; }
+  .wf rect { transition:y .9s var(--ease), height .9s var(--ease), fill .5s; }
+  .wf .drop { transition:y .9s var(--ease), height .9s var(--ease); }
+  .wf .gl { transition:y .9s var(--ease), y1 .9s var(--ease), y2 .9s var(--ease); }
+  .wf .lg { font-size:9.5px; }
+  @media (max-width:1000px){ .top{grid-template-columns:1fr;} .side{justify-self:start;} .diag{grid-template-columns:1fr;} .out{grid-template-columns:1fr;} .gauge{max-width:180px;} }
+
+  /* nexus */
+  .nexus { border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); background:var(--surface); padding:22px 0 18px; }
+  .nx-head { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:14px; }
+  .nx-strip { overflow:hidden; -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent); mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent); }
+  .nx-track { display:flex; gap:56px; width:max-content; align-items:center; animation:marquee 60s linear infinite; padding:4px 0; }
+  .nx-strip:hover .nx-track { animation-play-state:paused; }
+  .nx-track span { font-family:var(--display); font-weight:600; font-size:21px; letter-spacing:-.01em; color:var(--ink3); white-space:nowrap; position:relative; padding-left:22px; transition:color .3s; }
+  .nx-track span::before { content:""; position:absolute; left:0; top:50%; width:8px; height:8px; margin-top:-4px; border-radius:50%; background:var(--rule); }
+  .nx-track span:nth-child(3n)::before{background:color-mix(in srgb,var(--cobalt) 45%,#fff)} .nx-track span:nth-child(3n+1)::before{background:color-mix(in srgb,var(--cyan) 50%,#fff)} .nx-track span:nth-child(3n+2)::before{background:var(--rule)}
+  .nx-track span:hover { color:var(--ink); }
+  @keyframes marquee { to { transform:translateX(-50%); } }
+
+  /* ============ DOCUMENTARY ============ */
+  .doc { position:relative; padding:110px 0 40px; }
+  .doc .intro { max-width:820px; }
+  .doc h2 { font-family:var(--display); font-weight:500; font-size:clamp(36px,4.6vw,64px); letter-spacing:-.03em; line-height:1.0; margin:18px 0 20px; text-wrap:balance; }
+  .doc p.lead { font-size:18px; line-height:1.7; color:var(--ink2); max-width:680px; }
+  .chapters { display:grid; grid-template-columns:200px 1fr; gap:48px; margin-top:64px; align-items:start; }
+  .rail { position:sticky; top:96px; display:flex; flex-direction:column; gap:14px; }
+  .rail .ri { font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink3); display:flex; align-items:center; gap:10px; transition:color .3s; }
+  .rail .ri i { width:22px; height:2px; background:var(--rule); transition:background .3s, width .3s; }
+  .rail .ri.on { color:var(--ink); } .rail .ri.on i { background:var(--c); width:34px; }
+  .chapter { min-height:82vh; display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; padding:40px 0; border-top:1px solid var(--rule); position:relative; }
+  .chapter::before { content:""; position:absolute; inset:0 -36px; background:radial-gradient(700px 400px at 100% 50%, color-mix(in srgb,var(--c) 10%,transparent), transparent 65%); opacity:0; transition:opacity 1s var(--ease); pointer-events:none; }
+  .chapter.in::before { opacity:1; }
+  .chapter .big { font-family:var(--display); font-weight:500; font-size:clamp(72px,10vw,150px); letter-spacing:-.05em; line-height:.9; color:var(--ink); font-variant-numeric:tabular-nums; display:flex; align-items:baseline; gap:6px; opacity:0; transform:translateY(30px); transition:opacity 1s var(--ease), transform 1s var(--ease); }
+  .chapter.in .big { opacity:1; transform:none; }
+  .chapter .big small { font-size:.32em; color:var(--c); font-family:var(--mono); letter-spacing:.02em; }
+  .chapter .bl { font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--c); margin-top:16px; }
+  .chapter .txt { opacity:0; transform:translateY(20px); transition:opacity 1s var(--ease) .15s, transform 1s var(--ease) .15s; }
+  .chapter.in .txt { opacity:1; transform:none; }
+  .chapter .cn { font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); margin-bottom:12px; display:flex; gap:10px; align-items:center; }
+  .chapter .cn i { width:8px; height:8px; border-radius:50%; background:var(--c); }
+  .chapter h3 { font-family:var(--display); font-weight:500; font-size:clamp(26px,2.8vw,38px); letter-spacing:-.025em; line-height:1.1; margin-bottom:14px; text-wrap:balance; }
+  .chapter p { font-size:16px; line-height:1.7; color:var(--ink2); max-width:520px; }
+  .chapter .gate { margin-top:16px; display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--c); padding:6px 10px; border-radius:0; background:color-mix(in srgb,var(--c) 10%,#fff); border:1px solid color-mix(in srgb,var(--c) 30%,#fff); }
+  .chapter .gate::before { content:""; width:6px; height:6px; border-radius:50%; background:var(--c); }
+  .c-coral{--c:var(--coral)} .c-amber{--c:var(--amber)} .c-violet{--c:var(--violet)} .c-cobalt{--c:var(--cobalt)} .c-teal{--c:var(--teal)} .c-cyan{--c:var(--cyan)}
+  @media (max-width:900px){ .chapters{grid-template-columns:1fr;} .rail{position:relative; top:auto; flex-direction:row; flex-wrap:wrap;} .chapter{grid-template-columns:1fr; min-height:0; gap:18px;} }
+
+  /* ============ DELIVERABLE ============ */
+  .deliv { padding:110px 0; background:var(--surface); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); }
+  .deliv h2 { font-family:var(--display); font-weight:500; font-size:clamp(34px,4.2vw,56px); letter-spacing:-.03em; line-height:1.02; margin:18px 0 18px; max-width:760px; text-wrap:balance; }
+  .deliv p.lead { font-size:17px; line-height:1.7; color:var(--ink2); max-width:640px; }
+  .report { margin-top:44px; border:1px solid var(--rule); border-radius:0; background:var(--paper); box-shadow:0 50px 100px -60px rgba(11,12,14,.35); overflow:hidden; }
+  .rtop { display:flex; justify-content:space-between; align-items:center; padding:14px 20px; border-bottom:1px solid var(--rule); background:#fff; flex-wrap:wrap; gap:12px; }
+  .rtop .rt { font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink2); display:flex; align-items:center; gap:10px; }
+  .rtop .rt i { width:8px; height:8px; border-radius:50%; background:var(--cobalt); animation:pulse 2s infinite; }
+  .tabs { display:flex; gap:6px; flex-wrap:wrap; }
+  .tabs button { font-family:var(--body); font-size:12.5px; padding:8px 12px; border-radius:0; border:1px solid transparent; background:transparent; color:var(--ink2); cursor:pointer; transition:all .25s var(--ease); }
+  .tabs button:hover { color:var(--ink); border-color:var(--rule); }
+  .tabs button.on { background:var(--ink); color:#fff; }
+  .pages { position:relative; min-height:560px; }
+  .page { position:absolute; inset:0; padding:28px 28px 30px; opacity:0; transform:translateY(12px); transition:opacity .5s var(--ease), transform .5s var(--ease); pointer-events:none; }
+  .page.on { opacity:1; transform:none; pointer-events:auto; position:relative; }
+  .ph { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:18px; flex-wrap:wrap; }
+  .ph h4 { font-family:var(--display); font-weight:600; font-size:20px; letter-spacing:-.015em; }
+  .ph p { font-size:13.5px; color:var(--ink2); max-width:560px; }
+  .ph .kpi { display:flex; gap:18px; }
+  .kpi div { text-align:right; } .kpi b { display:block; font-family:var(--display); font-size:22px; font-weight:500; letter-spacing:-.02em; } .kpi span { font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink3); }
+  /* heatmap */
+  .hm { display:grid; grid-template-columns:150px repeat(6,1fr); gap:6px; align-items:stretch; }
+  .hm .hh { font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink3); text-align:center; padding-bottom:4px; align-self:end; }
+  .hm .rl { font-size:12.5px; color:var(--ink2); display:flex; align-items:center; padding-right:8px; }
+  .hm .cell { position:relative; height:52px; border-radius:0; background:var(--rule2); overflow:hidden; cursor:default; }
+  .hm .cell i { position:absolute; inset:0; background:var(--cc); opacity:0; transform:scale(.6); transition:opacity .6s var(--ease), transform .6s var(--ease), background .6s; border-radius:0; }
+  .hm.in .cell i { opacity:1; transform:none; }
+  .hm .cell b { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:12px; color:#fff; opacity:0; transition:opacity .3s; text-shadow:0 1px 2px rgba(0,0,0,.25); }
+  .hm .cell:hover b, .hm .cell.hi b { opacity:1; }
+  .hm .cell:hover { outline:2px solid var(--ink); outline-offset:1px; }
+  .legend { margin-top:14px; display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink3); }
+  .legend .lg { width:160px; height:8px; border-radius:0; background:linear-gradient(90deg,#BAE6FD,#2563EB,#64748B,#F43F5E); }
+  /* portfolio map */
+  .pm { display:grid; grid-template-columns:1fr 260px; gap:18px; }
+  .pm svg { width:100%; height:auto; background:#fff; border:1px solid var(--rule); border-radius:0; }
+  .pm text { font-family:var(--mono); font-size:10px; fill:var(--ink3); letter-spacing:.04em; }
+  .pm text.q { font-size:11px; fill:var(--ink2); font-family:var(--display); font-weight:600; letter-spacing:0; }
+  .pm circle.b { transition:r .3s var(--ease), opacity .3s; cursor:pointer; }
+  .pm circle.b:hover { opacity:1; stroke:var(--ink); stroke-width:2; }
+  .pm .list { display:flex; flex-direction:column; gap:8px; }
+  .pm .li { display:flex; justify-content:space-between; align-items:center; font-size:12.5px; padding:9px 12px; border:1px solid var(--rule); border-radius:0; background:#fff; transition:border-color .2s; }
+  .pm .li.hi { border-color:var(--ink); }
+  .pm .li span { font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink3); }
+  .pm .li i { width:8px; height:8px; border-radius:50%; margin-right:8px; display:inline-block; }
+  /* vendor ring + control plane */
+  .vr { display:grid; grid-template-columns:300px 1fr; gap:24px; align-items:center; }
+  .vr svg { width:100%; height:auto; }
+  .vr .ring path { fill:none; stroke-width:22; stroke-linecap:butt; opacity:0; transition:opacity .4s; }
+  .vr.in .ring path { opacity:1; }
+  .vr .ring .lab { position:absolute; }
+  .vr .center { font-family:var(--display); font-weight:500; font-size:34px; letter-spacing:-.03em; }
+  .cp { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .cp .col { border:1px solid var(--rule); border-radius:0; background:#fff; padding:16px; }
+  .cp .col h5 { font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); margin-bottom:10px; }
+  .cp .row { display:flex; justify-content:space-between; align-items:center; font-size:13px; padding:8px 0; border-top:1px solid var(--rule2); }
+  .cp .row i { width:34px; height:18px; border-radius:0; background:var(--rule); position:relative; flex:none; transition:background .5s var(--ease); }
+  .cp .row i::after { content:""; position:absolute; top:2px; left:2px; width:14px; height:14px; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.2); transition:left .5s var(--ease); }
+  .cp.in .row.v i { background:var(--coral); } .cp.in .row.v i::after { left:18px; }
+  .cp.in .row.y i { background:var(--cobalt); } .cp.in .row.y i::after { left:18px; }
+  .vl { display:flex; flex-direction:column; gap:8px; margin-top:14px; }
+  .vl div { display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--ink2); } .vl i { width:10px; height:10px; border-radius:0; } .vl b { margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--ink); }
+  /* gantt */
+  .gantt { display:flex; flex-direction:column; gap:10px; }
+  .gr { display:grid; grid-template-columns:200px 1fr; gap:14px; align-items:center; }
+  .gr .gl { font-size:13px; color:var(--ink2); }
+  .gr .gt { position:relative; height:26px; background:var(--rule2); border-radius:0; }
+  .gr .gb { position:absolute; top:0; bottom:0; left:var(--l); width:0; border-radius:0; background:var(--gc); transition:width 1.2s var(--ease); display:flex; align-items:center; padding-left:10px; font-family:var(--mono); font-size:10px; color:#fff; letter-spacing:.04em; white-space:nowrap; overflow:hidden; }
+  .gantt.in .gb { width:var(--w); }
+  .gaxis { display:grid; grid-template-columns:200px 1fr; gap:14px; margin-bottom:6px; }
+  .gaxis div:last-child { display:flex; justify-content:space-between; font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:var(--ink3); }
+  .gm { position:absolute; top:-6px; bottom:-6px; width:1px; background:var(--coral); left:var(--m); }
+  @media (max-width:900px){ .pm{grid-template-columns:1fr;} .vr{grid-template-columns:1fr;} .hm{grid-template-columns:110px repeat(6,1fr);} .gr,.gaxis{grid-template-columns:120px 1fr;} }
+
+
+  /* ============ SIGNALS BOARD ============ */
+  .signals { padding:96px 0 80px; border-top:1px solid var(--rule); }
+  .signals h2 { font-family:var(--display); font-weight:500; font-size:clamp(32px,3.8vw,50px); letter-spacing:-.028em; line-height:1.04; margin:18px 0 14px; max-width:760px; text-wrap:balance; }
+  .signals p.lead { font-size:17px; line-height:1.7; color:var(--ink2); max-width:640px; }
+  .sgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:40px; }
+  .sig { background:var(--surface); border:1px solid var(--rule); padding:20px 20px 18px; display:flex; flex-direction:column; gap:10px; min-height:230px; position:relative; transition:transform .3s var(--ease), box-shadow .3s var(--ease); }
+  .sig:hover { transform:translateY(-3px); box-shadow:0 28px 60px -34px rgba(11,12,14,.35); }
+  .sig .sk { font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); display:flex; justify-content:space-between; gap:10px; }
+  .sig .sk b { color:var(--cobalt); font-weight:500; }
+  .sig .sv { font-family:var(--display); font-weight:500; font-size:40px; letter-spacing:-.035em; line-height:1; font-variant-numeric:tabular-nums; display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; }
+  .sig .sv small { font-family:var(--mono); font-size:12px; letter-spacing:.04em; color:var(--ink3); }
+  .sig .sv .c { color:var(--coral); } .sig .sv .b { color:var(--cobalt); }
+  .sig .st { font-size:13px; color:var(--ink2); line-height:1.5; }
+  .sig .src { margin-top:auto; font-family:var(--mono); font-size:10px; letter-spacing:.04em; color:var(--ink3); }
+  .sig .viz { margin-top:4px; }
+  .hb { display:flex; flex-direction:column; gap:6px; }
+  .hb .r { display:grid; grid-template-columns:110px 1fr 40px; gap:8px; align-items:center; font-family:var(--mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase; color:var(--ink3); }
+  .hb .r .t { height:10px; background:var(--rule2); }
+  .hb .r .f { height:100%; width:0; background:var(--cobalt); transition:width 1.1s var(--ease); }
+  .hb .r .f.c { background:var(--coral); } .hb .r .f.k { background:var(--ink); } .hb .r .f.s { background:var(--ink3); }
+  .sig.in .hb .f { width:var(--w); }
+  .hb .r b { color:var(--ink); font-weight:500; text-align:right; }
+  .dots { display:grid; grid-template-columns:repeat(21,1fr); gap:3px; }
+  .dots i { aspect-ratio:1; background:var(--rule); display:block; opacity:0; transition:opacity .4s var(--ease); }
+  .sig.in .dots i { opacity:1; }
+  .dots i.h { background:var(--cobalt); }
+  .prog { height:10px; background:var(--rule2); position:relative; }
+  .prog i { position:absolute; left:0; top:0; bottom:0; width:0; background:var(--cobalt); transition:width 1.4s var(--ease); }
+  .sig.in .prog i { width:var(--w); }
+  .prog b { position:absolute; top:-4px; width:2px; height:18px; background:var(--coral); left:var(--m); }
+  .plab { display:flex; justify-content:space-between; font-family:var(--mono); font-size:9.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--ink3); margin-top:6px; }
+  .stack { display:flex; height:14px; }
+  .stack i { display:block; height:100%; width:0; transition:width 1.1s var(--ease); }
+  .sig.in .stack i { width:var(--w); }
+  .slab { display:flex; gap:14px; font-family:var(--mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase; color:var(--ink3); margin-top:6px; flex-wrap:wrap; }
+  .slab i { display:inline-block; width:8px; height:8px; margin-right:6px; vertical-align:middle; }
+  .win { position:relative; height:10px; background:var(--rule2); margin-top:14px; }
+  .win i { position:absolute; top:-5px; width:2px; height:20px; background:var(--ink); left:var(--x); }
+  .win i.c { background:var(--coral); } .win i.b { background:var(--cobalt); }
+  .win span { position:absolute; top:18px; left:var(--x); transform:translateX(-50%); font-family:var(--mono); font-size:9.5px; letter-spacing:.04em; color:var(--ink3); white-space:nowrap; }
+  .win { margin-bottom:26px; }
+  @media (max-width:960px){ .sgrid{grid-template-columns:1fr 1fr;} } @media (max-width:600px){ .sgrid{grid-template-columns:1fr;} }
+
+  /* ============ NEW ASSESSMENT PAGES ============ */
+  .cost { display:grid; grid-template-columns:1.2fr .8fr; gap:18px; }
+  .cbars { display:flex; flex-direction:column; gap:10px; }
+  .cb { display:grid; grid-template-columns:150px 1fr 70px; gap:12px; align-items:center; font-size:12.5px; color:var(--ink2); }
+  .cb .t { height:18px; background:var(--rule2); display:flex; }
+  .cb .t i { display:block; height:100%; width:0; transition:width 1s var(--ease); }
+  .cost.in .cb .t i { width:var(--w); }
+  .cb b { font-family:var(--mono); font-size:11px; color:var(--ink); text-align:right; }
+  .cnote { border:1px solid var(--rule); background:#fff; padding:16px; }
+  .cnote h5 { font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); margin-bottom:10px; }
+  .cnote .big2 { font-family:var(--display); font-weight:500; font-size:44px; letter-spacing:-.035em; line-height:1; }
+  .cnote .big2 small { font-size:16px; color:var(--coral); font-family:var(--mono); }
+  .cnote p { font-size:13px; color:var(--ink2); line-height:1.5; margin-top:8px; }
+  .nhi { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .nhi .col { border:1px solid var(--rule); background:#fff; padding:16px; }
+  .nhi h5 { font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink3); margin-bottom:12px; }
+  .idrow { display:grid; grid-template-columns:120px 1fr 60px; gap:10px; align-items:center; font-size:12.5px; color:var(--ink2); padding:6px 0; border-top:1px solid var(--rule2); }
+  .idrow .t { height:12px; background:var(--rule2); } .idrow .t i { display:block; height:100%; width:0; background:var(--cobalt); transition:width 1s var(--ease); } .idrow .t i.c { background:var(--coral); }
+  .nhi.in .idrow .t i { width:var(--w); }
+  .idrow b { font-family:var(--mono); font-size:11px; color:var(--ink); text-align:right; }
+  .owasp { display:grid; grid-template-columns:1fr 1fr; gap:6px 14px; }
+  .ow { display:flex; align-items:center; gap:10px; font-size:12px; color:var(--ink2); padding:6px 0; border-top:1px solid var(--rule2); }
+  .ow i { width:10px; height:10px; flex:none; background:var(--rule); }
+  .ow i.y { background:var(--cobalt); } .ow i.n { background:var(--coral); } .ow i.p { background:var(--ink3); }
+  .ow span { font-family:var(--mono); font-size:10px; color:var(--ink3); margin-left:auto; letter-spacing:.04em; }
+  .dep { display:flex; flex-direction:column; gap:8px; }
+  .dpr { display:grid; grid-template-columns:230px 1fr 110px; gap:12px; align-items:center; font-size:12.5px; }
+  .dpr .name { color:var(--ink); font-weight:500; } .dpr .name small { display:block; font-family:var(--mono); font-size:10px; color:var(--ink3); letter-spacing:.04em; font-weight:400; margin-top:2px; }
+  .dpr .t { position:relative; height:16px; background:var(--rule2); }
+  .dpr .t i { position:absolute; left:0; top:0; bottom:0; width:0; transition:width 1s var(--ease); }
+  .dep.in .dpr .t i { width:var(--w); }
+  .dpr .t em { position:absolute; top:-4px; bottom:-4px; width:2px; background:var(--coral); left:var(--m); }
+  .dpr .st { font-family:var(--mono); font-size:10.5px; letter-spacing:.05em; text-transform:uppercase; text-align:right; }
+  .dpr .st.ok { color:var(--cobalt); } .dpr .st.warn { color:var(--coral); } .dpr .st.pin { color:var(--ink3); }
+  @media (max-width:900px){ .cost,.nhi{grid-template-columns:1fr;} .dpr{grid-template-columns:150px 1fr 90px;} }
+
+  /* how we help (compressed) */
+  .help { padding:100px 0; }
+  .help h2 { font-family:var(--display); font-weight:500; font-size:clamp(32px,3.8vw,50px); letter-spacing:-.028em; line-height:1.04; margin:18px 0 18px; max-width:720px; text-wrap:balance; }
+  .steps3 { display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:40px; border-top:1px solid var(--rule); }
+  .st { padding:26px 22px 26px 0; border-right:1px solid var(--rule); }
+  .st:last-child { border-right:none; }
+  .st .sn { font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--cobalt); margin-bottom:12px; }
+  .st h4 { font-family:var(--display); font-weight:600; font-size:19px; letter-spacing:-.015em; margin-bottom:10px; }
+  .st p { font-size:14px; color:var(--ink2); line-height:1.6; max-width:320px; }
+  @media (max-width:800px){ .steps3{grid-template-columns:1fr;} .st{border-right:none; border-bottom:1px solid var(--rule);} }
+
+  /* close */
+  .close { position:relative; overflow:hidden; isolation:isolate; padding:100px 0; border-top:1px solid var(--rule); }
+  .close .mesh { position:absolute; inset:-20%; z-index:-2; width:140%; height:140%; filter:blur(70px) saturate(1.2); opacity:.85; }
+  .close .veil { position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,rgba(247,248,250,.9),rgba(247,248,250,.55) 60%,rgba(247,248,250,.2)); }
+  .close .box { display:flex; justify-content:space-between; align-items:center; gap:32px; flex-wrap:wrap; }
+  .close h2 { font-family:var(--display); font-weight:500; font-size:clamp(32px,4vw,54px); letter-spacing:-.03em; line-height:1.02; margin:12px 0 0; max-width:640px; text-wrap:balance; }
+  .close .yours { margin-top:14px; font-family:var(--mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink2); }
+  footer { padding:36px 0 44px; border-top:1px solid var(--rule); }
+  footer .row { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:13px; color:var(--ink3); }
+  footer a { color:var(--ink); text-decoration:none; }
+
+  @media (prefers-reduced-motion:reduce) {
+    *,*::before,*::after { animation:none!important; transition:none!important; }
+    .reveal,.hero h1 .w,.chapter .big,.chapter .txt { opacity:1; transform:none; }
+    .hm .cell i { opacity:1; transform:none; } .gantt .gb { width:var(--w); }
+  }
+</style>
+
+<div class="progress" id="progress"></div>
+<header>
+  <div class="wrap row">
+    <a class="brand" href="#top"><img src="data:image/png;base64,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" alt="Alphaworx"><div class="word">ALPHAWORX<span>.IO</span></div></a>
+    <nav><a href="#diag">Diagnostic</a><a href="#signals">Signals</a><a href="#doc">The value gap</a><a href="#deliv">The assessment</a><a href="#help">How we help</a><a href="blog/index.html">Insights</a></nav>
+    <div class="status"><span class="dot"></span><span class="lbl">Enterprise AI era ·</span><span id="day">Day —</span><span class="sep" style="color:var(--rule)">·</span><span class="lbl" title="EU AI Act Article 50 transparency duties, in force since 2 Aug 2026">AI Act Art. 50 ·</span><span id="act50">Day —</span></div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO / DIAGNOSTIC ================= -->
+  <section class="hero" id="top-hero">
+    <canvas class="mesh" id="mesh"></canvas><div class="veil"></div>
+    <div class="wrap hero-in">
+      <div class="hcopy">
+        <div class="eyebrow">Enterprise AI Strategy</div>
+        <h1 id="h1">Getting the right answer clears one gate out of four.</h1>
+        <p class="sub">Most enterprise AI pilots that produce nothing are pilots where the technology worked. Value leaks at four gates — and every leak traces to an operating choice made before a model was chosen.</p>
+        <div class="cta"><a class="btn" href="#diag">Run the gap diagnostic <span>↓</span></a><a class="link" href="mailto:info@alphaworx.io">Book the assessment ↗</a></div>
+      </div>
+      <div class="schem" id="schem">
+        <div class="sh"><span><i></i>Where the value goes</span><span>Typical mid-market profile · of every $100 of pilot value</span></div>
+        <svg viewBox="0 0 640 380" id="schemsvg" aria-label="Schematic: $100 of pilot value passes four gates, leaking $38, $22, $14 and $11; $15 is banked"></svg>
+        <div class="sf"><span>Sources: MIT NANDA, NBER WP 33777, METR, SEC, UT System audit — via AIR Research.</span><a class="link" href="#diag">Run yours ↓</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="diagsec" id="diag">
+    <div class="wrap">
+      <div class="top">
+        <div>
+          <div class="eyebrow">The Gap Diagnostic</div>
+          <h2 class="dh">Eight questions. Forty seconds. <span class="grad">Where would your value leak?</span></h2>
+          <p class="sub">The same four gates, scored against how your organisation actually runs pilots — before a vendor is called.</p>
+        </div>
+        <div class="side"><b>Three years in,</b> most companies are still improvising. The ones building a real strategy now are setting the gap everyone else will spend years trying to close.</div>
+      </div>
+
+      <div class="diag">
+        <div class="glass qpanel" id="qpanel">
+          <div class="qhead"><span><i></i>Eight questions · forty seconds</span><span id="qcount">0 / 8 answered</span></div>
+          <div class="q"><div class="ql"><span class="qn">01</span>How many AI pilots are live or in flight?</div><div class="seg" data-q="0"><button>0–2</button><button>3–8</button><button>9–20</button><button>20+</button></div></div>
+          <div class="q"><div class="ql"><span class="qn">02</span>Who owns the go / no-go on production?</div><div class="seg" data-q="1"><button>Nobody clear</button><button>IT or the tech lead</button><button>A council</button><button>The exec who gives up the resource</button></div></div>
+          <div class="q"><div class="ql"><span class="qn">03</span>Can you name the P&amp;L line each pilot moves?</div><div class="seg" data-q="2"><button>None</button><button>Some</button><button>Most</button><button>All</button></div></div>
+          <div class="q"><div class="ql"><span class="qn">04</span>How do teams get access to models?</div><div class="seg" data-q="3"><button>Personal accounts</button><button>One vendor, no gateway</button><button>Multi-vendor via gateway</button><button>Gateway + evaluation harness</button></div></div>
+          <div class="q"><div class="ql"><span class="qn">05</span>When a model is deprecated, you…</div><div class="seg" data-q="4"><button>Find out when it breaks</button><button>Someone notices in time</button><button>Version pinning + regression suite</button></div></div>
+          <div class="q"><div class="ql"><span class="qn">06</span>Pilots killed in the last 12 months?</div><div class="seg" data-q="5"><button>None</button><button>A few, late</button><button>Regularly, on written criteria</button></div></div>
+          <div class="q"><div class="ql"><span class="qn">07</span>How well can you see what AI costs to run?</div><div class="seg" data-q="6"><button>We can't</button><button>The monthly invoice</button><button>Dashboards, lagging</button><button>Real-time, by team and model</button></div></div>
+          <div class="q"><div class="ql"><span class="qn">08</span>How are your agents' credentials managed?</div><div class="seg" data-q="7"><button>Shared API keys</button><button>Per-team keys</button><button>Per-agent identities, joiner/mover/leaver</button><button>Per-agent + OWASP agentic coverage</button></div></div>
+          <div class="qfoot"><span class="hint" id="hint">Showing a typical mid-market profile. Click any answer to make it yours.</span><button class="ghost" id="reset">Reset to sample</button></div>
+        </div>
+
+        <div class="glass out" id="out">
+          <div class="score">
+            <div>
+              <div class="band" id="band"><i></i><span>Reading</span></div>
+              <div class="gauge">
+                <svg viewBox="0 0 200 200"><defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" stop-color="#06B6D4"/><stop offset=".55" stop-color="#2563EB"/><stop offset="1" stop-color="#F43F5E"/></linearGradient></defs>
+                  <circle class="track" cx="100" cy="100" r="80"/><circle class="arc" id="arc" cx="100" cy="100" r="80"/></svg>
+                <div class="num"><b id="gap">0</b><span>Gap score</span></div>
+              </div>
+            </div>
+            <div class="verdict" id="verdict"></div>
+          </div>
+          <div class="wf">
+            <div class="wh"><span>Where the value leaks</span><span>of every $100 of pilot value</span></div>
+            <svg viewBox="0 0 520 300" id="wf" aria-label="Waterfall of value lost at each of four gates"></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="nexus">
+    <div class="wrap"><div class="nx-head"><span class="eyebrow">Model-agnostic by design</span><span class="mono">We work across the frontier labs and the platforms that host them</span></div></div>
+    <div class="nx-strip"><div class="nx-track" id="nx"><span>OpenAI</span><span>Anthropic</span><span>Google DeepMind</span><span>Meta</span><span>Mistral</span><span>xAI</span><span>Cohere</span><span>Amazon Bedrock</span><span>Microsoft Azure</span><span>Google Cloud</span><span>NVIDIA</span><span>Hugging Face</span></div></div>
+  </div>
+
+
+  <!-- ================= SIGNALS ================= -->
+  <section class="signals" id="signals">
+    <div class="wrap">
+      <div class="eyebrow reveal">Signals · what changed this quarter</div>
+      <h2 class="reveal d1">The gap, in this quarter's <span class="grad">numbers.</span></h2>
+      <p class="lead reveal d2">Twelve current sources, one pattern: adoption is racing, the operating layer isn't. Live counters update daily; everything else is cited.</p>
+      <div class="sgrid">
+        <div class="sig reveal" id="sig-act">
+          <div class="sk"><span>EU AI Act · live</span><b>Regulatory clock</b></div>
+          <div class="sv"><span id="act50big">—</span><small>days since Art. 50 took effect</small></div>
+          <div class="st">Transparency and AI-content-labeling duties went live on schedule, 2 Aug 2026. The Digital Omnibus deferred standalone high-risk obligations to 2 Dec 2027 — a partial reprieve most enterprises read as a full one.</div>
+          <div class="viz"><div class="prog"><i id="actprog" style="--w:0%"></i><b style="--m:100%"></b></div><div class="plab"><span>Art. 50 · 2 Aug 2026</span><span id="actleft">— days to high-risk (Annex III)</span><span>2 Dec 2027</span></div></div>
+          <div class="src">Gibson Dunn · CSA · Inside Global Tech, May–Aug 2026</div>
+        </div>
+        <div class="sig reveal d1">
+          <div class="sk"><span>Productivity → P&amp;L</span><b>McKinsey, Aug 2026</b></div>
+          <div class="sv"><span>80</span><small>%</small><span>→</span><span>37</span><small>%</small><span>→</span><span class="c">6</span><small>%</small></div>
+          <div class="st">Say AI improved their own productivity → report any EBIT impact → high performers (≥5% of EBIT). Flat for a year. High performers were 3× as likely to have redesigned workflows.</div>
+          <div class="viz hb"><div class="r"><span>Productivity</span><div class="t"><div class="f" style="--w:80%"></div></div><b>80%</b></div><div class="r"><span>EBIT impact</span><div class="t"><div class="f s" style="--w:37%"></div></div><b>37%</b></div><div class="r"><span>High perf.</span><div class="t"><div class="f c" style="--w:6%"></div></div><b>6%</b></div></div>
+          <div class="src">McKinsey State of AI 2026 · n = 1,719</div>
+        </div>
+        <div class="sig reveal d2">
+          <div class="sk"><span>Agents · the cliff</span><b>Gartner, 2026</b></div>
+          <div class="sv"><span>17</span><small>% deployed</small><span>→</span><span>42</span><small>% in 12 mo</small></div>
+          <div class="st">"The most aggressive adoption curve" in the CIO survey — and Gartner predicts over 40% of agentic projects cancelled by end-2027. Only ~130 of thousands of "agent" vendors are real.</div>
+          <div class="viz hb"><div class="r"><span>Deployed today</span><div class="t"><div class="f" style="--w:17%"></div></div><b>17%</b></div><div class="r"><span>Within 12 mo</span><div class="t"><div class="f" style="--w:42%"></div></div><b>42%</b></div><div class="r"><span>Cancelled by '27</span><div class="t"><div class="f c" style="--w:40%"></div></div><b>&gt;40%</b></div></div>
+          <div class="src">Gartner CIO &amp; Technology Executive Survey 2026 · Gartner, Jun 2025</div>
+        </div>
+        <div class="sig reveal">
+          <div class="sk"><span>Shadow AI</span><b>IBM, 2026</b></div>
+          <div class="sv"><span>20</span><small>%</small><span>→</span><span class="c">43</span><small>% of breached orgs</small></div>
+          <div class="st">Shadow-AI incidents doubled in a year; average cost $5.39M, regulatory fines in about one in five. 68% lacked AI-use policies. 92% lacked adequate AI access controls.</div>
+          <div class="viz hb"><div class="r"><span>No AI policy</span><div class="t"><div class="f s" style="--w:68%"></div></div><b>68%</b></div><div class="r"><span>No access ctrl</span><div class="t"><div class="f c" style="--w:92%"></div></div><b>92%</b></div></div>
+          <div class="src">IBM Cost of a Data Breach 2026</div>
+        </div>
+        <div class="sig reveal d1">
+          <div class="sk"><span>Agents are identities</span><b>CyberArk · Gartner</b></div>
+          <div class="sv"><span>82</span><small>machine identities per human</small></div>
+          <div class="st">Up to 144:1 in cloud-native estates; 94% of organisations report machine-identity growth driven by AI agents. OWASP's 2026 Agentic Top 10 names identity &amp; privilege abuse (ASI03) explicitly.</div>
+          <div class="viz dots" id="dots"></div>
+          <div class="src">CyberArk Identity Security Landscape · Gartner Machine Identity survey · OWASP ASI 2026</div>
+        </div>
+        <div class="sig reveal d2">
+          <div class="sk"><span>Cost visibility</span><b>KPMG · FinOps Foundation</b></div>
+          <div class="sv"><span class="c">26</span><small>% see AI run-cost in real time</small></div>
+          <div class="st">Two-thirds have dashboards and approval processes; one in four can see what their AI actually costs to operate. AI spend management went from 31% to 98% of FinOps teams in two years.</div>
+          <div class="viz hb"><div class="r"><span>Have dashboards</span><div class="t"><div class="f s" style="--w:66%"></div></div><b>66%</b></div><div class="r"><span>Real-time cost</span><div class="t"><div class="f c" style="--w:26%"></div></div><b>26%</b></div><div class="r"><span>FinOps: AI spend</span><div class="t"><div class="f" style="--w:98%"></div></div><b>98%</b></div></div>
+          <div class="src">KPMG AI Pulse Q2 2026 · State of FinOps 2026</div>
+        </div>
+        <div class="sig reveal">
+          <div class="sk"><span>Ownership</span><b>IBM CEO Study, May 2026</b></div>
+          <div class="sv"><span>76</span><small>% have a CAIO</small><span class="c">61</span><small>% control the budget</small></div>
+          <div class="st">Up from 26% a year earlier. A Chief AI Officer without budget authority is a policy author that engineering routes around — the turf problem, one level up.</div>
+          <div class="viz hb"><div class="r"><span>Have a CAIO</span><div class="t"><div class="f" style="--w:76%"></div></div><b>76%</b></div><div class="r"><span>Own the budget</span><div class="t"><div class="f c" style="--w:61%"></div></div><b>61%</b></div></div>
+          <div class="src">IBM CEO Study 2026 · n = 2,000 CEOs · PwC CAIO 2026</div>
+        </div>
+        <div class="sig reveal d1">
+          <div class="sk"><span>Deprecation</span><b>Provider policy, 2026</b></div>
+          <div class="sv"><span>2</span><small>wks</small><span>→</span><span>6</span><small>mo notice</small></div>
+          <div class="st">Providers retire versions, not names: the pinned snapshot in your production code is what gets a shutdown date. Lifecycles have halved to 6–12 months. Regulated workflows need pinning plus a regression suite, not a ticket after.</div>
+          <div class="viz win"><i class="c" style="--x:8%"></i><span style="--x:8%">2 wk · previews</span><i class="b" style="--x:36%"></i><span style="--x:36%">≥60 d · Anthropic</span><i style="--x:64%"></i><span style="--x:64%">3 mo · specialized</span><i style="--x:92%"></i><span style="--x:92%">6 mo · GA</span></div>
+          <div class="src">Anthropic &amp; OpenAI deprecation policies · lifecycle trackers, 2026</div>
+        </div>
+        <div class="sig reveal d2">
+          <div class="sk"><span>Who captures value</span><b>BCG, 2026</b></div>
+          <div class="sv"><span>5</span><small>% future-built</small><span class="c">60</span><small>% laggards</small></div>
+          <div class="st">Five percent are "future-built" and taking the lion's share of value — 1.7× revenue growth, 3.6× TSR. Thirty-five percent are scaling. The rest are still trying to produce a tangible result.</div>
+          <div class="viz"><div class="stack"><i style="--w:5%;background:var(--cobalt)"></i><i style="--w:35%;background:var(--ink3)"></i><i style="--w:60%;background:var(--coral)"></i></div><div class="slab"><span><i style="background:var(--cobalt)"></i>Future-built 5%</span><span><i style="background:var(--ink3)"></i>Scaling 35%</span><span><i style="background:var(--coral)"></i>Laggards 60%</span></div></div>
+          <div class="src">BCG — Which Companies Capture Value From AI, 2026</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DOCUMENTARY ================= -->
+  <section class="doc" id="doc">
+    <div class="wrap">
+      <div class="intro">
+        <div class="eyebrow reveal">The value gap · told through the programs that didn't</div>
+        <h2 class="reveal d1">The consensus explanation — <span class="grad">the models aren't good enough</span> — describes a minority of the wreckage.</h2>
+        <p class="lead reveal d2">Our research desk audited the documented enterprise AI pilots that failed. The demo was crisp. The accuracy target was hit. Some shipped and ran for a year. Six chapters, every figure cited to source.</p>
+      </div>
+
+      <div class="chapters">
+        <div class="rail" id="rail">
+          <div class="ri c-coral"><i></i>01 · MD Anderson</div>
+          <div class="ri c-coral"><i></i>02 · Presto</div>
+          <div class="ri c-coral"><i></i>03 · Zillow</div>
+          <div class="ri c-coral"><i></i>04 · 25,000 workers</div>
+          <div class="ri c-coral"><i></i>05 · METR</div>
+          <div class="ri c-cobalt"><i></i>06 · What worked</div>
+        </div>
+        <div id="chapters">
+          <div class="chapter c-coral"><div><div class="big"><small>$</small>62<small>m</small></div><div class="bl">Never advised a single patient outside a test</div></div><div class="txt"><div class="cn"><i></i>Chapter 01 — MD Anderson &amp; IBM Watson, 2013–2016</div><h3>A $62 million cancer engine that never saw a patient.</h3><p>Built against the records system the hospital then migrated away from — and never rebuilt. Procured outside the process that keeps its underlying systems running. Whether the model was good became an academic question: the value was never reachable.</p><div class="gate">Gate 3 · the work never changed</div></div></div>
+          <div class="chapter c-coral"><div><div class="big">70<small>%</small></div><div class="bl">Of orders needed an off-site human at the best sites</div></div><div class="txt"><div class="cn"><i></i>Chapter 02 — Presto Automation, drive-thru voice AI</div><h3>The "human-free" AI that wasn't.</h3><p>The SEC found the voice system needed a remote human on 70% of orders at its best pilot locations and on 100% at most — and ordered the company to cease and desist. Regulators now price the operating gap directly, turning a soft governance failure into a hard cash one.</p><div class="gate">Gate 2 · measured against the wrong distribution</div></div></div>
+          <div class="chapter c-coral"><div><div class="big"><small>$</small>408<small>m</small></div><div class="bl">One-year write-down, Zillow Offers</div></div><div class="txt"><div class="cn"><i></i>Chapter 03 — Zillow, 2021</div><h3>Scaled before the model's error was priced.</h3><p>"Unpredictability in forecasting home prices far exceeds what we anticipated." The lesson generalises: compare the expected effect to the variance of the thing you're trying to move — not to zero — before you scale.</p><div class="gate">Gate 1 · value that wasn't ownable</div></div></div>
+          <div class="chapter c-coral"><div><div class="big">85<small>%</small></div><div class="bl">Of users reallocated their AI time savings</div></div><div class="txt"><div class="cn"><i></i>Chapter 04 — 25,000 Danish workers, survey linked to payroll</div><h3>Capacity that is freed and never banked.</h3><p>The largest study setting what workers say beside what employers actually paid them found precise null effects on earnings and hours — ruling out changes larger than 2%. Time saved is not money saved unless someone converts it. That is the dominant failure mode.</p><div class="gate">Gate 4 · nobody collected</div></div></div>
+          <div class="chapter c-coral"><div><div class="big">19<small>% slower</small></div><div class="bl">While estimating they were 20% faster</div></div><div class="txt"><div class="cn"><i></i>Chapter 05 — METR randomised trial, experienced developers</div><h3>Self-reported productivity is measurably wrong — upward.</h3><p>A 39-point gap between the felt effect and the measured one, inside the same people on the same tasks. The Atlanta Fed found the same shape in 750 CFOs. Business cases built on self-report inherit that gap at both levels.</p><div class="gate">Why anecdote can't be the evidence</div></div></div>
+          <div class="chapter c-cobalt"><div><div class="big">2.5<small>m uses</small></div><div class="bl">~16,000 documentation hours returned in one year</div></div><div class="txt"><div class="cn"><i></i>Chapter 06 — The Permanente Medical Group, ambient scribes</div><h3>The programs that work are boring, narrow, and owned.</h3><p>Software that listens to a clinical visit and drafts the note the doctor would otherwise type — attacking the single task clinicians most hated, with no headcount claim attached. Adoption concentrated where the pain was worst.</p><div class="gate">All four gates · the shape of success</div></div></div>
+        </div>
+      </div>
+      <div class="reveal" style="margin-top:28px; display:flex; gap:22px; flex-wrap:wrap; align-items:center;"><a class="link" href="https://theprimerdesk.onrender.com" target="_blank" rel="noopener noreferrer">Read the full AIR brief — The Value Gap ↗</a><span class="mono">AIR Research · evidence cutoff 26 Aug 2026</span></div>
+    </div>
+  </section>
+
+  <!-- ================= DELIVERABLE ================= -->
+  <section class="deliv" id="deliv">
+    <div class="wrap">
+      <div class="eyebrow reveal">What an assessment looks like</div>
+      <h2 class="reveal d1">Not a slide deck. <span class="grad">An instrument panel</span> for your AI estate.</h2>
+      <p class="lead reveal d2">The Initial Assessment returns a governed picture of cost, data exposure, vendor dependency, security, reliability, and ownership — by business unit, by use case, with a 90-day plan. Sample output below, built from a representative mid-market estate.</p>
+
+      <div class="report reveal d2" id="report">
+        <div class="rtop">
+          <div class="rt"><i></i>Assessment · sample output · Acme Financial (illustrative)</div>
+          <div class="tabs" id="tabs"><button class="on" data-p="0">Risk heatmap</button><button data-p="1">Portfolio map</button><button data-p="2">Vendor &amp; control plane</button><button data-p="3">90-day plan</button><button data-p="4">Cost show-back</button><button data-p="5">Agent identities</button><button data-p="6">Deprecation calendar</button></div>
+        </div>
+        <div class="pages" id="pages">
+          <div class="page on">
+            <div class="ph"><div><h4>Exposure heatmap — business units × risk dimensions</h4><p>Each cell is a scored finding, 0–100. Hover for values. Red is where the next incident is most likely to come from.</p></div><div class="kpi"><div><b id="hm-hot">—</b><span>Cells above 70</span></div><div><b id="hm-avg">—</b><span>Estate average</span></div></div></div>
+            <div class="hm" id="hm"></div>
+            <div class="legend"><span>Low</span><div class="lg"></div><span>Critical</span><button class="ghost" id="rescan" style="margin-left:auto">Re-scan estate</button></div>
+          </div>
+          <div class="page">
+            <div class="ph"><div><h4>Portfolio map — value vs. feasibility, sized by spend</h4><p>Every use case in the estate scored across ten dimensions and placed. The quadrant decides the funding class — not the loudest sponsor.</p></div><div class="kpi"><div><b>28</b><span>Use cases</span></div><div><b>6</b><span>Recommended kills</span></div></div></div>
+            <div class="pm"><svg viewBox="0 0 640 400" id="pm"></svg><div class="list" id="pmlist"></div></div>
+          </div>
+          <div class="page">
+            <div class="ph"><div><h4>Vendor concentration &amp; control-plane ownership</h4><p>Where the spend sits, and which switches you actually hold. Concentration above 60% in one vendor is a red finding on its own.</p></div><div class="kpi"><div><b>71%</b><span>Top-vendor share</span></div><div><b>4 of 4</b><span>Switches vendor-side</span></div></div></div>
+            <div class="vr" id="vr">
+              <div style="position:relative"><svg viewBox="0 0 220 220" class="ring" id="ring"></svg><div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none"><div class="center">$2.4m</div><div class="mono">annual model spend</div></div></div>
+              <div>
+                <div class="cp" id="cp">
+                  <div class="col"><h5>You control</h5><div class="row y">Orchestration<i></i></div><div class="row y">Retrieval pipeline<i></i></div><div class="row y">Agent wiring<i></i></div><div class="row y">Prompts &amp; evals<i></i></div></div>
+                  <div class="col"><h5>The vendor controls</h5><div class="row v">Pricing<i></i></div><div class="row v">Deprecation schedule<i></i></div><div class="row v">Rate limits<i></i></div><div class="row v">Data-use terms<i></i></div></div>
+                </div>
+                <div class="vl" id="vl"></div>
+              </div>
+            </div>
+          </div>
+          <div class="page">
+            <div class="ph"><div><h4>The first 90 days — control, then repeatability</h4><p>Sequenced so the executive narrative exists by day 90 and the first governed production use case is live, not promised.</p></div><div class="kpi"><div><b>3</b><span>Quick wins</span></div><div><b>Day 61</b><span>First governed use case</span></div></div></div>
+            <div class="gaxis"><div></div><div><span>Day 0</span><span>30</span><span>60</span><span>90</span></div></div>
+            <div class="gantt" id="gantt">
+              <div class="gr"><div class="gl">Finish assessment · secure mandate</div><div class="gt"><div class="gb" style="--l:0%;--w:22%;--gc:#2563EB">Days 0–20</div></div></div>
+              <div class="gr"><div class="gl">Land 2–3 visible quick wins</div><div class="gt"><div class="gb" style="--l:8%;--w:28%;--gc:#06B6D4">Days 7–32</div></div></div>
+              <div class="gr"><div class="gl">Stand up core control plane</div><div class="gt"><div class="gb" style="--l:30%;--w:34%;--gc:#1E40AF">Days 27–58</div></div></div>
+              <div class="gr"><div class="gl">Cost show-back live</div><div class="gt"><div class="gb" style="--l:44%;--w:22%;--gc:#8A8F99">Days 40–60</div></div></div>
+              <div class="gr"><div class="gl">First governed production use case</div><div class="gt"><div class="gb" style="--l:62%;--w:32%;--gc:#2563EB">Days 56–85</div><div class="gm" style="--m:68%"></div></div></div>
+              <div class="gr"><div class="gl">Executive narrative &amp; board readout</div><div class="gt"><div class="gb" style="--l:80%;--w:20%;--gc:#0B0C0E">Days 72–90</div></div></div>
+            </div>
+          </div>
+          <div class="page">
+            <div class="ph"><div><h4>Cost show-back — what AI actually costs to run</h4><p>Spend by business unit and by model, so teams see their own usage. Most estates discover here that one configuration choice is worth more than any vendor negotiation.</p></div><div class="kpi"><div><b>$2.4m</b><span>Annual run-rate</span></div><div><b>26%</b><span>Visible in real time before</span></div></div></div>
+            <div class="cost" id="cost">
+              <div class="cbars">
+                <div class="cb"><span>Contact centre</span><div class="t"><i style="--w:38%;background:var(--cobalt)"></i></div><b>$912k</b></div>
+                <div class="cb"><span>Engineering</span><div class="t"><i style="--w:27%;background:var(--cobalt)"></i></div><b>$648k</b></div>
+                <div class="cb"><span>Claims &amp; underwriting</span><div class="t"><i style="--w:15%;background:var(--cobalt)"></i></div><b>$360k</b></div>
+                <div class="cb"><span>Wealth &amp; advisory</span><div class="t"><i style="--w:11%;background:var(--cobalt)"></i></div><b>$264k</b></div>
+                <div class="cb"><span>Finance &amp; risk</span><div class="t"><i style="--w:6%;background:var(--cobalt)"></i></div><b>$144k</b></div>
+                <div class="cb"><span>Unattributed (personal accounts)</span><div class="t"><i style="--w:3%;background:var(--coral)"></i></div><b>$72k+</b></div>
+              </div>
+              <div class="cnote"><h5>Same job, two configurations</h5><div class="big2">9.2<small>×</small></div><p>The identical 50k-input / 2k-output job costs $0.06 in the cheapest configuration and $0.55 in the priciest — caching, batching, and tokenizer settings alone. Token prices fall; the bill still rises.</p><h5 style="margin-top:14px">Recommended</h5><p>Monthly show-back by team and model · prompt-cache policy · batch tier for non-interactive jobs · one gateway, one bill.</p></div>
+            </div>
+          </div>
+          <div class="page">
+            <div class="ph"><div><h4>Agent identities — treat agents as identities, not features</h4><p>Every agent needs a joiner / mover / leaver lifecycle like any other identity. Coverage below is mapped to OWASP's Top 10 for Agentic Applications (2026).</p></div><div class="kpi"><div><b>82:1</b><span>Machine : human identities</span></div><div><b>4 / 10</b><span>OWASP ASI covered</span></div></div></div>
+            <div class="nhi" id="nhi">
+              <div class="col"><h5>Non-human identities in the estate</h5>
+                <div class="idrow"><span>Service accounts</span><div class="t"><i style="--w:70%"></i></div><b>1,240</b></div>
+                <div class="idrow"><span>API keys (shared)</span><div class="t"><i class="c" style="--w:34%"></i></div><b>612</b></div>
+                <div class="idrow"><span>AI agents</span><div class="t"><i style="--w:22%"></i></div><b>388</b></div>
+                <div class="idrow"><span>Agents with JML</span><div class="t"><i style="--w:6%"></i></div><b>104</b></div>
+                <div class="idrow"><span>Human users</span><div class="t"><i style="--w:2%"></i></div><b>27</b></div>
+                <h5 style="margin-top:14px">Critical finding</h5><p style="font-size:13px;color:var(--ink2);line-height:1.5">612 shared API keys in use by agents — a critical finding on its own, to be eliminated on sight. 284 agents have no owner of record.</p>
+              </div>
+              <div class="col"><h5>OWASP Top 10 for Agentic Applications · coverage</h5>
+                <div class="owasp">
+                  <div class="ow"><i class="n"></i>ASI01 Goal hijack<span>Gap</span></div><div class="ow"><i class="p"></i>ASI02 Tool misuse<span>Partial</span></div>
+                  <div class="ow"><i class="n"></i>ASI03 Identity &amp; privilege<span>Gap</span></div><div class="ow"><i class="n"></i>ASI04 Supply chain<span>Gap</span></div>
+                  <div class="ow"><i class="y"></i>ASI05 Code execution<span>Covered</span></div><div class="ow"><i class="p"></i>ASI06 Memory poisoning<span>Partial</span></div>
+                  <div class="ow"><i class="n"></i>ASI07 Inter-agent comms<span>Gap</span></div><div class="ow"><i class="y"></i>ASI08 Cascading failures<span>Covered</span></div>
+                  <div class="ow"><i class="y"></i>ASI09 Human-in-loop<span>Covered</span></div><div class="ow"><i class="y"></i>ASI10 Rogue agents<span>Covered</span></div>
+                </div>
+                <p style="font-size:13px;color:var(--ink2);line-height:1.5;margin-top:12px">A security program that only checks the LLM Top 10 has, by construction, covered half the risk surface.</p>
+              </div>
+            </div>
+          </div>
+          <div class="page">
+            <div class="ph"><div><h4>Deprecation calendar — every pinned model, every clock</h4><p>Providers retire versions, not names. Each pinned snapshot in production is tracked against its published not-before date and the provider's notice window.</p></div><div class="kpi"><div><b>7</b><span>Pinned snapshots</span></div><div><b>2</b><span>Inside a notice window</span></div></div></div>
+            <div class="dep" id="dep">
+              <div class="gaxis" style="margin-bottom:2px"><div></div><div><span>Today</span><span>+3 mo</span><span>+6 mo</span><span>+12 mo</span></div></div>
+              <div class="dpr"><div class="name">Claims triage agent<small>Vendor A · GA snapshot, pinned</small></div><div class="t"><i style="--w:18%;background:var(--coral)"></i><em style="--m:18%"></em></div><div class="st warn">Retires · 54 d</div></div>
+              <div class="dpr"><div class="name">Support drafting<small>Vendor A · GA snapshot, pinned</small></div><div class="t"><i style="--w:31%;background:var(--coral)"></i><em style="--m:31%"></em></div><div class="st warn">Notice received</div></div>
+              <div class="dpr"><div class="name">Contract review<small>Vendor B · GA, not-before date published</small></div><div class="t"><i style="--w:72%;background:var(--cobalt)"></i></div><div class="st ok">Regression suite ✓</div></div>
+              <div class="dpr"><div class="name">KYC intake<small>Vendor B · GA</small></div><div class="t"><i style="--w:88%;background:var(--cobalt)"></i></div><div class="st ok">Regression suite ✓</div></div>
+              <div class="dpr"><div class="name">Fraud copilot<small>Cloud-hosted OSS · self-managed</small></div><div class="t"><i style="--w:100%;background:var(--ink3)"></i></div><div class="st pin">No external clock</div></div>
+              <div class="dpr"><div class="name">Advisor briefing packs<small>Vendor A · preview model</small></div><div class="t"><i style="--w:8%;background:var(--coral)"></i><em style="--m:8%"></em></div><div class="st warn">Preview · 2-wk notice</div></div>
+              <div class="dpr"><div class="name">Meeting summaries<small>Vendor C · GA</small></div><div class="t"><i style="--w:60%;background:var(--cobalt)"></i></div><div class="st pin">Family name only — unpinned</div></div>
+              <p style="font-size:13px;color:var(--ink2);line-height:1.5;margin-top:10px">Illustrative estate. Live calendars are built from each provider's published deprecation page — notice windows: previews as little as 2 weeks; Anthropic ≥60 days with published not-before dates; OpenAI 6 months GA / 3 months specialized.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HOW WE HELP ================= -->
+  <section class="help" id="help">
+    <div class="wrap">
+      <div class="eyebrow reveal">How we help</div>
+      <h2 class="reveal d1">A governed operating system, not a subscription.</h2>
+      <p class="lead reveal d2" style="font-size:17px; line-height:1.7; color:var(--ink2); max-width:640px;">Access to a model isn't a strategy. We install the structure that turns scattered pilots into a system that can be run, measured, and defended — and we build and validate AI systems of our own (AIR, ATRE) under the same discipline.</p>
+      <div class="steps3">
+        <div class="st reveal"><div class="sn">Step 1</div><h4>Initial Assessment</h4><p>The instrument panel above, for your estate — cost, data exposure, security, and ownership — before anything is recommended.</p></div>
+        <div class="st reveal d1"><div class="sn">Step 2</div><h4>Platform Hub Design</h4><p>A thin hub with real mandate: provisioning, vendor relationships, shared infrastructure, evaluation and gateway.</p></div>
+        <div class="st reveal d2"><div class="sn">Step 3</div><h4>Operating Cadence</h4><p>Portfolio discipline, kill criteria, deprecation calendar, incident retrospectives — the rhythm that keeps it defensible at scale.</p></div>
+      </div>
+      <div class="reveal" style="margin-top:32px; display:flex; gap:22px; flex-wrap:wrap; align-items:center;"><a class="link" href="deck.html">See the full case — 41 slides ↗</a><a class="link" href="blog/index.html">Read the insights →</a></div>
+    </div>
+  </section>
+
+  <section class="close">
+    <canvas class="mesh" id="mesh2"></canvas><div class="veil"></div>
+    <div class="wrap box">
+      <div>
+        <div class="eyebrow reveal">Work with us</div>
+        <h2 class="reveal d1">The gap is closeable. <span class="grad">It won't stay small.</span></h2>
+        <div class="yours reveal d2" id="yours"></div>
+      </div>
+      <a class="btn reveal d2" href="mailto:info@alphaworx.io">Book the assessment <span>→</span></a>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap row"><div>© 2026 Alphaworx Ltd · Dallas, TX</div><div class="mono" id="foot-day"></div><a href="mailto:info@alphaworx.io">info@alphaworx.io</a></div></footer>
+
+<script>
+(function () {
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches, fine = matchMedia('(pointer:fine)').matches;
+  const $ = (s, r=document) => r.querySelector(s), $$ = (s, r=document) => [...r.querySelectorAll(s)];
+
+  // live day
+  const days = Math.floor((Date.now() - Date.UTC(2022,10,30)) / 864e5);
+  $('#day').textContent = 'Day ' + days.toLocaleString(); $('#foot-day').textContent = 'Day ' + days.toLocaleString() + ' of the enterprise AI era';
+  // EU AI Act clocks: Art. 50 in force 2 Aug 2026; Annex III high-risk deferred to 2 Dec 2027
+  const A50 = Date.UTC(2026, 7, 2), HR = Date.UTC(2027, 11, 2), now = Date.now();
+  const d50 = Math.max(0, Math.floor((now - A50) / 864e5)), dHR = Math.max(0, Math.ceil((HR - now) / 864e5));
+  $('#act50').textContent = 'Day ' + d50; const ab = $('#act50big'); if (ab) { ab.textContent = d50; $('#actleft').textContent = dHR.toLocaleString() + ' days to high-risk (Annex III)'; $('#actprog').style.setProperty('--w', Math.min(100, (now - A50) / (HR - A50) * 100).toFixed(1) + '%'); }
+  const dots = $('#dots'); if (dots) { let h = ''; for (let i = 0; i < 84; i++) h += '<i class="' + (i === 0 ? 'h' : '') + '" style="transition-delay:' + (i * 12) + 'ms"></i>'; dots.innerHTML = h; }
+  const bar = $('#progress'); const onScroll = () => { const h = document.documentElement; bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight || 1) * 100) + '%'; };
+  addEventListener('scroll', onScroll, { passive:true }); onScroll();
+
+  // headline reveal
+  const h1 = $('#h1'); h1.innerHTML = h1.textContent.split(' ').map(w => '<span class="w' + (/^four\.?$|^one$/.test(w) ? ' grad' : '') + '">' + w + '</span>').join(' ');
+  $$('.w', h1).forEach((el, i) => { el.style.animationDelay = (0.045 * i) + 's'; requestAnimationFrame(() => el.classList.add('in')); });
+
+  // mesh
+  function mesh(id, palette, speed, still) {
+    const cv = $('#' + id); if (!cv) return; const ctx = cv.getContext('2d'); let W, H, mx=.5, my=.5, tmx=.5, tmy=.5;
+    const blobs = palette.map((c, i) => ({ c, r:.28 + (i % 3) * .07, a:i * 1.7, b:i * .9, s:(.6 + i * .17) * speed }));
+    const size = () => { const r = cv.getBoundingClientRect(); W = cv.width = Math.max(2, Math.round(r.width * .5)); H = cv.height = Math.max(2, Math.round(r.height * .5)); };
+    size(); new ResizeObserver(size).observe(cv);
+    if (fine) addEventListener('mousemove', e => { tmx = e.clientX / innerWidth; tmy = e.clientY / innerHeight; }, { passive:true });
+    const t0 = performance.now();
+    (function draw(now) { const t = (now - t0) / 1000; mx += (tmx - mx) * .03; my += (tmy - my) * .03;
+      ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = '#F7F8FA'; ctx.fillRect(0, 0, W, H); ctx.globalCompositeOperation = 'multiply';
+      for (const b of blobs) { const x = W * (.5 + .38 * Math.cos(t * .11 * b.s + b.a) + (mx - .5) * .12), y = H * (.5 + .34 * Math.sin(t * .13 * b.s + b.b) + (my - .5) * .12), r = Math.max(W, H) * b.r;
+        const g = ctx.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, b.c); g.addColorStop(1, 'rgba(255,255,255,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill(); }
+      if (!reduced && !still) requestAnimationFrame(draw); })(t0);
+  }
+  mesh('mesh', ['rgba(37,99,235,.62)','rgba(6,182,212,.55)','rgba(30,64,175,.35)','rgba(244,63,94,.18)','rgba(6,182,212,.4)'], 1, true);
+  mesh('mesh2', ['rgba(37,99,235,.55)','rgba(6,182,212,.5)','rgba(30,64,175,.3)','rgba(244,63,94,.15)'], .8);
+  const nx = $('#nx'); nx.innerHTML += nx.innerHTML;
+
+  // ================= HERO SCHEMATIC (draws once, then holds) =================
+  (function schematic() {
+    const svg = $('#schemsvg'); if (!svg) return; const NS = 'http://www.w3.org/2000/svg';
+    const el = (n, a) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); return e; };
+    // typical mid-market profile (matches the diagnostic's sample answers)
+    const steps = [{ n:'01', t:'VALUE ON THE TABLE', lost:38 }, { n:'02', t:'THE MODEL WORKS', lost:22 }, { n:'03', t:'THE WORK CHANGES', lost:14 }, { n:'04', t:'ANYONE COLLECTS', lost:11 }];
+    const W = 640, base = 300, x0 = 26, bw = 64, gap = 40, sc = 2.2; let left = 100;
+    svg.appendChild(el('line', { x1:x0, y1:base, x2:W - 14, y2:base, stroke:'#E1E4E9' }));
+    const cols = []; // {x, top, h, color, label}
+    cols.push({ x:x0, top:100, h:100, color:'#0B0C0E', v:'$100', l:'PILOT VALUE', l2:'IN', cls:'' });
+    steps.forEach((st, i) => { const x = x0 + (i + 1) * (bw + gap); cols.push({ x, top:left, h:st.lost, color:'#F43F5E', v:'−$' + st.lost, l:'GATE ' + st.n, l2:st.t, cls:'c', op:.5 + i * .14 }); left -= st.lost; });
+    cols.push({ x:x0 + 5 * (bw + gap), top:left, h:left, color:'#2563EB', v:'$' + left, l:'BANKED', l2:'TO THE P&L', cls:'b' });
+    // stream polygon (narrowing band between bars)
+    let pts = []; cols.forEach((c, i) => { pts.push([c.x, base - c.top * sc]); pts.push([c.x + bw, base - c.top * sc]); });
+    const lows = cols.map((c, i) => base - (c.top - (i === 0 || i === cols.length - 1 ? c.h : c.h)) * sc);
+    const stream = el('path', { class:'stream', fill:'rgba(37,99,235,.10)', stroke:'rgba(37,99,235,.25)', 'stroke-width':1 });
+    let d = 'M' + cols[0].x + ',' + (base - 100 * sc); cols.forEach((c, i) => { const y = base - c.top * sc; d += ' L' + c.x + ',' + y + ' L' + (c.x + bw) + ',' + y; });
+    const last = cols[cols.length - 1]; d += ' L' + (last.x + bw) + ',' + base + ' L' + cols[0].x + ',' + base + ' Z'; stream.setAttribute('d', d); svg.appendChild(stream);
+    // connectors
+    cols.forEach((c, i) => { if (i < cols.length - 1) { const y = base - (c.top - (i === 0 ? 0 : c.h)) * sc; const yy = i === 0 ? base - 100 * sc : base - (c.top - c.h) * sc; svg.appendChild(el('line', { x1:c.x + bw, y1:yy, x2:cols[i + 1].x, y2:yy, stroke:'#8A8F99', 'stroke-dasharray':'3 3' })); } });
+    // bars + labels
+    cols.forEach((c, i) => { const r = el('rect', { class:'bar', x:c.x, y:base, width:bw, height:0, fill:c.color, opacity:c.op || 1 }); svg.appendChild(r);
+      const v = el('text', { class:'v ' + c.cls, x:c.x + bw / 2, y:base - c.top * sc - 8, 'text-anchor':'middle' }); v.textContent = c.v; svg.appendChild(v);
+      const l = el('text', { x:c.x + bw / 2, y:base + 20, 'text-anchor':'middle' }); l.textContent = c.l; svg.appendChild(l);
+      const l2 = el('text', { class:'g', x:c.x + bw / 2, y:base + 34, 'text-anchor':'middle' }); l2.textContent = c.l2; svg.appendChild(l2);
+      setTimeout(() => { r.setAttribute('y', base - c.top * sc); r.setAttribute('height', c.h * sc); }, reduced ? 0 : 150 + i * 160); });
+    setTimeout(() => $('#schem').classList.add('in'), reduced ? 0 : 400);
+    // small annotation on the largest leak
+    const worst = steps.reduce((m, s, i) => s.lost > steps[m].lost ? i : m, 0); const wc = cols[worst + 1];
+    const note = el('text', { class:'g', x:wc.x + bw / 2, y:base - wc.top * sc - 26, 'text-anchor':'middle', fill:'#F43F5E' }); note.textContent = 'LARGEST LEAK'; svg.appendChild(note);
+  })();
+
+  // ================= DIAGNOSTIC =================
+  const SAMPLE = [2, 1, 1, 1, 0, 0, 1, 0]; let ans = SAMPLE.slice(); let touched = false;
+  const L = { // leak severity per gate 0..100
+    g1: a => [90, 62, 34, 10][a[2]],
+    g2: a => Math.round(([70, 52, 26, 10][a[3]] + [62, 36, 10][a[4]] + [84, 62, 30, 12][a[7]]) / 3),
+    g3: a => Math.round(([85, 60, 38, 18][a[1]] + [18, 36, 56, 76][a[0]]) / 2),
+    g4: a => Math.round(([82, 52, 14][a[5]] + [82, 56, 30, 10][a[2]] + [80, 62, 40, 12][a[6]]) / 3),
+  };
+  const GATES = [['Value on the table','g1','#F43F5E'],['The model works','g2','#F43F5E'],['The work changes','g3','#F43F5E'],['Anyone collects','g4','#F43F5E']];
+  function compute(a) { const l = GATES.map(g => L[g[1]](a) / 100); // fraction leaked of what's left
+    let left = 100; const steps = []; l.forEach((f, i) => { const lost = left * f * 0.62; steps.push({ from:left, lost, to:left - lost }); left -= lost; });
+    const gap = Math.round(100 - left); return { steps, banked:left, gap }; }
+  function render() {
+    const r = compute(ans); $('#gap').textContent = r.gap; $('#arc').style.strokeDashoffset = 502 - 502 * (r.gap / 100);
+    const band = $('#band'); let bt, bc, verdict;
+    if (r.gap < 35) { bt = 'Governed'; bc = '#2563EB'; verdict = '<b>You would bank about $' + Math.round(r.banked) + ' of every $100.</b> Ownership, measurement and kill discipline are doing their job. The assessment sharpens the portfolio and the vendor position.'; }
+    else if (r.gap < 62) { bt = 'Leaking'; bc = '#1E40AF'; verdict = '<b>About $' + Math.round(r.banked) + ' of every $100 makes it to the P&amp;L.</b> The biggest leak is at <b>' + worst(r) + '</b>. That is an operating fix, not a model fix — and it is cheaper before the next pilot starts.'; }
+    else { bt = 'Improvising'; bc = '#F43F5E'; verdict = '<b>Roughly $' + Math.round(r.banked) + ' of every $100 gets banked.</b> The rest is freed and never converted, or never reachable. This is the profile of the 95% — and the shape of it is the diagnosis: start at <b>' + worst(r) + '</b>.'; }
+    band.style.color = bc; band.style.borderColor = bc + '55'; band.style.background = bc + '14'; band.innerHTML = '<i style="width:6px;height:6px;border-radius:50%;background:' + bc + '"></i><span>' + bt + '</span>';
+    $('#verdict').innerHTML = verdict; drawWF(r);
+    $('#qcount').textContent = (touched ? ans.filter(v => v != null).length : 0) + ' / 8 answered';
+    $('#yours').textContent = touched ? 'Your gap score: ' + r.gap + ' · ' + bt.toLowerCase() + ' — the assessment starts at ' + worst(r).toLowerCase() : '';
+    $$('.seg').forEach(s => $$('button', s).forEach((b, i) => b.classList.toggle('on', ans[+s.dataset.q] === i)));
+  }
+  function worst(r) { let m = 0, k = 0; r.steps.forEach((s, i) => { if (s.lost > m) { m = s.lost; k = i; } }); return 'Gate ' + (k + 1) + ' · ' + GATES[k][0]; }
+  const wf = $('#wf'); const NS = 'http://www.w3.org/2000/svg';
+  function el(n, a) { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); return e; }
+  let wfBuilt = false, wfEls = {};
+  function drawWF(r) {
+    const W = 520, H = 300, x0 = 24, bw = 56, gap = 34, base = 250, scale = 2.0; // 100 -> 200px
+    if (!wfBuilt) { wfBuilt = true; wf.innerHTML = '';
+      wf.appendChild(el('line', { x1:x0, y1:base, x2:W - 10, y2:base, stroke:'#E1E4E9' }));
+      const cols = ['start', ...GATES.map((g, i) => 'g' + i), 'end'];
+      cols.forEach((c, i) => { const x = x0 + i * (bw + gap); const isG = c.startsWith('g'); const color = c === 'start' ? '#0B0C0E' : c === 'end' ? '#2563EB' : GATES[+c[1]][2];
+        const rect = el('rect', { x, y:base, width:bw, height:0, rx:0, fill: isG ? color : color, opacity: isG ? (.45 + (+c[1]) * .15) : 1 }); wf.appendChild(rect);
+        const v = el('text', { x:x + bw / 2, y:base - 6, 'text-anchor':'middle', class:'v' }); wf.appendChild(v);
+        const lab = el('text', { x:x + bw / 2, y:base + 18, 'text-anchor':'middle' }); lab.textContent = c === 'start' ? 'PILOT VALUE' : c === 'end' ? 'BANKED' : 'GATE 0' + (+c[1] + 1); wf.appendChild(lab);
+        const lab2 = el('text', { x:x + bw / 2, y:base + 32, 'text-anchor':'middle', class:'lg' }); lab2.textContent = isG ? GATES[+c[1]][0].toUpperCase() : ''; wf.appendChild(lab2);
+        const gl = i < cols.length - 1 ? el('line', { x1:x + bw, y1:base, x2:x + bw + gap, y2:base, stroke:'#8A8F99', 'stroke-dasharray':'3 3', class:'gl' }) : null; if (gl) wf.appendChild(gl);
+        wfEls[c] = { rect, v, gl, x }; });
+    }
+    // start bar
+    const set = (k, top, h, val) => { const e = wfEls[k]; e.rect.setAttribute('y', base - top * scale); e.rect.setAttribute('height', Math.max(0, h * scale)); e.v.setAttribute('y', base - top * scale - 6); e.v.textContent = val; };
+    set('start', 100, 100, '$100');
+    r.steps.forEach((s, i) => { set('g' + i, s.from, s.lost, '−$' + Math.round(s.lost)); const gl = wfEls['g' + i].gl; if (gl) { gl.setAttribute('y1', base - s.to * scale); gl.setAttribute('y2', base - s.to * scale); } });
+    const gl0 = wfEls.start.gl; gl0.setAttribute('y1', base - 100 * scale); gl0.setAttribute('y2', base - 100 * scale);
+    set('end', r.banked, r.banked, '$' + Math.round(r.banked));
+  }
+  $$('.seg').forEach(s => $$('button', s).forEach((b, i) => b.addEventListener('click', () => { ans[+s.dataset.q] = i; touched = true; $('#hint').textContent = 'Your profile. Change any answer and the panel re-computes.'; render(); })));
+  $('#reset').addEventListener('click', () => { ans = SAMPLE.slice(); touched = false; $('#hint').textContent = 'Showing a typical mid-market profile. Click any answer to make it yours.'; render(); });
+  render();
+
+  // ================= reveals =================
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold:.15 });
+  $$('.reveal, .hm, .gantt, .vr, .cp, .cost, .nhi, .dep').forEach(e => io.observe(e));
+
+  // chapters + rail
+  const chapters = $$('.chapter'), rail = $$('#rail .ri');
+  const cio = new IntersectionObserver(es => es.forEach(e => { const i = chapters.indexOf(e.target); if (e.isIntersecting) { e.target.classList.add('in'); rail.forEach((r, k) => r.classList.toggle('on', k === i)); } }), { rootMargin:'-40% 0px -40% 0px', threshold:0 });
+  chapters.forEach(c => cio.observe(c));
+
+  // ================= DELIVERABLE =================
+  // tabs
+  const tabs = $$('#tabs button'), pages = $$('#pages .page');
+  tabs.forEach(t => t.addEventListener('click', () => { tabs.forEach(x => x.classList.toggle('on', x === t)); pages.forEach((p, i) => p.classList.toggle('on', i === +t.dataset.p)); const pg = pages[+t.dataset.p]; $$('.hm, .gantt, .vr, .cp, .cost, .nhi, .dep', pg).forEach(e => e.classList.add('in')); if (+t.dataset.p === 2) buildRing(); }));
+
+  // heatmap
+  const UNITS = ['Retail banking','Wealth & advisory','Claims & underwriting','Contact centre','Finance & risk','Engineering'], DIMS = ['Cost','Data exposure','Vendor','Security','Reliability','Ownership'];
+  let HM = [[42,71,55,38,44,66],[35,58,62,47,52,74],[61,83,48,79,70,58],[77,88,66,64,49,81],[29,46,71,52,68,37],[48,39,84,73,86,45]];
+  const col = v => { const stops = [[186,230,253],[37,99,235],[100,116,139],[244,63,94]]; const p = Math.min(.999, v / 100) * 3, i = Math.floor(p), f = p - i, a = stops[i], b = stops[i + 1]; return 'rgb(' + a.map((c, k) => Math.round(c + (b[k] - c) * f)).join(',') + ')'; };
+  const hm = $('#hm');
+  function buildHM(first) { if (first) { hm.innerHTML = '<div></div>' + DIMS.map(d => '<div class="hh">' + d + '</div>').join('') + UNITS.map((u, r) => '<div class="rl">' + u + '</div>' + DIMS.map((d, c) => '<div class="cell" data-r="' + r + '" data-c="' + c + '"><i></i><b></b></div>').join('')).join(''); }
+    let hot = 0, sum = 0; $$('.cell', hm).forEach(cell => { const v = HM[+cell.dataset.r][+cell.dataset.c]; const i = $('i', cell); i.style.setProperty('--cc', col(v)); i.style.background = col(v); i.style.transitionDelay = (first ? (+cell.dataset.r * 6 + +cell.dataset.c) * 25 : 0) + 'ms'; $('b', cell).textContent = v; cell.classList.toggle('hi', v >= 80); if (v > 70) hot++; sum += v; });
+    $('#hm-hot').textContent = hot; $('#hm-avg').textContent = Math.round(sum / 36); }
+  buildHM(true);
+  $('#rescan').addEventListener('click', () => { HM = HM.map(row => row.map(v => Math.max(12, Math.min(96, v + Math.round((Math.random() - .5) * 22))))); buildHM(false); });
+
+  // portfolio map
+  const USE = [['Support drafting',82,78,14,'#06B6D4'],['Contract review',74,61,22,'#06B6D4'],['KYC document intake',69,72,18,'#06B6D4'],['Advisor briefing packs',77,44,26,'#2563EB'],['Claims triage agent',88,38,34,'#2563EB'],['Fraud pattern copilot',84,52,30,'#2563EB'],['Policy assistant',41,66,10,'#8A8F99'],['Meeting summaries',33,85,8,'#8A8F99'],['Code migration copilot',58,58,20,'#8A8F99'],['Customer-facing agent',86,22,40,'#1E40AF'],['Pricing optimiser',72,28,28,'#1E40AF'],['Marketing image gen',24,74,9,'#F43F5E'],['Internal chatbot v2',28,40,12,'#F43F5E'],['Voice IVR replacement',52,18,24,'#F43F5E'],['Résumé screener',30,62,7,'#F43F5E'],['Doc-retrieval pattern',63,80,16,'#0D9488']];
+  const pm = $('#pm'); const PX = v => 60 + (v / 100) * 550, PY = v => 350 - (v / 100) * 300;
+  function buildPM() { pm.innerHTML = '';
+    [['QUICK WINS',350,68],['STRATEGIC BETS',350,368],['PARK OR KILL',70,68],['EXPERIMENTS',70,368]].forEach(([t, y, x]) => { const q = el('text', { x, y, class:'q', 'text-anchor': x > 200 ? 'end' : 'start' }); q.textContent = t; pm.appendChild(q); });
+    pm.appendChild(el('line', { x1:60, y1:200, x2:610, y2:200, stroke:'#E1E4E9', 'stroke-dasharray':'4 4' })); pm.appendChild(el('line', { x1:335, y1:50, x2:335, y2:350, stroke:'#E1E4E9', 'stroke-dasharray':'4 4' }));
+    pm.appendChild(el('line', { x1:60, y1:350, x2:610, y2:350, stroke:'#E1E4E9' })); pm.appendChild(el('line', { x1:60, y1:50, x2:60, y2:350, stroke:'#E1E4E9' }));
+    const ax = el('text', { x:335, y:380, 'text-anchor':'middle' }); ax.textContent = 'FEASIBILITY →'; pm.appendChild(ax);
+    const ay = el('text', { x:16, y:200, transform:'rotate(-90 16 200)', 'text-anchor':'middle' }); ay.textContent = 'ENTERPRISE VALUE →'; pm.appendChild(ay);
+    USE.forEach((u, i) => { const c = el('circle', { class:'b', cx:PX(u[2]), cy:PY(u[1]), r:0, fill:u[4], opacity:.75 }); c.dataset.i = i; pm.appendChild(c); setTimeout(() => c.setAttribute('r', 6 + u[3] * .5), 80 * i);
+      c.addEventListener('mouseenter', () => hi(i)); c.addEventListener('mouseleave', () => hi(-1)); });
+    $('#pmlist').innerHTML = USE.slice(0, 8).map((u, i) => '<div class="li" data-i="' + i + '"><div><i style="background:' + u[4] + '"></i>' + u[0] + '</div><span>' + (u[4] === '#06B6D4' ? 'Quick win' : u[4] === '#2563EB' ? 'Strategic bet' : u[4] === '#8A8F99' ? 'Experiment' : u[4] === '#1E40AF' ? 'Platform first' : 'Kill') + '</span></div>').join('');
+    $$('#pmlist .li').forEach(li => { li.addEventListener('mouseenter', () => hi(+li.dataset.i)); li.addEventListener('mouseleave', () => hi(-1)); });
+  }
+  function hi(i) { $$('#pm circle.b').forEach(c => c.setAttribute('opacity', i < 0 ? .75 : (+c.dataset.i === i ? 1 : .25))); $$('#pmlist .li').forEach(li => li.classList.toggle('hi', +li.dataset.i === i)); }
+  buildPM();
+  // gentle drift
+  if (!reduced) { const t0 = performance.now(); (function drift(now) { const t = (now - t0) / 1000; $$('#pm circle.b').forEach((c, i) => { const u = USE[i]; c.setAttribute('cx', PX(u[2]) + Math.sin(t * .6 + i) * 3); c.setAttribute('cy', PY(u[1]) + Math.cos(t * .5 + i * 1.3) * 3); }); requestAnimationFrame(drift); })(t0); }
+
+  // vendor ring
+  const VEND = [['Vendor A (frontier)',71,'#2563EB'],['Vendor B',14,'#06B6D4'],['Cloud-hosted OSS',9,'#1E40AF'],['Vendor C',6,'#8A8F99']];
+  let ringBuilt = false;
+  function buildRing() { if (ringBuilt) return; ringBuilt = true; const r = $('#ring'); const R = 88, C = 2 * Math.PI * R; let off = 0;
+    VEND.forEach((v, i) => { const p = el('circle', { cx:110, cy:110, r:R, fill:'none', stroke:v[2], 'stroke-width':22, 'stroke-dasharray':(C * v[1] / 100) + ' ' + C, 'stroke-dashoffset':-off, transform:'rotate(-90 110 110)' }); p.style.opacity = 0; p.style.transition = 'opacity .5s ' + (i * .15) + 's'; r.appendChild(p); requestAnimationFrame(() => requestAnimationFrame(() => p.style.opacity = 1)); off += C * v[1] / 100; });
+    $('#vl').innerHTML = VEND.map(v => '<div><i style="background:' + v[2] + '"></i>' + v[0] + '<b>' + v[1] + '%</b></div>').join('');
+  }
+})();
+</script>
