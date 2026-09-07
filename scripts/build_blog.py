@@ -169,6 +169,7 @@ def render_sitemap(posts):
         (f"{SITE_URL}/", ordered[0]["date"] if ordered else None),
         (f"{SITE_URL}/deck.html", None),
         (f"{SITE_URL}/privacy/", None),
+        (f"{SITE_URL}/schedule/", "2026-09-07"),
         (f"{SITE_URL}/blog/", ordered[0]["date"] if ordered else None),
     ]
     entries = []
@@ -207,7 +208,7 @@ def main():
     (OUTPUT_DIR / "index.html").write_text(render_index(posts))
     (REPO_ROOT / "sitemap.xml").write_text(render_sitemap(posts))
     print(f"Generated {len(posts)} post(s) + index into {OUTPUT_DIR}")
-    print(f"Generated sitemap.xml with {len(posts) + 4} URLs")
+    print(f"Generated sitemap.xml with {len(posts) + 5} URLs")
 
 
 if __name__ == "__main__":

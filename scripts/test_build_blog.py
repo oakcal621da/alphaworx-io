@@ -116,6 +116,7 @@ def test_render_sitemap_lists_static_pages_and_every_post():
     assert "<urlset" in xml
     assert "<loc>https://alphaworx.io/</loc>" in xml
     assert "<loc>https://alphaworx.io/deck.html</loc>" in xml
+    assert "<loc>https://alphaworx.io/schedule/</loc>" in xml
     assert "<loc>https://alphaworx.io/blog/</loc>" in xml
     assert "<loc>https://alphaworx.io/blog/example-post.html</loc>" in xml
     assert "<loc>https://alphaworx.io/blog/second-post.html</loc>" in xml

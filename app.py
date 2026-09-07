@@ -218,6 +218,14 @@ def create_app(overrides=None):
     def privacy():
         return send_from_directory(ROOT / 'privacy', 'index.html')
 
+    @app.get('/schedule')
+    def schedule_redirect():
+        return redirect('/schedule/', code=301)
+
+    @app.get('/schedule/')
+    def schedule():
+        return send_from_directory(ROOT / 'schedule', 'index.html')
+
     @app.errorhandler(404)
     def missing_page(_error):
         if request.path.startswith('/api/'):
@@ -229,7 +237,7 @@ def create_app(overrides=None):
         # Serve published content only, never the repository, backend or env files.
         path = Path(filename)
         if filename not in {'index.html', 'deck.html', '404.html', 'robots.txt', 'sitemap.xml'}:
-            if not path.parts or path.parts[0] not in {'assets', 'blog'}:
+            if not path.parts or path.parts[0] not in {'assets', 'blog', 'schedule'}:
                 abort(404)
             if any(part.startswith('.') or part == '..' for part in path.parts):
                 abort(404)

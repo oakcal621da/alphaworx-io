@@ -96,7 +96,7 @@ class ContactTests(unittest.TestCase):
         for path in ['/.env', '/.git/config', '/app.py', '/requirements.txt', '/docs/contact-form-setup.md', '/assets/../app.py']:
             with self.client.get(path) as response:
                 self.assertEqual(response.status_code, 404, path)
-        for path in ['/', '/assets/contact.js', '/blog/index.html', '/blog/', '/robots.txt']:
+        for path in ['/', '/assets/contact.js', '/blog/index.html', '/blog/', '/schedule/', '/robots.txt']:
             with self.client.get(path) as response:
                 self.assertEqual(response.status_code, 200, path)
         result = self.client.post('/api/contact', data='x'*17000, content_type='application/json', headers={'Origin': 'https://alphaworx.io'})
@@ -114,6 +114,15 @@ class ContactTests(unittest.TestCase):
             self.assertIn("frame-ancestors 'none'", response.headers['Content-Security-Policy'])
             self.assertIn('max-age=', response.headers['Strict-Transport-Security'])
         self.assertEqual(self.client.get('/api/missing').json['error'], 'Not found.')
+
+    def test_schedule_page_uses_proton_booking_and_privacy_notice_covers_it(self):
+        page = self.client.get('/schedule/').text
+        self.assertIn('calendar.proton.me/bookings#', page)
+        self.assertIn('Send context first', page)
+        self.assertIn('/privacy/', page)
+        self.assertEqual(self.client.get('/schedule').status_code, 301)
+        privacy = self.client.get('/privacy/').text
+        self.assertIn('Appointment scheduling is provided through Proton Calendar', privacy)
 
     def test_cors_only_for_expected_site(self):
         response = self.client.options('/api/contact', headers={'Origin': 'https://alphaworx.io'})
