@@ -24,4 +24,12 @@ body.contact-open { overflow:hidden; }
 .contact-status:empty { display:none; }
 .contact-status[data-state=error] { color:#803f31; }
 .contact-honeypot { display:none; }
+.contact-success { position:relative; padding:48px 44px 44px; text-align:center; background:#fafaf8; }
+.contact-success-mark { display:grid; place-items:center; width:54px; height:54px; margin:0 auto 24px; border:1px solid #7895a8; border-radius:50%; background:#e6eef3; color:#25465b; font:600 24px/1 var(--display); }
+.contact-success .eyebrow { color:#597181; }
+.contact-success h2 { margin:14px auto 12px; max-width:470px; }
+.contact-success h2:focus { outline:none; }
+.contact-success p { max-width:470px; margin:0 auto 28px; color:#52606a; font-size:16px; line-height:1.65; }
+.contact-success .btn { min-height:48px; border:0; cursor:pointer; font-family:var(--body); }
 @media(max-width:600px) { .contact-dialog-head { padding:26px 22px 20px; }.contact-form {padding:22px;}.contact-fields {grid-template-columns:1fr;gap:16px;}.contact-dialog h2 {font-size:29px;}.contact-dialog-head .eyebrow {font-size:10px;}.contact-dismiss {right:15px;top:15px;} }
+@media(max-width:600px) { .contact-success { padding:40px 24px 34px; }.contact-success p { font-size:15px; } }

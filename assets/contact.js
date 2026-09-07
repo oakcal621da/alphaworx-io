@@ -1,7 +1,7 @@
 (() => {
 'use strict';
 const dialog=document.getElementById('contact-dialog');if(!dialog||!dialog.showModal)return;
-const form=document.getElementById('contact-form'),submit=document.getElementById('contact-submit'),status=document.getElementById('contact-status'),note=document.getElementById('contact-delivery-note'),topic=document.getElementById('contact-topic');
+const form=document.getElementById('contact-form'),submit=document.getElementById('contact-submit'),status=document.getElementById('contact-status'),note=document.getElementById('contact-delivery-note'),topic=document.getElementById('contact-topic'),head=document.getElementById('contact-dialog-head'),success=document.getElementById('contact-success'),successTitle=document.getElementById('contact-success-title');
 const configURL=new URL(window.ALPHAWORX_CONTACT_CONFIG_URL||'/api/contact/config',location.href);
 let endpoint='',formToken='';
 let opener=null,sending=false,topicChosen=false,loading=false;
@@ -31,9 +31,11 @@ topic.addEventListener('change',()=>{topicChosen=true;});
 if(location.hash==='#contact'){document.body.classList.add('contact-open');dialog.showModal();}
 
 function setStatus(message,state='info'){status.textContent=message;status.dataset.state=state;}
+function showSuccess(){head.hidden=true;form.hidden=true;success.hidden=false;dialog.setAttribute('aria-labelledby','contact-success-title');dialog.removeAttribute('aria-describedby');successTitle.focus({preventScroll:true});}
+function resetView(){head.hidden=false;form.hidden=false;success.hidden=true;dialog.setAttribute('aria-labelledby','contact-title');dialog.setAttribute('aria-describedby','contact-description');}
 function close(){dialog.close();}
 dialog.querySelectorAll('[data-close-contact]').forEach(b=>b.addEventListener('click',close));
-dialog.addEventListener('close',()=>{document.body.classList.remove('contact-open');opener?.focus({preventScroll:true});});
+dialog.addEventListener('close',()=>{document.body.classList.remove('contact-open');resetView();opener?.focus({preventScroll:true});});
 dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)close();});
 function inferredTopic(subject){
  if(/assessment/i.test(subject))return 'AI strategy assessment';
@@ -72,7 +74,7 @@ form.addEventListener('submit',async event=>{
  const result=await response.json().catch(()=>({}));
  if(response.status===403)formToken='';
  if(!response.ok||result.ok!==true)throw new Error(result.error||'We couldn’t confirm delivery. Please try again later or email info@alphaworx.io directly.');
- form.reset();topicChosen=false;formToken='';setStatus('Thank you. Your inquiry has been sent to Alphaworx.','success');
+ form.reset();topicChosen=false;formToken='';setStatus('');showSuccess();
  }catch(error){setStatus(error.name==='AbortError'?'Delivery is taking longer than expected. Your details are still here. Please email info@alphaworx.io if you need to check delivery.':error instanceof TypeError?'We couldn’t connect to send your inquiry. Your details are still here. Please try again or email info@alphaworx.io.':error.message,'error');}
  finally{clearTimeout(timeout);sending=false;submit.disabled=false;submit.textContent='Send inquiry ↗';if(!formToken)loadDelivery();}
 });
