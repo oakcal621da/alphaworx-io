@@ -19,3 +19,11 @@ services:
         generateValue: true
       - key: PUBLIC_ORIGIN
         value: https://alphaworx.io
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REFRESH_TOKEN
+        sync: false
+      - key: GOOGLE_CALENDAR_ID
+        value: primary

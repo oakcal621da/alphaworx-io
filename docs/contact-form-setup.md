@@ -3,7 +3,9 @@
 The existing `alphaworx-io` service (`srv-da0fmo1t0dsc739jvr4g`) is a Static Site
 tracking `main`. It serves the approved redesign and calls the separate SMTP
 integration through its public configuration URL. The paid Python web service is
-`alphaworx-contact`, deployed from `codex/proton-contact`.
+`alphaworx-contact`, deployed from `main`. The same service handles contact
+delivery and Google Calendar scheduling, so the scheduler does not require a
+second Render service, database, or domain.
 
 - Service ID: `srv-dae6i5ad0e5s73fbkav0`
 - URL: https://alphaworx-contact.onrender.com
@@ -29,6 +31,10 @@ Set these in the new service's **Environment** settings:
 | `PROTON_SMTP_TOKEN` | Dedicated Proton SMTP token; secret, never committed |
 | `CONTACT_SIGNING_KEY` | A generated random secret of at least 32 bytes |
 | `PUBLIC_ORIGIN` | `https://alphaworx.io` |
+| `GOOGLE_CLIENT_ID` | OAuth client ID for the Alphaworx Google account |
+| `GOOGLE_CLIENT_SECRET` | OAuth client secret; secret, never committed |
+| `GOOGLE_REFRESH_TOKEN` | Offline Calendar OAuth refresh token; secret, never committed |
+| `GOOGLE_CALENDAR_ID` | `primary` |
 
 The app also allows its own `RENDER_EXTERNAL_URL` origin for staging. It exposes
 only an enabled flag, a public endpoint, and a short-lived form token to the browser.
@@ -50,6 +56,20 @@ automatically. If keeping the existing static hosting, set
 `https://alphaworx-contact.onrender.com/api/contact/config` URL. The backend permits CORS
 only for the configured public site and its own Render origin. This does not require
 a domain or mail DNS change. Publish the revised static homepage separately when ready.
+
+## Scheduling
+
+The branded scheduler lives at `https://alphaworx.io/schedule/`. Its browser code
+calls the existing contact service for live availability and booking. The service
+uses the Google Calendar FreeBusy and Events APIs with the configured refresh
+token. It offers 30-minute weekday appointments from 9:00 a.m. to 5:00 p.m.
+America/Chicago, requires four hours of notice, and opens dates 30 days ahead.
+
+A confirmed appointment creates a Google Calendar event, requests a Google Meet
+conference, adds the visitor as an attendee, and asks Google to send invitations.
+The browser receives no Google credential. Availability and booking requests use
+short-lived signed tokens and accept production browser requests only from
+`https://alphaworx.io`.
 
 When credentials are missing, the form keeps the existing **Continue in email**
 fallback. With credentials, it offers **Send inquiry**. Messages always go to

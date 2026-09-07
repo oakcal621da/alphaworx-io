@@ -1,8 +1,10 @@
 import smtplib
 import tempfile
 import unittest
+from datetime import datetime, timedelta
 from pathlib import Path
 from unittest.mock import MagicMock, patch
+from zoneinfo import ZoneInfo
 
 from app import create_app, deliver
 
@@ -115,14 +117,89 @@ class ContactTests(unittest.TestCase):
             self.assertIn('max-age=', response.headers['Strict-Transport-Security'])
         self.assertEqual(self.client.get('/api/missing').json['error'], 'Not found.')
 
-    def test_schedule_page_uses_alphaworx_scheduler_and_privacy_notice_covers_it(self):
+    def test_schedule_page_uses_embedded_alphaworx_scheduler_and_privacy_notice_covers_it(self):
         page = self.client.get('/schedule/').text
-        self.assertIn('https://schedule.alphaworx.io/book/strategy-call', page)
-        self.assertIn('Send context first', page)
+        self.assertIn('/assets/schedule.js', page)
+        self.assertIn('Live availability', page)
+        self.assertNotIn('calendar.proton.me/bookings#', page)
         self.assertIn('/privacy/', page)
         self.assertEqual(self.client.get('/schedule').status_code, 301)
         privacy = self.client.get('/privacy/').text
         self.assertIn('creates calendar invitations and Google Meet details through Google Calendar', privacy)
+
+
+class FakeCalendar:
+    def __init__(self, busy=None):
+        self.busy_periods = busy or []
+        self.created = []
+
+    def busy(self, starts_at, ends_at):
+        return self.busy_periods
+
+    def create(self, event_id, starts_at, ends_at, visitor):
+        self.created.append((event_id, starts_at, ends_at, visitor))
+        return {'eventId': event_id, 'meetingUrl': 'https://meet.google.com/example'}
+
+
+class SchedulingTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.calendar = FakeCalendar()
+        self.app = create_app({'TESTING': True, 'CONTACT_DB': str(Path(self.temp.name) / 'test.db'),
+            'SECRET_KEY': 'schedule-unit-test-key', 'PUBLIC_ORIGIN': 'https://alphaworx.io',
+            'RENDER_ORIGIN': '', 'CALENDAR_CLIENT': self.calendar})
+        self.client = self.app.test_client()
+        self.config = self.client.get('/api/schedule/config').json
+
+    def next_weekday(self):
+        day = datetime.now(ZoneInfo('America/Chicago')).date() + timedelta(days=2)
+        while day.weekday() > 4:
+            day += timedelta(days=1)
+        return day
+
+    def headers(self):
+        return {'Origin': 'https://alphaworx.io', 'X-Schedule-Token': self.config['token']}
+
+    def test_config_and_availability_expose_no_google_credentials(self):
+        self.assertEqual(set(self.config), {'enabled', 'availabilityEndpoint', 'bookingEndpoint', 'durationMinutes', 'timeZone', 'token'})
+        day = self.next_weekday()
+        result = self.client.get('/api/schedule/availability', query_string={'date': day.isoformat()}, headers=self.headers())
+        self.assertEqual(result.status_code, 200)
+        self.assertTrue(result.json['slots'])
+        self.assertNotIn('credential', result.text.lower())
+
+    def test_schedule_requires_site_origin_and_valid_session(self):
+        day = self.next_weekday()
+        self.assertEqual(self.client.get('/api/schedule/availability', query_string={'date': day.isoformat()},
+            headers={'Origin': 'https://elsewhere.example', 'X-Schedule-Token': self.config['token']}).status_code, 403)
+        self.assertEqual(self.client.get('/api/schedule/availability', query_string={'date': day.isoformat()},
+            headers={'Origin': 'https://alphaworx.io', 'X-Schedule-Token': 'bad'}).status_code, 403)
+
+    def test_booking_rechecks_availability_creates_invite_and_is_idempotent(self):
+        day = self.next_weekday()
+        availability = self.client.get('/api/schedule/availability', query_string={'date': day.isoformat()}, headers=self.headers()).json
+        payload = {'token': self.config['token'], 'start': availability['slots'][0], 'name': 'Test Visitor',
+            'email': 'visitor@example.org', 'company': 'Meridian Industrial Group', 'message': 'AI operating model'}
+        first = self.client.post('/api/schedule/book', json=payload, headers={'Origin': 'https://alphaworx.io'})
+        second = self.client.post('/api/schedule/book', json=payload, headers={'Origin': 'https://alphaworx.io'})
+        self.assertEqual(first.status_code, 200)
+        self.assertEqual(second.status_code, 200)
+        self.assertEqual(first.json['meetingUrl'], 'https://meet.google.com/example')
+        self.assertEqual(len(self.calendar.created), 1)
+        self.assertEqual(self.calendar.created[0][3]['email'], 'visitor@example.org')
+
+    def test_booking_rejects_a_slot_that_became_busy(self):
+        day = self.next_weekday()
+        availability = self.client.get('/api/schedule/availability', query_string={'date': day.isoformat()}, headers=self.headers()).json
+        start = availability['slots'][0]
+        busy_start = datetime.fromisoformat(start.replace('Z', '+00:00'))
+        self.calendar.busy_periods = [{'start': start, 'end': (busy_start + timedelta(minutes=30)).isoformat()}]
+        result = self.client.post('/api/schedule/book', json={'token': self.config['token'], 'start': start,
+            'name': 'Test Visitor', 'email': 'visitor@example.org', 'company': '', 'message': ''},
+            headers={'Origin': 'https://alphaworx.io'})
+        self.assertEqual(result.status_code, 409)
+        self.assertFalse(self.calendar.created)
 
     def test_cors_only_for_expected_site(self):
         response = self.client.options('/api/contact', headers={'Origin': 'https://alphaworx.io'})
