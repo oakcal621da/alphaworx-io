@@ -29,3 +29,10 @@ body:not(.js) input[type=range],body:not(.js) .range-label{display:none}
  .js:not(.read-all) .slide-content{flex:1 0 auto}
 }
 @media screen{.read-all .slide{aspect-ratio:auto}.read-all .slide-content{flex:1 0 auto}}
+
+/* Native controls remain useful on touch; static fallback shows the base case. */
+body:not(.js) .pass-tabs{display:none}
+#economics .range-label{margin-top:15px}
+#economics input[type=range]{margin:8px 0;min-height:28px}
+#economics .cost-list{margin:13px 0}
+#economics #ai-stress-note{color:var(--navy);border-left:2px solid var(--brass);padding-left:12px;margin-top:7px}

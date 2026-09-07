@@ -85,7 +85,7 @@ for page,s in enumerate(soup.select('.slide'),1):
   else:
    end=block(left,55,y,495,31)
    if id=='finding':
-    para('E02 + E03   →   F01   →   Decision D01',55,end+16,490,15,NAVY,500)
+    para(text(left.select_one('.trace-line')),55,end+16,490,15,NAVY,500)
   rect(605,y,540,385,'#edf1f3');dl(right,629,y+22,492)
  elif id in ('people','proof'):
   for i,a in enumerate(content.select('.case-cards article')):
@@ -129,11 +129,11 @@ for page,s in enumerate(soup.select('.slide'),1):
    yy=y+i*54;para(label,55,yy+7,431,17);para(value,503,yy,100,29,NAVY,500);rect(55,yy+43,550,.5,LINE)
   para('Divisional headline: $110m. Only $54m enters the cash comparison; the remaining categories are separate.',55,y+228,555,17)
   para('Assessed annual AI cost: $52m',55,y+308,580,21,INK,500)
-  rect(665,y,480,350,BLUE);para('CASH REDUCTION LESS ANNUAL AI COST',695,y+25,420,12,NAVY,500)
+  rect(665,y,480,350,BLUE);para('BENEFIT LESS ALLOCATED ANNUAL AI COST',695,y+25,420,12,NAVY,500)
   para('$2m',695,y+66,420,76,INK,500)
   para('at the assessed $52m annual AI cost',695,y+162,420,20)
-  para('At $44m cost, this becomes $10m if the $54m benefit holds. The $8m cost-reduction hypothesis needs executable terms and retained quality.',695,y+215,420,17)
-  para('The web version varies annual AI cost. The additional $30m investment request is excluded from this annual comparison.',55,y+368,1090,13,SLATE)
+  para('A 10% benefit shortfall turns $2m into −$3.4m at the same cost. Break-even requires 96.3% of the assessed $54m benefit.',695,y+215,420,17)
+  para('The web version varies cost and benefit retention. This is not project ROI; additional investment and transition costs are excluded.',55,y+368,1090,13,SLATE)
  elif id=='decision':
   rect(55,y,1090,373,'#edf1f3');para('MERIDIAN / BOARD INVESTMENT DECISION',80,y+20,690,12,SLATE,500)
   para('EVIDENCE-GATED FUNDING',830,y+20,270,12,NAVY,600)

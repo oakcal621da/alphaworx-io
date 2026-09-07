@@ -64,13 +64,23 @@ document.addEventListener('keydown', e => {
   if (e.key === 'End') index = slides.length-1;
   if (index !== undefined) {e.preventDefault(); show(index, {scroll:true});}
 });
-// Read-all mode keeps the position indicator in sync with the document.
-const observer = new IntersectionObserver(entries => {
-  if (!reading) return;
-  const visible = entries.filter(entry=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio);
-  if (visible.length) show(slides.indexOf(visible[0].target), {hash:false});
-}, {threshold:[.25,.5,.75]});
-slides.forEach(slide=>observer.observe(slide));
+// Track position by the viewport, including slides taller than a phone screen.
+// Intersection ratios can miss tall slides or select a departing slide.
+let scrollFrame = false;
+function syncReadingPosition() {
+ scrollFrame = false;
+ if (!reading) return;
+ const marker = window.innerHeight * 0.3;
+ let visible = 0;
+ slides.forEach((slide,i) => { if (slide.getBoundingClientRect().top <= marker) visible = i; });
+ if (visible !== current) show(visible);
+}
+window.addEventListener('scroll', () => {
+ if (!reading || scrollFrame) return;
+ scrollFrame = true;
+ requestAnimationFrame(syncReadingPosition);
+}, {passive:true});
+window.addEventListener('resize', syncReadingPosition);
 // Fictional worked examples; these controls do not read or score AIOS data.
 const passes = {
  initial: {score:2, name:'Emerging', confidence:'provisional', reason:'The initial view relies on the approved human-review process. The AI tool permissions have not yet been independently tested.', change:'Status: provisional assessment; the action boundary remains unverified.'},
@@ -87,16 +97,24 @@ document.querySelectorAll('[data-pass]').forEach(button => button.addEventListen
  document.querySelectorAll('.maturity-track i').forEach((segment,i) => segment.classList.toggle('filled', i < view.score));
 }));
 const costInput = document.getElementById('ai-operating-cost');
+const retentionInput = document.getElementById('ai-benefit-retention');
 const money = value => new Intl.NumberFormat('en-US', {style:'currency',currency:'USD',notation:'compact',maximumFractionDigits:1}).format(value);
 function updateAiEconomics() {
  const cost = Number(costInput.value) * 1000;
- const net = 54000000 - cost;
+ const retention = Number(retentionInput.value);
+ const benefit = 54000000 * retention / 100;
+ const net = benefit - cost;
  document.getElementById('ai-cost-output').textContent = money(cost);
  document.getElementById('ai-cost').textContent = money(cost);
+ document.getElementById('ai-retention-output').textContent = `${retention}%`;
  document.getElementById('ai-net').textContent = money(net);
- document.querySelector('#economics .cost-answer>p').textContent = `at ${money(cost)} annual operating cost; cash benefit held constant`;
- costInput.setAttribute('aria-valuetext', `${money(cost)} annual AI operating cost; ${money(net)} cash benefit after operating costs. Staff capacity, forecasts, and duplicate claims are excluded.`);
+ document.querySelector('#economics .cost-answer>p').textContent = `${money(benefit)} benefit at ${retention}% retention, less ${money(cost)} annual AI cost`;
+ document.getElementById('ai-stress-note').textContent = `At ${money(cost)} cost, a 10% benefit shortfall gives ${money(54000000 * .9 - cost)}. Break-even requires ${(cost / 54000000 * 100).toFixed(1)}% of the assessed $54m benefit.`;
+ const outcome = `${money(net)} benefit less annual AI cost. Capacity, forecasts, duplicates, and additional investment are excluded.`;
+ costInput.setAttribute('aria-valuetext', `${money(cost)} annual AI cost. ${outcome}`);
+ retentionInput.setAttribute('aria-valuetext', `${retention}% retained; ${money(benefit)} annual benefit. ${outcome}`);
 }
 costInput.addEventListener('input', updateAiEconomics);
+retentionInput.addEventListener('input', updateAiEconomics);
 updateAiEconomics();
 })();
