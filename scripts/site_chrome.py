@@ -4,7 +4,7 @@ HEADER = '''<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header"><div class="site-row">
 <a class="brand" href="/"><img src="/assets/mark.png" alt="Alphaworx" width="28" height="28"><span class="word">ALPHAWORX<span>.IO</span></span></a>
 <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" hidden>Menu ＋</button>
-<nav id="site-nav" aria-label="Main navigation"><a href="/#opportunity">Opportunity</a><a href="/#workflow">Our approach</a><a href="/#assessment">Assessment</a><a href="/blog/">Insights</a><a href="/#about">About</a><a href="/#contact">Let’s talk ↗</a></nav>
+<nav id="site-nav" aria-label="Main navigation"><a href="/#opportunity">Opportunity</a><a href="/#workflow">Our approach</a><a href="/#assessment">Assessment</a><a href="/blog/">Insights</a><a href="/#about">About</a><a href="/schedule/">Schedule</a><a href="/#contact">Let’s talk ↗</a></nav>
 </div></header>'''
 FOOTER = '''<footer class="site-footer"><div class="site-row"><span>© 2026 Alphaworx Ltd</span><a href="/deck.html">Assessment walkthrough ↗</a><a href="/privacy/">Privacy</a><a href="mailto:info@alphaworx.io">info@alphaworx.io</a></div></footer><script src="/assets/site-nav.js" defer></script>'''
 
