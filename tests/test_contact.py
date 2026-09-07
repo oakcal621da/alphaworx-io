@@ -115,14 +115,14 @@ class ContactTests(unittest.TestCase):
             self.assertIn('max-age=', response.headers['Strict-Transport-Security'])
         self.assertEqual(self.client.get('/api/missing').json['error'], 'Not found.')
 
-    def test_schedule_page_uses_proton_booking_and_privacy_notice_covers_it(self):
+    def test_schedule_page_uses_alphaworx_scheduler_and_privacy_notice_covers_it(self):
         page = self.client.get('/schedule/').text
-        self.assertIn('calendar.proton.me/bookings#', page)
+        self.assertIn('https://schedule.alphaworx.io/book/strategy-call', page)
         self.assertIn('Send context first', page)
         self.assertIn('/privacy/', page)
         self.assertEqual(self.client.get('/schedule').status_code, 301)
         privacy = self.client.get('/privacy/').text
-        self.assertIn('Appointment scheduling is provided through Proton Calendar', privacy)
+        self.assertIn('creates calendar invitations and Google Meet details through Google Calendar', privacy)
 
     def test_cors_only_for_expected_site(self):
         response = self.client.options('/api/contact', headers={'Origin': 'https://alphaworx.io'})
