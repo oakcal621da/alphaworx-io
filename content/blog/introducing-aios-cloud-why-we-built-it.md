@@ -40,6 +40,6 @@ Guidance and software play different roles. A reference can help someone frame a
 
 ## An introduction, and an invitation
 
-AIOS Cloud has been in development for approximately four months, with Don Addison and Shane Minnie working together on the platform. We are preparing for an official launch by the end of 2026 and opening early client conversations as we develop the rollout.
+We are preparing for an official launch by the end of 2026 and opening early client conversations as we develop the rollout.
 
 We want those conversations to start with an actual operating decision: an AI proposal waiting for review, an unclear inventory, a policy that needs to become practice, or a leadership team seeking a coherent view. [Explore AIOS Cloud](https://alphaworx.io/aios-cloud.html), watch the introduction, and bring us the decision your organization needs to make next.
