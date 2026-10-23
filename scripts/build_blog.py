@@ -167,6 +167,9 @@ def render_sitemap(posts):
     ordered = sorted(posts, key=lambda p: p["date"], reverse=True)
     static_urls = [
         (f"{SITE_URL}/", ordered[0]["date"] if ordered else None),
+        (f"{SITE_URL}/aios-cloud.html", "2026-10-23"),
+        (f"{SITE_URL}/advisory.html", "2026-10-23"),
+        (f"{SITE_URL}/about.html", "2026-10-23"),
         (f"{SITE_URL}/deck.html", None),
         (f"{SITE_URL}/privacy/", None),
         (f"{SITE_URL}/schedule/", "2026-09-07"),
@@ -208,7 +211,7 @@ def main():
     (OUTPUT_DIR / "index.html").write_text(render_index(posts))
     (REPO_ROOT / "sitemap.xml").write_text(render_sitemap(posts))
     print(f"Generated {len(posts)} post(s) + index into {OUTPUT_DIR}")
-    print(f"Generated sitemap.xml with {len(posts) + 5} URLs")
+    print(f"Generated sitemap.xml with {len(posts) + 8} URLs")
 
 
 if __name__ == "__main__":
