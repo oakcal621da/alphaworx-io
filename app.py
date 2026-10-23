@@ -494,12 +494,12 @@ def create_app(overrides=None):
                 abort(404)
             if any(part.startswith('.') or part == '..' for part in path.parts):
                 abort(404)
-            if path.suffix.lower() not in {'.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.svg', '.webp', '.ico', '.woff', '.woff2', '.ttf', '.avif'}:
+            if path.suffix.lower() not in {'.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.svg', '.webp', '.ico', '.woff', '.woff2', '.ttf', '.avif', '.mp4', '.vtt'}:
                 abort(404)
         resolved = (ROOT / path).resolve()
         if ROOT not in resolved.parents or not resolved.is_file():
             abort(404)
-        return send_from_directory(ROOT, filename)
+        return send_from_directory(ROOT, filename, mimetype="text/vtt" if path.suffix.lower() == ".vtt" else None)
 
     return app
 
