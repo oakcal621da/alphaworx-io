@@ -5,7 +5,7 @@ date: 2026-09-05
 updated: 2026-09-05
 excerpt: Six operating questions that connect AI ambition to cost, data, control, reliability, and accountable decisions.
 slug: enterprise-ai-after-the-demo
-featured: true
+featured: false
 ---
 
 A useful demonstration answers an important question: can AI help with this task? Leadership then has to answer several more. Can the workflow use the right information without overreaching? Is the cost acceptable when review and exceptions are included? Who will keep it useful when the provider, the work, or the surrounding rules change?

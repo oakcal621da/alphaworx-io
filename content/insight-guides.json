@@ -628,5 +628,184 @@
       "label": "Read the full AIR research primer",
       "note": "Research foundation: Understanding Enterprise AI Risk, AIR / The Primer Desk. Evidence cutoff August 16, 2026. This executive adaptation selects operating themes; it does not reproduce or independently audit every claim in the full report."
     }
+  },
+  "introducing-aios-cloud-why-we-built-it": {
+    "quote": "Connect the decision to the work.",
+    "art": [
+      "ONE CONNECTED OPERATING APPROACH",
+      "Direction",
+      "Evidence",
+      "Decision",
+      "Follow-through"
+    ],
+    "lab": [
+      "Follow an AI proposal through the platform.",
+      "A Meridian maintenance team proposes an advisory assistant. Explore the questions that connect its opportunity to ongoing oversight."
+    ],
+    "kind": "explorer",
+    "steps": [
+      {
+        "label": "Baseline",
+        "title": "Understand the starting point.",
+        "text": "Record the current activity, accountable owner, and gaps in the operating foundations.",
+        "owner": "AI lead + business sponsor",
+        "evidence": "Existing AI uses, authority, and supporting records"
+      },
+      {
+        "label": "Proposal",
+        "title": "Make the opportunity specific.",
+        "text": "Describe the maintenance task, intended outcome, information access, and proposed human review.",
+        "owner": "Maintenance workflow owner",
+        "evidence": "Use-case proposal and agreed baseline"
+      },
+      {
+        "label": "Decision",
+        "title": "Resolve what earns the next step.",
+        "text": "Bring benefit assumptions, readiness gaps, and required reviews to the relevant decision maker.",
+        "owner": "Named decision authority",
+        "evidence": "Review evidence and unresolved conditions"
+      },
+      {
+        "label": "Oversight",
+        "title": "Keep the decision connected.",
+        "text": "Assign follow-up actions and review changes against the basis of the decision.",
+        "owner": "Asset owner + review participants",
+        "evidence": "Operating record, actions, and review date"
+      }
+    ],
+    "questions": [
+      "Which decision is currently hardest to explain?",
+      "Who owns the intended outcome?",
+      "Which evidence is missing?",
+      "How will the next decision become owned work?"
+    ],
+    "sources": [
+      {
+        "title": "AIOS Cloud platform and guided product tour",
+        "url": "https://alphaworx.io/aios-cloud.html"
+      }
+    ]
+  },
+  "your-ai-policy-is-published-now-what": {
+    "quote": "A published policy needs an operating route.",
+    "art": [
+      "POLICY INTO PRACTICE",
+      "Applicability",
+      "Evidence",
+      "Authority",
+      "Review"
+    ],
+    "lab": [
+      "Follow a policy requirement into the work.",
+      "Meridian wants to expand a service assistant to another information source. Explore the review before changing its boundary."
+    ],
+    "kind": "explorer",
+    "steps": [
+      {
+        "label": "Applicability",
+        "title": "Identify what the change affects.",
+        "text": "Map the proposed source to the asset, governing policy version, and relevant information-handling requirements.",
+        "owner": "Asset owner + information owner",
+        "evidence": "Proposed access boundary and applicable requirements"
+      },
+      {
+        "label": "Evidence",
+        "title": "Test the relevant condition.",
+        "text": "Review representative permissions and handling tests. Record coverage and limitations.",
+        "owner": "Security reviewer + information owner",
+        "evidence": "Allow/deny tests and source-permission review"
+      },
+      {
+        "label": "Decision",
+        "title": "Use the right authority.",
+        "text": "Resolve approval conditions and any separate exception or residual-risk decision with the assigned authority.",
+        "owner": "Publication or release authority as applicable",
+        "evidence": "Specialist findings, conditions, and authority record"
+      },
+      {
+        "label": "Reassessment",
+        "title": "Keep the basis current.",
+        "text": "Assign review triggers for further source, permission, supplier, or purpose changes.",
+        "owner": "Asset owner",
+        "evidence": "Review date, change triggers, and open actions"
+      }
+    ],
+    "questions": [
+      "Which policy version applies to this use?",
+      "Who owns each required control?",
+      "What evidence supports the current boundary?",
+      "Which exceptions expire before the next review?"
+    ],
+    "sources": [
+      {
+        "title": "AIOS Cloud platform and guided product tour",
+        "url": "https://alphaworx.io/aios-cloud.html"
+      },
+      {
+        "title": "NIST AI RMF Playbook — voluntary guidance",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework/nist-ai-rmf-playbook"
+      }
+    ]
+  },
+  "ai-governance-small-business-where-to-start": {
+    "quote": "Start with one workflow and clear ownership.",
+    "art": [
+      "A PRACTICAL START",
+      "Know the tools",
+      "Set boundaries",
+      "Check the work",
+      "Review results"
+    ],
+    "lab": [
+      "Build a proportionate starting point.",
+      "Consider a small services team drafting proposal outlines. Meridian is the fictional exercise company; the workflow is a small-team example."
+    ],
+    "kind": "explorer",
+    "steps": [
+      {
+        "label": "Discover",
+        "title": "Know what the team uses.",
+        "text": "Record tools, accounts, information, and the person responsible for the proposal workflow.",
+        "owner": "Business owner",
+        "evidence": "A current inventory of actual AI use"
+      },
+      {
+        "label": "Boundaries",
+        "title": "Define what can enter the tool.",
+        "text": "Agree the reviewed account, permitted information, and handling rules for this task.",
+        "owner": "Workflow owner + appropriate adviser",
+        "evidence": "Account review and written information boundary"
+      },
+      {
+        "label": "Review",
+        "title": "Make the human check workable.",
+        "text": "Assign a reviewer who can verify claims and client commitments before a draft is shared.",
+        "owner": "Proposal reviewer",
+        "evidence": "Review criteria and access to source material"
+      },
+      {
+        "label": "Learn",
+        "title": "Decide from observed results.",
+        "text": "Compare preparation time, review effort, and corrections with the baseline before expanding.",
+        "owner": "Business owner",
+        "evidence": "Sample outputs, review effort, cost, and next decision"
+      }
+    ],
+    "questions": [
+      "Which tools and embedded AI features are already in use?",
+      "Who owns the result of each workflow?",
+      "What must a person check before sharing?",
+      "What evidence would justify continuing or stopping?"
+    ],
+    "sources": [
+      {
+        "title": "AIOS Cloud platform and guided product tour",
+        "url": "https://alphaworx.io/aios-cloud.html"
+      },
+      {
+        "title": "NIST AI RMF Playbook — voluntary guidance",
+        "url": "https://www.nist.gov/itl/ai-risk-management-framework/nist-ai-rmf-playbook"
+      }
+    ]
   }
 }

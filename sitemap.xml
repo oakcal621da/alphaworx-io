@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://alphaworx.io/</loc><lastmod>2026-09-05</lastmod></url>
+<url><loc>https://alphaworx.io/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://alphaworx.io/aios-cloud.html</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://alphaworx.io/advisory.html</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://alphaworx.io/about.html</loc><lastmod>2026-10-23</lastmod></url>
 <url><loc>https://alphaworx.io/deck.html</loc></url>
 <url><loc>https://alphaworx.io/privacy/</loc></url>
 <url><loc>https://alphaworx.io/schedule/</loc><lastmod>2026-09-07</lastmod></url>
-<url><loc>https://alphaworx.io/blog/</loc><lastmod>2026-09-05</lastmod></url>
+<url><loc>https://alphaworx.io/blog/</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://alphaworx.io/blog/ai-governance-small-business-where-to-start.html</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://alphaworx.io/blog/introducing-aios-cloud-why-we-built-it.html</loc><lastmod>2026-10-23</lastmod></url>
+<url><loc>https://alphaworx.io/blog/your-ai-policy-is-published-now-what.html</loc><lastmod>2026-10-23</lastmod></url>
 <url><loc>https://alphaworx.io/blog/enterprise-ai-after-the-demo.html</loc><lastmod>2026-09-05</lastmod></url>
 <url><loc>https://alphaworx.io/blog/who-owns-the-ai-decision.html</loc><lastmod>2026-09-05</lastmod></url>
 <url><loc>https://alphaworx.io/blog/twelve-first-principles-enterprise-ai.html</loc><lastmod>2026-09-02</lastmod></url>
@@ -17,4 +23,4 @@
 <url><loc>https://alphaworx.io/blog/ai-supply-chain-attack-surface.html</loc><lastmod>2026-09-05</lastmod></url>
 <url><loc>https://alphaworx.io/blog/excessive-agency-ai-risk-no-attacker.html</loc><lastmod>2026-09-05</lastmod></url>
 <url><loc>https://alphaworx.io/blog/model-deprecation-reliability-risk.html</loc><lastmod>2026-09-05</lastmod></url>
-<url><loc>https://alphaworx.io/aios-cloud.html</loc></url><url><loc>https://alphaworx.io/advisory.html</loc></url><url><loc>https://alphaworx.io/about.html</loc></url></urlset>
+</urlset>

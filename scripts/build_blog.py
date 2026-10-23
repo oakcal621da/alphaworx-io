@@ -105,7 +105,7 @@ def render_post(fields, body_html):
         f"<div class=\"post-body\">{body_html}</div>"
         "<div class=\"post-cta\">"
         f"<p>{fields.get('cta', 'Connect these ideas to your organization’s next AI decision.')}</p>"
-        "<a class=\"work\" href=\"/#contact\">Work with us</a>"
+        "<a class=\"work\" href=\"/advisory.html#contact\">Work with us</a>"
         "</div>"
         "<a class=\"back\" href=\"index.html\">&larr; All insights</a>"
         "</main>"
@@ -127,6 +127,16 @@ def render_index(posts):
             '<div class="research-feature-map" aria-hidden="true"><span>THE OPERATING QUESTIONS</span>'
             '<b>01 / Value</b><b>02 / Data</b><b>03 / Actions</b><b>04 / Reliability</b>'
             '<b>05 / Providers</b><b>06 / Ownership</b><small>Adapted from AIR research</small></div></a>'
+        )
+    if featured and featured['slug'] == 'introducing-aios-cloud-why-we-built-it':
+        feature = (
+            f'<a class="research-feature" href="{html.escape(featured["slug"])}.html">'
+            '<div><span class="cat">Introducing AIOS Cloud · Platform perspective</span>'
+            f'<h2>{html.escape(featured["title"])}</h2><p>{html.escape(featured["excerpt"])}</p>'
+            '<span class="research-feature-cta">Explore why we built it ↗</span></div>'
+            '<div class="research-feature-map" aria-hidden="true"><span>FROM AMBITION TO ACCOUNTABLE ACTION</span>'
+            '<b>01 / Direction</b><b>02 / Evidence</b><b>03 / Decisions</b><b>04 / Follow-through</b>'
+            '<small>AIOS Cloud by Alphaworx</small></div></a>'
         )
     cards = "".join(
         f'<a class="post-card {hue_for(p["category"])}" href="{p["slug"]}.html">'

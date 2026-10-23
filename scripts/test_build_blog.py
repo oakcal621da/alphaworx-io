@@ -152,7 +152,7 @@ def test_principles_guide_survives_rebuild_with_source_and_legacy_links():
         assert f'id="principle-{n}"' in page
     assert 'When principles conflict' in page
     assert 'The doctrine in practice' in page
-    assert 'href="/#contact"' in page
+    assert 'href="/advisory.html#contact"' in page
     amended=essay['body_html'].replace('Outcomes before activity','A revised source principle')
     assert 'A revised source principle' in render_post(essay,amended)
 
@@ -180,7 +180,8 @@ def test_all_guides_rebuild_with_valid_sources_data_and_unique_anchors():
             if tag=='a' and a.get('href','').startswith('#'):self.anchors.append(a['href'][1:])
             if tag=='h1':self.h1s+=1
     guides=registry()
-    assert len(guides)==11
+    assert len(guides)==14
+    assert {"introducing-aios-cloud-why-we-built-it", "your-ai-policy-is-published-now-what", "ai-governance-small-business-where-to-start"} <= set(guides)
     posts={p['slug']:p for p in load_posts()}
     for slug,guide in guides.items():
         fields=posts[slug]
@@ -191,7 +192,7 @@ def test_all_guides_rebuild_with_valid_sources_data_and_unique_anchors():
         assert set(audit.anchors)<=set(audit.ids),slug
         assert 'noindex' not in page
         assert '/assets/insight-guides.js?v=1' in page
-        assert '<lastmod>2026-09-05</lastmod>' in render_sitemap([fields])
+        assert f"<lastmod>{fields['date']}</lastmod>" in render_sitemap([fields])
         data=json.loads(re.search(r'id="insight-data">(.*?)</script>',page,re.S)[1])
         assert data['questions']==guide['questions']
         assert len(data['questions'])>=4
