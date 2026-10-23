@@ -489,12 +489,12 @@ def create_app(overrides=None):
     def public_file(filename):
         # Serve published content only, never the repository, backend or env files.
         path = Path(filename)
-        if filename not in {'index.html', 'deck.html', '404.html', 'robots.txt', 'sitemap.xml'}:
+        if filename not in {'index.html', 'aios-cloud.html', 'advisory.html', 'about.html', 'deck.html', '404.html', 'robots.txt', 'sitemap.xml'}:
             if not path.parts or path.parts[0] not in {'assets', 'blog', 'schedule'}:
                 abort(404)
             if any(part.startswith('.') or part == '..' for part in path.parts):
                 abort(404)
-            if path.suffix.lower() not in {'.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.svg', '.webp', '.ico', '.woff', '.woff2', '.avif'}:
+            if path.suffix.lower() not in {'.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.svg', '.webp', '.ico', '.woff', '.woff2', '.ttf', '.avif'}:
                 abort(404)
         resolved = (ROOT / path).resolve()
         if ROOT not in resolved.parents or not resolved.is_file():
