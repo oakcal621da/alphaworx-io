@@ -10,6 +10,6 @@ def page(title, label, body, canonical=None, noindex=False):
 
 def main():
     (ROOT/'privacy').mkdir(exist_ok=True)
-    (ROOT/'privacy/index.html').write_text(page('Privacy notice','Last updated · September 5, 2026',(ROOT/'content/pages/privacy.html').read_text(),'/privacy/'))
+    (ROOT/'privacy/index.html').write_text(page('Privacy notice','Last updated · October 26, 2026',(ROOT/'content/pages/privacy.html').read_text(),'/privacy/'))
     (ROOT/'404.html').write_text(page('This page has moved or is missing.','404 · Page not found','<p>Find our current work, insights, and ways to get in touch from the Alphaworx homepage.</p><a class="work" href="/">Back to Alphaworx →</a>',noindex=True))
 if __name__=='__main__':main()

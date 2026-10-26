@@ -9,3 +9,6 @@ HEADER = '''<a class="skip-link" href="#main">Skip to content</a>
 FOOTER = '''<footer class="site-footer"><div class="site-row"><span>© 2026 Alphaworx Ltd</span><a href="/deck.html">Assessment walkthrough ↗</a><a href="/privacy/">Privacy</a><a href="mailto:info@alphaworx.io">info@alphaworx.io</a></div></footer><script src="/assets/site-nav.js" defer></script>'''
 
 SOCIAL = '<meta property="og:image" content="https://alphaworx.io/assets/share-card.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Alphaworx — From strategy to execution."><meta name="twitter:card" content="summary_large_image">'
+
+ANALYTICS = '<!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{"token": "cfed6b70e1ae4f62b44f449d4b40b2ae"}\'></script><!-- End Cloudflare Web Analytics -->'
+FOOTER += ANALYTICS
