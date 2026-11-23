@@ -213,7 +213,7 @@ class SchedulingTests(unittest.TestCase):
         smtp.send_message.return_value = {}
         message = MagicMock()
         deliver(message, 'info@alphaworx.io', 'fake-token')
-        smtp_class.assert_called_once_with('smtp.protonmail.ch', 587, timeout=8)
+        smtp_class.assert_called_once_with('smtp.gmail.com', 587, timeout=8)
         self.assertTrue(smtp.starttls.called)
         smtp.login.assert_called_once_with('info@alphaworx.io', 'fake-token')
         smtp.send_message.assert_called_once_with(message, from_addr='info@alphaworx.io', to_addrs=['info@alphaworx.io'])

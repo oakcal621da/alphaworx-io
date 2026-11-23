@@ -1,4 +1,4 @@
-# Proton contact delivery on Render
+# Contact delivery on Render (Google Workspace SMTP)
 
 The existing `alphaworx-io` service (`srv-da0fmo1t0dsc739jvr4g`) is a Static Site
 tracking `main`. It serves the approved redesign and calls the separate SMTP
@@ -11,8 +11,9 @@ second Render service, database, or domain.
 - URL: https://alphaworx-contact.onrender.com
 - Environment: https://dashboard.render.com/web/srv-dae6i5ad0e5s73fbkav0/env
 - Compute approved September 5, 2026: $7/month, 0.5 CPU, 512 MB RAM.
-- Proton authentication and end-to-end inbox receipt were confirmed on September
-  5, 2026. Credentials are stored only in the web service's Render environment.
+- Mail for alphaworx.io moved from Proton to Google Workspace in November 2026. The
+  service sends through `smtp.gmail.com`. Credentials are stored only in the web
+  service's Render environment.
 
 ## Render service
 
@@ -27,8 +28,8 @@ Set these in the new service's **Environment** settings:
 
 | Variable | Value |
 | --- | --- |
-| `PROTON_SMTP_USERNAME` | `info@alphaworx.io` |
-| `PROTON_SMTP_TOKEN` | Dedicated Proton SMTP token; secret, never committed |
+| `SMTP_USERNAME` | The Google Workspace account that owns the app password (`info@alphaworx.io`) |
+| `SMTP_APP_PASSWORD` | Google app password for that account; secret, never committed |
 | `CONTACT_SIGNING_KEY` | A generated random secret of at least 32 bytes |
 | `PUBLIC_ORIGIN` | `https://alphaworx.io` |
 | `GOOGLE_CLIENT_ID` | OAuth client ID for the Alphaworx Google account |
@@ -38,15 +39,16 @@ Set these in the new service's **Environment** settings:
 
 The app also allows its own `RENDER_EXTERNAL_URL` origin for staging. It exposes
 only an enabled flag, a public endpoint, and a short-lived form token to the browser.
-Do not put the SMTP token in a Static Site build environment or a JavaScript file.
+Do not put the app password in a Static Site build environment or a JavaScript file.
 
-## Proton token
+## Google app password
 
-In Proton Mail: **Settings → All settings → IMAP/SMTP → SMTP tokens → Generate token**.
-Name it `Alphaworx website`, select `info@alphaworx.io`, and paste the generated token
-directly into the new Render web service's `PROTON_SMTP_TOKEN` environment variable.
-Use this dedicated token, never the Proton account password. The server connects
-to `smtp.protonmail.ch:587` using certificate-verified STARTTLS.
+Sign in to Google as the account in `SMTP_USERNAME`. 2-Step Verification must be on.
+At https://myaccount.google.com/apppasswords create an app password named
+`Alphaworx website` and paste it directly into the web service's `SMTP_APP_PASSWORD`
+environment variable. Never use the account password. The server connects to
+`smtp.gmail.com:587` using certificate-verified STARTTLS. If `info@alphaworx.io` is an
+alias and not its own user, set `SMTP_USERNAME` to the user that owns it.
 
 ## Connecting the website
 
@@ -74,8 +76,8 @@ short-lived signed tokens and accept production browser requests only from
 When credentials are missing, the form keeps the existing **Continue in email**
 fallback. With credentials, it offers **Send inquiry**. Messages always go to
 `info@alphaworx.io`; the visitor's validated email becomes Reply-To. No visitor-supplied
-recipient or sender is accepted. Success means Proton accepted the message, not proof
-of final inbox placement. Verify receipt in Proton during an authorized live test.
+recipient or sender is accepted. Success means Google accepted the message, not proof
+of final inbox placement. Verify receipt in the inbox during an authorized live test.
 
 ## Verification and limits
 
@@ -99,6 +101,6 @@ Repeated submissions of the same accepted form are acknowledged without resendin
 Uncertain SMTP failures are not automatically retried, to avoid duplicate inquiries.
 
 Official references:
-- https://proton.me/support/smtp-submission
+- https://support.google.com/accounts/answer/185833
 - https://render.com/docs/free
 - https://render.com/docs/deploy-flask

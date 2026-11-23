@@ -1,4 +1,4 @@
-# Paid web service required for outbound Proton SMTP (port 587).
+# Paid web service required for outbound SMTP (port 587, Google Workspace).
 # Separate contact service and review preview; its Render origin is allowed
 # automatically. The existing static site and domain stay in place.
 services:
@@ -11,9 +11,9 @@ services:
     healthCheckPath: /healthz
     autoDeployTrigger: off
     envVars:
-      - key: PROTON_SMTP_USERNAME
+      - key: SMTP_USERNAME
         value: info@alphaworx.io
-      - key: PROTON_SMTP_TOKEN
+      - key: SMTP_APP_PASSWORD
         sync: false
       - key: CONTACT_SIGNING_KEY
         generateValue: true

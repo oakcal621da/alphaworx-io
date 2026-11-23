@@ -1,4 +1,4 @@
-"""Alphaworx website and fixed-recipient Proton contact delivery."""
+"""Alphaworx website and fixed-recipient contact delivery (Google Workspace SMTP)."""
 import hashlib
 import hmac
 import json
@@ -46,9 +46,12 @@ def valid_email(value):
     return isinstance(value, str) and len(value) <= 254 and bool(EMAIL.fullmatch(value))
 
 
+SMTP_HOST = 'smtp.gmail.com'  # alphaworx.io mail moved from Proton to Google Workspace (Nov 2026)
+
+
 def deliver(message, username, token):
     """No visitor-controlled host, envelope recipient, sender, or SMTP headers."""
-    smtp = smtplib.SMTP('smtp.protonmail.ch', 587, timeout=8)
+    smtp = smtplib.SMTP(SMTP_HOST, 587, timeout=8)
     try:
         smtp.ehlo()
         smtp.starttls(context=ssl.create_default_context())
@@ -140,8 +143,9 @@ def create_app(overrides=None):
     app.config.update(
         MAX_CONTENT_LENGTH=16 * 1024,
         SECRET_KEY=os.environ.get('CONTACT_SIGNING_KEY') or secrets.token_hex(32),
-        SMTP_USERNAME=os.environ.get('PROTON_SMTP_USERNAME', 'info@alphaworx.io').strip(),
-        SMTP_TOKEN=os.environ.get('PROTON_SMTP_TOKEN', ''),
+        SMTP_USERNAME=os.environ.get('SMTP_USERNAME', 'info@alphaworx.io').strip(),
+        # A Google app password; Google shows it in groups of four, so spaces are dropped.
+        SMTP_TOKEN=os.environ.get('SMTP_APP_PASSWORD', '').replace(' ', ''),
         CONTACT_DB=os.environ.get('CONTACT_DB', '/tmp/alphaworx-contact.sqlite3'),
         PUBLIC_ORIGIN=os.environ.get('PUBLIC_ORIGIN', '').rstrip('/'),
         RENDER_ORIGIN=os.environ.get('RENDER_EXTERNAL_URL', '').rstrip('/'),
