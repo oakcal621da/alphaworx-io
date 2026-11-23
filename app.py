@@ -47,6 +47,9 @@ def valid_email(value):
 
 
 SMTP_HOST = 'smtp.gmail.com'  # alphaworx.io mail moved from Proton to Google Workspace (Nov 2026)
+# Inquiries are delivered to the mailbox itself. info@ is an alias of support@, and Gmail keeps a message
+# the account sends to its own alias out of the inbox, so the visible address (info@) is not used here.
+INQUIRY_TO = 'support@alphaworx.io'
 
 
 def deliver(message, username, token):
@@ -57,7 +60,7 @@ def deliver(message, username, token):
         smtp.starttls(context=ssl.create_default_context())
         smtp.ehlo()
         smtp.login(username, token)
-        refused = smtp.send_message(message, from_addr=username, to_addrs=['info@alphaworx.io'])
+        refused = smtp.send_message(message, from_addr=username, to_addrs=[INQUIRY_TO])
         if refused:
             raise smtplib.SMTPRecipientsRefused(refused)
     finally:
@@ -434,7 +437,7 @@ def create_app(overrides=None):
             db.execute('INSERT INTO inquiries VALUES (?, ?, ?, ?)', (ticket, digest, now, 'sending'))
         message = EmailMessage()
         message['From'] = app.config['SMTP_USERNAME']
-        message['To'] = 'info@alphaworx.io'
+        message['To'] = INQUIRY_TO
         message['Reply-To'] = fields['email']
         message['Subject'] = 'Alphaworx website inquiry: ' + fields['topic']
         message['Date'] = formatdate(localtime=False)

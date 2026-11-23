@@ -34,7 +34,7 @@ class ContactTests(unittest.TestCase):
         result = self.post(self.payload(to='attacker@example.org', _subject='Overwrite'))
         self.assertEqual(result.status_code, 200)
         message = self.sender.call_args.args[0]
-        self.assertEqual(message['To'], 'info@alphaworx.io')
+        self.assertEqual(message['To'], 'support@alphaworx.io')
         self.assertEqual(message['From'], 'info@alphaworx.io')
         self.assertEqual(message['Reply-To'], 'visitor@example.org')
         self.assertEqual(message['Subject'], 'Alphaworx website inquiry: AI strategy assessment')
@@ -216,7 +216,7 @@ class SchedulingTests(unittest.TestCase):
         smtp_class.assert_called_once_with('smtp.gmail.com', 587, timeout=8)
         self.assertTrue(smtp.starttls.called)
         smtp.login.assert_called_once_with('info@alphaworx.io', 'fake-token')
-        smtp.send_message.assert_called_once_with(message, from_addr='info@alphaworx.io', to_addrs=['info@alphaworx.io'])
+        smtp.send_message.assert_called_once_with(message, from_addr='info@alphaworx.io', to_addrs=['support@alphaworx.io'])
         smtp.close.assert_called_once()
 
 
