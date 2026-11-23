@@ -1,0 +1,70 @@
+/* Schedule page and the booking widget (assets/schedule.js). Loaded after site.css and alphaworx.css. */
+
+.sched-hero{background:var(--card);border-bottom:1px solid var(--line);overflow-x:clip}
+.sched-hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);gap:64px;align-items:start;padding-block:64px 72px}
+.sched-copy{min-width:0;padding-top:8px}
+.sched-copy h1{font-size:clamp(38px,4vw,58px);margin:22px 0 20px}
+.sched-copy .lead{max-width:560px}
+.sched-note{margin-top:22px;font-size:15px;line-height:1.55;color:var(--muted);max-width:520px}
+.sched-alt{margin-top:26px}
+.sched-brief{grid-template-columns:repeat(3,minmax(0,1fr))}
+
+/* Booking widget */
+.schedule-booker{position:relative;min-width:0;background:#fff;border:1px solid #b7c4cc;box-shadow:0 30px 65px -30px #263c4c66}
+.schedule-booker [hidden]{display:none!important}
+.instrument-top,.instrument-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 18px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#70818b;background:#edf0f1}
+.instrument-top{border-bottom:1px solid #d4dadd}
+.instrument-foot{border-top:1px solid #d4dadd}
+.instrument-foot strong{font-weight:500;color:var(--link)}
+.live-state{display:flex;align-items:center;gap:8px;color:var(--link)}
+.live-state i{width:6px;height:6px;border-radius:50%;background:var(--brass)}
+.booker-body{min-height:470px;padding:26px}
+.booker-progress{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-bottom:24px}
+.booker-progress span{background:var(--mist);padding:10px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.booker-progress span.active{background:var(--btn);color:#fff}
+.booker-status{min-height:22px;margin-bottom:16px;font-size:14px;color:var(--muted)}
+.booker-status[data-state="error"]{color:#8c3e32}
+.booker-label,.booking-fields label{display:block;font-size:13px;font-weight:500;letter-spacing:.01em;color:var(--ink)}
+.booking-fields label span{font-weight:400;color:var(--muted)}
+.schedule-date,.booking-fields input,.booking-fields textarea{display:block;width:100%;border:1px solid var(--line-2);border-radius:0;background:#fff;padding:12px 13px;font:400 16px/1.35 var(--font);color:var(--ink)}
+.schedule-date{margin-top:8px}
+.booking-fields input,.booking-fields textarea{margin-top:6px}
+.booking-fields textarea{resize:vertical}
+.schedule-date:focus,.booking-fields input:focus,.booking-fields textarea:focus{outline:2px solid var(--btn);outline-offset:1px;border-color:var(--btn)}
+.time-zone{margin:11px 0 16px;font-size:12px;color:var(--muted)}
+.time-options{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.time-option{border:1px solid var(--line-2);background:var(--card);padding:12px 8px;font-size:15px;font-weight:500;color:var(--link)}
+.time-option:hover,.time-option:focus-visible{background:var(--btn);border-color:var(--btn);color:#fff;filter:none}
+.empty-times{grid-column:1/-1;border:1px dashed var(--line-2);padding:22px;text-align:center;font-size:14px;color:var(--muted)}
+.booker-back{border:0;border-bottom:1px solid var(--brass);background:none;padding:0 0 4px;margin-bottom:18px;font-size:14px;font-weight:500;color:var(--link)}
+.selected-time{border-left:3px solid var(--brass);background:var(--mist);padding:13px 15px;margin-bottom:20px;font-size:16px;font-weight:500;line-height:1.4}
+.booking-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.booking-fields label:last-child{grid-column:1/-1}
+#details-step .primary{margin-top:20px}
+#details-step .primary:disabled{opacity:.65;cursor:default}
+.booking-consent{margin-top:14px;font-size:13px;line-height:1.5;color:var(--muted)}
+.booking-consent a{color:var(--link);border-bottom:1px solid var(--brass)}
+.booking-success{padding:14px 4px}
+.booking-success:focus{outline:none}
+.success-check{width:44px;height:44px;display:grid;place-items:center;background:var(--btn);color:#fff;font-size:22px;margin-bottom:20px}
+.booking-success h2{font-size:32px;line-height:1.1;margin:14px 0 12px}
+.booking-success p{font-size:16px;line-height:1.55;color:var(--muted);margin-top:8px}
+.booking-success #confirmation-time{color:var(--ink);font-weight:500}
+.booking-success .primary{margin-top:22px}
+.booking-fallback{border:1px solid var(--line-2);background:var(--mist);padding:24px}
+.booking-fallback p{margin-bottom:18px;color:var(--muted)}
+.contact-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+.schedule-booker button:focus-visible,.schedule-booker a:focus-visible{outline:3px solid var(--btn);outline-offset:3px}
+
+@media(max-width:980px){
+  .sched-hero .wrap{grid-template-columns:1fr;gap:40px;padding-block:44px 52px}
+  .schedule-booker{max-width:620px}
+}
+@media(max-width:800px){.sched-brief{grid-template-columns:1fr}}
+@media(max-width:560px){
+  .booker-body{padding:20px;min-height:440px}
+  .time-options{grid-template-columns:repeat(2,1fr)}
+  .booking-fields{grid-template-columns:1fr}
+  .booking-fields label:last-child{grid-column:auto}
+  .booker-progress span{font-size:10px;letter-spacing:.06em;padding:9px 6px}
+}

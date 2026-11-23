@@ -10,7 +10,7 @@ featured: false
 
 A useful demonstration answers an important question: can AI help with this task? Leadership then has to answer several more. Can the workflow use the right information without overreaching? Is the cost acceptable when review and exceptions are included? Who will keep it useful when the provider, the work, or the surrounding rules change?
 
-This briefing adapts the central operating questions from [AIR's enterprise AI risk primer](https://theprimerdesk.onrender.com/reports/understanding-enterprise-ai-risk-the-adoption-problems-hiding-behind-the-hype.html), whose evidence cutoff is August 16, 2026. It is a shorter route into the research, with practical decisions and further reading. The underlying report is a synthesis of published material, not a study of Alphaworx clients. The Meridian examples on this site are fictional.
+This briefing sets out six operating questions drawn from published research on enterprise AI risk, with an evidence cutoff of August 16, 2026. It pairs each question with practical decisions and further reading. It is a synthesis of published material, not a study of Alphaworx clients. The Meridian examples on this site are fictional.
 
 ## Price the completed work
 
@@ -44,6 +44,6 @@ Our companion guide, [Who owns the AI decision?](https://alphaworx.io/blog/who-o
 
 ## Keep the evidence proportional to the claim
 
-The AIR report assembles surveys, vendor documentation, technical research, and editorial judgments. Those sources answer different questions. Adoption across surveyed organizations is not a conversion rate into successful deployment; a benchmark result is not a production guarantee; an observed control is not proof of its effect on every loss event.
+The research behind this briefing draws on surveys, vendor documentation, technical research, and editorial judgments. Those sources answer different questions. Adoption across surveyed organizations is not a conversion rate into successful deployment; a benchmark result is not a production guarantee; an observed control is not proof of its effect on every loss event.
 
 For the next investment decision, ask for the evidence closest to the workflow: a verified owner, tested permissions, reviewed outputs, an understood cost range, and a viable response to failure. Record the remaining uncertainty alongside the response. That makes the decision useful today and gives the next review something concrete to challenge.

@@ -1,0 +1,74 @@
+/* Advisory page and the contact dialog (assets/contact.js). Loaded after site.css and alphaworx.css. */
+
+.adv-hero .closing-btns{align-items:center;gap:14px 24px}
+
+.adv-fit{margin-top:30px;max-width:760px;color:var(--muted);font-size:17px;line-height:1.55}
+.adv-fit a,.adv-fine a{color:var(--link);border-bottom:1px solid var(--brass);white-space:nowrap}
+
+/* Principles list beside the 90-day plan */
+.story{align-items:start}
+.principles{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:18px;max-width:520px}
+.principles li{border-left:2px solid var(--brass);padding-left:18px;font-size:17px;line-height:1.5;color:var(--muted)}
+.principles b{display:block;color:var(--ink);font-weight:500;font-size:19px;letter-spacing:-.01em;margin-bottom:3px}
+.story .actions{margin-top:30px}
+
+/* Two-column fact log (Meridian case) */
+.log.adv-plan .row{grid-template-columns:104px 84px 1fr;gap:14px}
+.log.adv-plan .d{font-weight:600;color:var(--ink)}
+.log.adv-case .row{grid-template-columns:132px 1fr;gap:16px}
+.log.adv-case .s,.log.adv-plan .s{font-size:17px;line-height:1.45}
+.story h2 span,.adv-h2 span{display:block}
+@media(max-width:700px){.log.adv-case .row,.log.adv-plan .row{grid-template-columns:1fr;gap:4px}}
+
+/* Five questions */
+.adv-h2{margin-top:16px}
+.adv-intro{color:var(--muted);font-size:18px;line-height:1.5;margin-top:18px;max-width:420px}
+.adv-fine{color:var(--muted);font-size:14px;line-height:1.55;margin-top:22px;max-width:420px}
+.faq summary{gap:20px}
+.faq details .bring{font-size:15px;color:var(--ink)}
+.faq details .bring b{font-weight:500;color:var(--brass-ink)}
+.faq summary:focus-visible{outline:3px solid var(--btn);outline-offset:4px}
+
+/* Contact dialog */
+body.contact-open{overflow:hidden}
+dialog.contact-dialog{border:0;border-top:3px solid var(--brass);padding:0;width:calc(100% - 32px);max-width:680px;max-height:calc(100dvh - 32px);overflow:auto;background:var(--card);color:var(--ink);box-shadow:0 40px 80px -30px #0b1a2499}
+dialog.contact-dialog::backdrop{background:#0f1f2b99}
+.contact-dialog [hidden]{display:none!important}
+.contact-dialog-head{position:relative;padding:34px 34px 0}
+.contact-dialog-head h2{font-size:30px;line-height:1.12;margin:14px 0 8px}
+.contact-dialog-head p{color:var(--muted);font-size:17px;line-height:1.5}
+.contact-dismiss{position:absolute;top:10px;right:14px;border:0;background:none;padding:6px 8px;font-size:28px;line-height:1;color:var(--muted)}
+.contact-form{padding:24px 34px 32px}
+.contact-fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.contact-field{min-width:0}
+.contact-field.full{grid-column:1/-1}
+.contact-field label{display:block;font-size:13px;font-weight:500;letter-spacing:.01em;margin-bottom:6px}
+.contact-field label span{font-weight:400;color:var(--muted)}
+.contact-field input,.contact-field select,.contact-field textarea{display:block;width:100%;border:1px solid var(--line-2);border-radius:0;background:#fff;padding:12px 13px;font:400 16px/1.35 var(--font);color:var(--ink)}
+.contact-field select{appearance:none;-webkit-appearance:none;padding-right:38px;background-image:linear-gradient(45deg,transparent 50%,var(--slate) 50%),linear-gradient(135deg,var(--slate) 50%,transparent 50%);background-position:calc(100% - 19px) 20px,calc(100% - 14px) 20px;background-size:5px 5px;background-repeat:no-repeat}
+.contact-field textarea{min-height:124px;resize:vertical}
+.contact-field input:focus,.contact-field select:focus,.contact-field textarea:focus{outline:2px solid var(--btn);outline-offset:1px;border-color:var(--btn)}
+.contact-field ::placeholder{color:#8a959b}
+.contact-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+.contact-form-note{font-size:13px;line-height:1.5;color:var(--muted);margin-top:14px}
+.contact-form-note:empty{display:none}
+.contact-form-note a{color:var(--link);border-bottom:1px solid var(--brass)}
+.contact-actions,.contact-success-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 24px;margin-top:22px}
+.contact-actions .primary:disabled{opacity:.65;cursor:default}
+.contact-cancel,.contact-return{border:0;border-bottom:1px solid var(--brass);background:none;padding:0 0 5px;font-size:16px;font-weight:500;color:var(--link)}
+.contact-status{font-size:14px;line-height:1.5;color:var(--muted);margin-top:14px}
+.contact-status:empty{display:none}
+.contact-status[data-state="error"]{color:#8c3e32}
+.contact-success{padding:36px 34px 34px}
+.contact-success-mark{width:44px;height:44px;display:grid;place-items:center;background:var(--btn);color:#fff;font-size:22px;margin-bottom:20px}
+.contact-success h2{font-size:30px;line-height:1.12;margin:14px 0 10px}
+.contact-success h2:focus{outline:none}
+.contact-success p{color:var(--muted);line-height:1.55}
+.contact-dialog button:focus-visible,.contact-dialog a:focus-visible{outline:3px solid var(--btn);outline-offset:3px}
+@media(max-width:600px){
+  .contact-dialog-head{padding:28px 22px 0}
+  .contact-dialog-head h2,.contact-success h2{font-size:26px}
+  .contact-form{padding:20px 22px 26px}
+  .contact-success{padding:30px 22px 28px}
+  .contact-fields{grid-template-columns:1fr}
+}

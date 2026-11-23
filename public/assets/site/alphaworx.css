@@ -1,0 +1,119 @@
+/* Alphaworx additions on top of site.css (the shared caiokb.com / theaikb.com UI).
+   Keep site.css in step with the KB sites; put anything alphaworx.io-specific here. */
+
+.brand .brand-logo{height:32px;width:auto;flex:none;display:block}
+nav a.ext::after{content:" ↗";color:var(--brass);font-size:.85em}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:16px;top:12px;z-index:20;background:var(--btn);color:#fff;padding:10px 14px}
+
+/* Hero screenshot */
+.hero-shot img{display:block;width:100%;height:auto}
+
+/* Product cards without a stats row */
+.ways.plain .way{grid-row:span 6}
+.way .k b{font-weight:500;color:var(--slate)}
+
+/* Introduction film inside the navy band */
+.film .film-frame{border:1px solid #3b5264;background:#0f2130}
+.film .film-frame video{display:block;width:100%;height:auto;aspect-ratio:16/9}
+.film .film-note{font-size:13px;color:var(--navy-ink);margin-top:12px;max-width:none}
+.film .text-cta{color:#fff;border-bottom-color:var(--navy-brass);margin-top:26px}
+
+/* Three-card rows (advisory services, insights) */
+.trio.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+a.card{color:inherit}
+.trio a.card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:28px 28px 26px;display:flex;flex-direction:column;gap:14px;transition:border-color .2s}
+.trio a.card:hover{border-color:var(--line-2)}
+.trio a.card .text-cta{margin-top:auto;align-self:flex-start}
+.after-row{margin-top:30px}
+@media(max-width:900px){.trio.three{grid-template-columns:1fr}}
+@media(max-width:560px){.brand .brand-logo{height:24px}}
+.way li{padding-left:30px;text-indent:-30px}
+
+/* "One organization, three needs" strip under the hero */
+.needs{background:var(--card);border-block:1px solid var(--line)}
+.needs .wrap{padding-block:44px}
+a.audience{display:grid;gap:0;align-content:start;color:inherit}
+a.audience .go{font-size:15px;font-weight:500;color:var(--link);margin-top:14px;justify-self:start;border-bottom:1px solid var(--brass);padding-bottom:4px}
+a.audience:hover .go{color:var(--ink)}
+@media(max-width:900px){.audiences{grid-template-columns:1fr;gap:26px}}
+
+/* Featured product row (AIOS Cloud) */
+.feature{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:60px;align-items:center}
+.feature h2{margin-top:16px;font-size:clamp(34px,3.4vw,50px)}
+.feature .for{font-size:20px;line-height:1.4;color:var(--slate);margin-top:14px;max-width:520px}
+.ticks{list-style:none;padding:0;margin:24px 0 0;font-size:17px;line-height:1.5;display:grid;gap:9px}
+.ticks li{padding-left:27px;text-indent:-27px}
+.ticks li::before{content:"↗";color:var(--brass);margin-right:11px}
+@media(max-width:900px){.feature{grid-template-columns:1fr;gap:34px}}
+
+/* Company facts and principle columns (About) */
+.factline{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.factline div{background:var(--card);padding:22px 24px;display:grid;gap:6px}
+.factline small{font-size:10px;letter-spacing:.14em;color:var(--brass-ink);text-transform:uppercase}
+.factline b{font-weight:500;font-size:18px}
+.factline a{color:var(--link);border-bottom:1px solid var(--brass)}
+@media(max-width:800px){.factline{grid-template-columns:1fr}}
+.legal ul{padding-left:22px;margin:10px 0}
+.legal li{font-size:17px;line-height:1.65}
+
+.closing .row{align-items:center}
+
+/* Plain article page (Insights posts without a field guide) */
+.post-hero .cat{font-size:11px;letter-spacing:.16em;font-weight:500;color:var(--brass-ink);text-transform:uppercase}
+.post-hero .meta{font-size:14px;color:var(--muted)}
+.post-body{max-width:760px}
+.post-body p{font-size:18px;line-height:1.65;color:#4f5b63;margin:0 0 20px}
+.post-body h2{font-size:28px;margin:40px 0 14px}
+.post-body h3{font-size:21px;margin:32px 0 10px}
+.post-body blockquote{margin:28px 0;padding:6px 0 6px 22px;border-left:3px solid var(--brass);font-size:21px;line-height:1.45;color:var(--ink)}
+.post-body a{color:var(--link);border-bottom:1px solid var(--brass)}
+.post-cta{max-width:760px;margin-top:44px;padding-top:28px;border-top:1px solid var(--line);display:grid;gap:18px;justify-items:start}
+.post-cta p{font-size:19px}
+.back{display:inline-block;margin-top:34px;font-size:15px;color:var(--link)}
+
+/* Homepage hero: headline left, screenshot right. Each headline sentence stays on its own line. */
+@media(min-width:981px){
+  .hero.home .wrap{grid-template-columns:55% 45%}
+  .hero.home .intro h1{white-space:nowrap;font-size:clamp(40px,4.3vw,64px)}
+}
+
+/* Homepage hero visual: the three products as overlapping windows */
+.hero-stack{position:relative;aspect-ratio:1/1}
+.hero-stack .screen{position:absolute;display:block;box-shadow:0 26px 50px -22px #263c4c88;transition:transform .2s}
+.hero-stack .screen .browser{display:flex}
+.hero-stack .screen img{display:block;width:100%;height:auto}
+.hero-stack .s1{left:0;top:0;width:76%}
+.hero-stack .s2{left:13%;top:25%;width:72%}
+.hero-stack .s3{left:29%;top:50%;width:71%}
+.hero-stack .screen:hover{filter:none;transform:translateY(-3px)}
+@media(prefers-reduced-motion:reduce){.hero-stack .screen{transition:none}.hero-stack .screen:hover{transform:none}}
+
+/* Slim product cards (no bullet list) */
+.ways.slim .way{grid-row:span 5}
+
+/* Knowledge Bases page */
+.primary.alt{background:none;color:var(--ink);box-shadow:inset 0 0 0 1px #aeb7bc}
+.feature.flip .feature-text{order:2}
+.kb-compare{border:1px solid var(--line);background:var(--card)}
+.kb-row{display:grid;grid-template-columns:190px 1fr 1fr;gap:0}
+.kb-row+.kb-row{border-top:1px solid var(--line)}
+.kb-row>*{padding:18px 22px;margin:0}
+.kb-row>*+*{border-left:1px solid var(--line)}
+.kb-row>span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-ink);padding-top:22px}
+.kb-row p{font-size:16.5px;line-height:1.5;color:var(--muted)}
+.kb-head{background:var(--navy);color:#fff}
+.kb-head b{font-weight:500;font-size:19px}
+.kb-head>*+*{border-left-color:#3b5264}
+.trio-sec .section-head h2{color:#fff}
+.trio-sec .section-head>p{color:var(--navy-ink)}
+@media(max-width:900px){.feature.flip .feature-text{order:0}}
+@media(max-width:700px){
+  .kb-row{grid-template-columns:1fr 1fr}
+  .kb-row>span{grid-column:1/-1;padding-bottom:0;border:0}
+  .kb-head>span{display:none}
+  .kb-row>span+*{border-left:0}
+  .kb-row>*{padding:14px 16px}
+}
+.feature.flip{grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr)}
+@media(max-width:900px){.feature.flip{grid-template-columns:1fr}}

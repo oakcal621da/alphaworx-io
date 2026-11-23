@@ -1,5 +1,5 @@
 ---
-title: Your AI Policy Is Published. Now What?
+title: Your AI policy is published. Now what?
 category: Governance in practice
 date: 2026-10-23
 updated: 2026-10-23

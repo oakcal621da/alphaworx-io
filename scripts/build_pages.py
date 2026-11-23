@@ -1,15 +1,135 @@
-"""Build small site pages with the same editorial shell as Insights."""
-from pathlib import Path
-from site_chrome import HEADER, FOOTER, FONTS
-ROOT=Path(__file__).resolve().parent.parent
+"""Build the site's pages from content/pages/*.html fragments and the shared chrome.
 
-def page(title, label, body, canonical=None, noindex=False):
-    meta=f'<link rel="canonical" href="https://alphaworx.io{canonical}">' if canonical else ''
-    if noindex:meta+='<meta name="robots" content="noindex">'
-    return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title} — Alphaworx</title>{meta}<link rel="icon" href="/assets/mark.png">{FONTS}<link rel="stylesheet" href="/assets/editorial.css?v=review-1"></head><body>{HEADER}<main id="main" class="wrap utility"><div class="post-hero"><div class="label">{label}</div><h1>{title}</h1></div><div class="post-body">{body}</div></main>{FOOTER}</body></html>'''
+Each fragment holds only the page's <main> content. The head, header, navigation and
+footer come from site_chrome.py, so they cannot drift between pages.
+Run: python3 scripts/build_pages.py
+"""
+from pathlib import Path
+from site_chrome import site_head, site_header, site_footer, ORG_JSONLD
+
+ROOT = Path(__file__).resolve().parent.parent
+PUBLIC = ROOT / 'public'  # the only folder the static host publishes
+PAGES_DIR = ROOT / 'content' / 'pages'
+
+# out: file written (relative to public/) · src: fragment in content/pages/
+# path: canonical path (None = no canonical/og) · nav: key in site_chrome.NAV to mark current
+PAGES = [
+    dict(out='index.html', src='home.html', path='/', nav=None, jsonld=ORG_JSONLD,
+         title='Alphaworx — AI Strategy, Leadership and Governance',
+         desc='Alphaworx gives organizations the platform to govern AI, and their leaders and teams '
+              'the knowledge to put it to work: AIOS Cloud, the CAIO Knowledge Base, the AI Knowledge Base, '
+              'and independent advisory.'),
+    dict(out='aios-cloud.html', src='aios-cloud.html', path='/aios-cloud.html', nav='aios',
+         css=['/assets/site/aios-cloud.css?v=1'], js=['/assets/site/aios-cloud.js?v=1'],
+         title='AIOS Cloud — The AI Strategy and Governance Platform by Alphaworx',
+         desc='AIOS Cloud brings AI strategy, initiatives, risk, and governance into one connected platform '
+              'for enterprises, small businesses, and government entities.'),
+    dict(out='knowledge-bases.html', src='knowledge-bases.html', path='/knowledge-bases.html', nav='kb',
+         title='Knowledge Bases for Leaders and Teams — Alphaworx',
+         desc='Two knowledge bases for the organization adopting AI: the CAIO Knowledge Base for the people '
+              'accountable for it, and the AI Knowledge Base for every team.'),
+    dict(out='advisory.html', src='advisory.html', path='/advisory.html', nav='advisory',
+         css=['/assets/site/advisory.css?v=1'],
+         js=['/assets/contact-config.js?v=production-2', '/assets/contact.js?v=2'],
+         title='AI Strategy & Advisory — Alphaworx',
+         desc='Independent strategy and hands-on counsel that connects AI ambition with the work of operating it.'),
+    dict(out='schedule/index.html', src='schedule.html', path='/schedule/', nav=None,
+         css=['/assets/site/schedule.css?v=1'],
+         js=['/assets/contact-config.js?v=production-2', '/assets/schedule.js?v=3'],
+         title='Request a demo or schedule a conversation — Alphaworx',
+         desc='Choose a 30-minute time for a demo of AIOS Cloud or a conversation about your AI priorities.'),
+    dict(out='about.html', src='about.html', path='/about.html', nav='about',
+         title='About Alphaworx',
+         desc='Alphaworx builds AIOS Cloud, the CAIO Knowledge Base and the AI Knowledge Base, and advises '
+              'leaders on AI strategy and governance.'),
+    dict(out='privacy/index.html', src='privacy.html', path='/privacy/', nav=None, legal=True,
+         label='Privacy', heading='Privacy notice', updated='Last updated November 23, 2026',
+         title='Privacy notice — Alphaworx',
+         desc='How Alphaworx handles information when you visit this website, send an inquiry, or schedule a conversation.'),
+    # No terms page (Don, 2026-11-23). An unreviewed draft is kept at content/pages/terms.html; it is not built.
+    dict(out='404.html', src='404.html', path=None, nav=None, noindex=True,
+         title='Page not found — Alphaworx', desc=''),
+]
+
+
+CHROME_PREFIXES = ('header', '.brand', 'nav', '.hdr-right', '.nav-cta', '.signin', '.m-only',
+                   'footer', 'body::before', '.skip')
+
+
+def _is_chrome(selector):
+    parts = [s.strip() for s in selector.split(',')]
+    return all(s == '.wrap' or s.startswith(CHROME_PREFIXES) for s in parts)
+
+
+def _scope(selector):
+    """Bare `nav` rules must only reach the site header; articles have their own <nav>."""
+    return ','.join('header ' + s.strip() if s.strip().startswith('nav') else s.strip()
+                    for s in selector.split(','))
+
+
+def _blocks(css):
+    """Yield (prelude, body) for each top-level block of a stylesheet."""
+    i, n = 0, len(css)
+    while i < n:
+        j = css.find('{', i)
+        if j < 0:
+            return
+        depth, k = 1, j + 1
+        while k < n and depth:
+            depth += {'{': 1, '}': -1}.get(css[k], 0)
+            k += 1
+        yield css[i:j].strip(), css[j + 1:k - 1]
+        i = k
+
+
+def build_chrome_css():
+    """Write assets/site/chrome.css: fonts, tokens and the header/footer rules taken from
+    site.css + alphaworx.css, for pages (the Insights guides) that keep their own layout CSS."""
+    import re
+    out = ['/* GENERATED by scripts/build_pages.py from site.css and alphaworx.css. Do not edit. */']
+    for name in ('site.css', 'alphaworx.css'):
+        css = re.sub(r'/\*.*?\*/', '', (PUBLIC / 'assets/site' / name).read_text(), flags=re.S)
+        for prelude, body in _blocks(css):
+            if prelude.startswith('@font-face') or prelude == ':root':
+                out.append(f'{prelude}{{{body.strip()}}}')
+            elif prelude.startswith('@media'):
+                inner = [f'{_scope(s)}{{{b.strip()}}}' for s, b in _blocks(body) if _is_chrome(s)]
+                if inner:
+                    out.append(f'{prelude}{{{"".join(inner)}}}')
+            elif _is_chrome(prelude):
+                out.append(f'{_scope(prelude)}{{{body.strip()}}}')
+    (PUBLIC / 'assets/site/chrome.css').write_text('\n'.join(out) + '\n')
+
+
+def render(page):
+    body = (PAGES_DIR / page['src']).read_text()
+    if page.get('legal'):
+        body = (f'<section class="phero"><div class="wrap"><div><span class="eyebrow"><i></i>{page["label"]}</span>'
+                f'<h1>{page["heading"]}</h1></div></div></section>\n'
+                f'<section class="section"><div class="wrap legal"><p class="updated">{page["updated"]}</p>\n'
+                f'{body}\n</div></section>')
+    return (site_head(page['title'], page['desc'], page['path'], css=page.get('css', ()),
+                      noindex=page.get('noindex', False), jsonld=page.get('jsonld'))
+            + '\n' + site_header(page.get('nav'))
+            + '\n<main id="main">\n' + body.strip() + '\n</main>\n'
+            + site_footer(page.get('js', ())))
+
 
 def main():
-    (ROOT/'privacy').mkdir(exist_ok=True)
-    (ROOT/'privacy/index.html').write_text(page('Privacy notice','Last updated · October 26, 2026',(ROOT/'content/pages/privacy.html').read_text(),'/privacy/'))
-    (ROOT/'404.html').write_text(page('This page has moved or is missing.','404 · Page not found','<p>Find our current work, insights, and ways to get in touch from the Alphaworx homepage.</p><a class="work" href="/">Back to Alphaworx →</a>',noindex=True))
-if __name__=='__main__':main()
+    build_chrome_css()
+    built, skipped = [], []
+    for page in PAGES:
+        if not (PAGES_DIR / page['src']).exists():
+            skipped.append(page['out'])
+            continue
+        out = PUBLIC / page['out']
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(render(page))
+        built.append(page['out'])
+    print('Built:', ', '.join(built))
+    if skipped:
+        print('Not yet rebuilt (no fragment, old page left as is):', ', '.join(skipped))
+
+
+if __name__ == '__main__':
+    main()

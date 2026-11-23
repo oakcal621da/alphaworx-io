@@ -36,7 +36,7 @@ const context={
     ? {ok:true,json:async()=>({enabled:true,token:'test-token',endpoint:'/api/contact'})}
     : {ok:true,status:200,json:async()=>({ok:true})},
 };
-vm.runInNewContext(fs.readFileSync('assets/contact.js','utf8'),context);
+vm.runInNewContext(fs.readFileSync('public/assets/contact.js','utf8'),context);
 
 setImmediate(async()=>{
   elements['contact-form'].dispatch('submit');

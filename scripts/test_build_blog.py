@@ -180,8 +180,8 @@ def test_all_guides_rebuild_with_valid_sources_data_and_unique_anchors():
             if tag=='a' and a.get('href','').startswith('#'):self.anchors.append(a['href'][1:])
             if tag=='h1':self.h1s+=1
     guides=registry()
-    assert len(guides)==14
-    assert {"introducing-aios-cloud-why-we-built-it", "your-ai-policy-is-published-now-what", "ai-governance-small-business-where-to-start"} <= set(guides)
+    assert len(guides)==15
+    assert {"introducing-aios-cloud-why-we-built-it", "your-ai-policy-is-published-now-what", "ai-governance-small-business-where-to-start", "ai-policy-assumes-people-know-how-to-use-ai"} <= set(guides)
     posts={p['slug']:p for p in load_posts()}
     for slug,guide in guides.items():
         fields=posts[slug]
@@ -213,7 +213,7 @@ def test_research_feature_is_discoverable_once_and_links_to_attributed_articles(
     assert '/assets/research-feature.css?v=1' in index.split('</head>')[0]
     assert 'href="who-owns-the-ai-decision.html"' in index
     page=render_post(briefing,briefing['body_html'])
-    assert 'class="research-origin"' in page
-    assert 'https://theprimerdesk.onrender.com/reports/' in page
+    assert 'class="research-origin"' not in page
+    assert 'theprimerdesk' not in page
     assert 'https://alphaworx.io/blog/who-owns-the-ai-decision.html' in page
     assert '/blog/enterprise-ai-after-the-demo.html' in render_sitemap(posts)

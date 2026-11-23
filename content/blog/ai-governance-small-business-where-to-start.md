@@ -1,5 +1,5 @@
 ---
-title: AI Governance for Small Business: Where to Start
+title: AI governance for small business: where to start
 category: Small business
 date: 2026-10-23
 updated: 2026-10-23

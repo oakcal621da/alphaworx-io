@@ -1,0 +1,66 @@
+<section class="sched-hero">
+  <div class="wrap">
+    <div class="sched-copy">
+      <span class="eyebrow"><i></i>Request a demo · Schedule a conversation</span>
+      <h1>Request a demo or schedule a conversation.</h1>
+      <p class="lead">Choose a 30-minute time. Use it for a demo of AIOS Cloud, or for a conversation about your AI priorities and the decision in front of you.</p>
+      <div class="facts"><span>30 minutes</span><span>Google Meet</span><span>No preparation required</span></div>
+      <p class="sched-note">Your confirmation and meeting invitation will arrive by email.</p>
+      <p class="sched-alt"><a class="text-cta" href="/advisory.html#contact">Prefer to send context first? Start an inquiry</a></p>
+    </div>
+
+    <div class="schedule-booker" id="schedule-booker" aria-labelledby="booker-title">
+      <div class="instrument-top"><span id="booker-title">Live availability</span><span class="live-state"><i></i>Google Calendar</span></div>
+      <div class="booker-body">
+        <div class="booker-progress" aria-hidden="true"><span class="active">01 · Time</span><span>02 · Details</span><span>03 · Confirmed</span></div>
+        <p class="booker-status" id="booker-status" role="status" aria-live="polite">Connecting to the calendar…</p>
+        <section id="time-step" hidden>
+          <label class="booker-label" for="schedule-date">Choose a day</label>
+          <input class="schedule-date" id="schedule-date" type="date">
+          <div class="time-zone" id="schedule-time-zone"></div>
+          <div class="time-options" id="time-options" aria-label="Available appointment times"></div>
+        </section>
+        <form id="details-step" hidden>
+          <button class="booker-back" id="booker-back" type="button">← Choose another time</button>
+          <div class="selected-time" id="selected-time"></div>
+          <div class="booking-fields">
+            <label>Name<input name="name" autocomplete="name" maxlength="120" required></label>
+            <label>Work email<input name="email" type="email" autocomplete="email" maxlength="254" required></label>
+            <label>Company <span>(optional)</span><input name="company" autocomplete="organization" maxlength="160"></label>
+            <label>A demo of AIOS Cloud, or something else? <span>(optional)</span><textarea name="message" maxlength="1500" rows="3"></textarea></label>
+          </div>
+          <div class="contact-honeypot" aria-hidden="true"><label>Leave this blank<input name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+          <button class="primary" type="submit" id="book-submit">Confirm time <span>↗</span></button>
+          <p class="booking-consent">By confirming, you ask Alphaworx to create the meeting and contact you about it. See our <a href="/privacy/" target="_blank" rel="noopener">privacy notice</a>.</p>
+        </form>
+        <section class="booking-success" id="booking-success" tabindex="-1" hidden>
+          <div class="success-check" aria-hidden="true">✓</div>
+          <span class="eyebrow"><i></i>Time confirmed</span>
+          <h2>You're on the calendar.</h2>
+          <p id="confirmation-time"></p>
+          <p>A calendar invitation with the Google Meet link is on its way to your email.</p>
+          <a class="primary" href="/">Return to Alphaworx <span>→</span></a>
+        </section>
+        <div class="booking-fallback" id="booking-fallback" hidden>
+          <p>Online scheduling is temporarily unavailable.</p>
+          <a class="primary" href="mailto:info@alphaworx.io?subject=Request%20a%20demo%20or%20conversation">Email us to choose a time <span>→</span></a>
+        </div>
+      </div>
+      <div class="instrument-foot"><span>Alphaworx scheduling</span><strong>America / Chicago</strong></div>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-card" id="prepare">
+  <div class="wrap">
+    <div class="section-head">
+      <div><span class="eyebrow"><i></i>A useful first conversation</span><h2>Bring the decision that matters.</h2></div>
+      <p>Requesting a demo? Say so in the booking note, and bring a live AI initiative if you have one.</p>
+    </div>
+    <div class="aud sched-brief">
+      <div><small>01</small><h3>The business priority</h3><p>Where AI needs to create value, reduce exposure, or strengthen an operating capability.</p></div>
+      <div><small>02</small><h3>The present reality</h3><p>What is already in use, where work is stalling, and what leadership cannot yet see clearly.</p></div>
+      <div><small>03</small><h3>The next decision</h3><p>The choice, owner, evidence, or operating question that needs a practical path forward.</p></div>
+    </div>
+  </div>
+</section>

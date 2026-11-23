@@ -538,12 +538,7 @@
         "title": "OWASP · Excessive agency",
         "url": "https://genai.owasp.org/llmrisk/llm062025-excessive-agency/"
       }
-    ],
-    "research": {
-      "url": "https://theprimerdesk.onrender.com/reports/understanding-enterprise-ai-risk-the-adoption-problems-hiding-behind-the-hype.html",
-      "label": "Research background · AIR enterprise AI risk primer",
-      "note": "Adapted from the organizational ownership themes in AIR’s August 16, 2026 primer. The mandate and Meridian scenario are Alphaworx’s proposed operating approach."
-    }
+    ]
   },
   "enterprise-ai-after-the-demo": {
     "kind": "explorer",
@@ -622,12 +617,7 @@
         "title": "NIST · AI RMF Playbook",
         "url": "https://www.nist.gov/itl/ai-risk-management-framework/nist-ai-rmf-playbook"
       }
-    ],
-    "research": {
-      "url": "https://theprimerdesk.onrender.com/reports/understanding-enterprise-ai-risk-the-adoption-problems-hiding-behind-the-hype.html",
-      "label": "Read the full AIR research primer",
-      "note": "Research foundation: Understanding Enterprise AI Risk, AIR / The Primer Desk. Evidence cutoff August 16, 2026. This executive adaptation selects operating themes; it does not reproduce or independently audit every claim in the full report."
-    }
+    ]
   },
   "introducing-aios-cloud-why-we-built-it": {
     "quote": "Connect the decision to the work.",
@@ -805,6 +795,71 @@
       {
         "title": "NIST AI RMF Playbook — voluntary guidance",
         "url": "https://www.nist.gov/itl/ai-risk-management-framework/nist-ai-rmf-playbook"
+      }
+    ]
+  },
+  "ai-policy-assumes-people-know-how-to-use-ai": {
+    "quote": "A policy states the rule. Skill is what lets people follow it.",
+    "art": [
+      "A SHARED BASELINE",
+      "Skills",
+      "Placement",
+      "Practice",
+      "Record"
+    ],
+    "lab": [
+      "Follow one policy rule down to the skill behind it.",
+      "Meridian is opening an approved AI assistant to its customer operations teams. Explore what has to be true before the policy can be followed."
+    ],
+    "kind": "explorer",
+    "steps": [
+      {
+        "label": "Skills",
+        "title": "Name what people must be able to do.",
+        "text": "Turn each policy rule into a skill: recognize restricted information, give useful context, check an answer against a source, and escalate.",
+        "owner": "Policy owner + team leads",
+        "evidence": "The baseline skill list, mapped to policy rules"
+      },
+      {
+        "label": "Placement",
+        "title": "Find out where each person is.",
+        "text": "Use a short check to place each person at a level, so teaching starts from what they already know.",
+        "owner": "Team leads",
+        "evidence": "Placement results by team"
+      },
+      {
+        "label": "Practice",
+        "title": "Teach it through real tasks.",
+        "text": "Agree shared playbooks for recurring work, including what to check before a result is used, and keep one set of safety rules.",
+        "owner": "Team leads + AI function",
+        "evidence": "Team playbooks and the shared safety rules"
+      },
+      {
+        "label": "Record",
+        "title": "Keep the baseline current.",
+        "text": "Record who completed what, and review the baseline when tools, agents, or incidents change the work.",
+        "owner": "Baseline owner",
+        "evidence": "Completion record, review date, and change triggers"
+      }
+    ],
+    "questions": [
+      "What must a person be able to do to follow this rule?",
+      "How do we know they can?",
+      "Who owns closing the gap?",
+      "When did we last review the baseline?"
+    ],
+    "sources": [
+      {
+        "title": "European Commission · AI literacy questions and answers",
+        "url": "https://digital-strategy.ec.europa.eu/en/faqs/ai-literacy-questions-answers"
+      },
+      {
+        "title": "NIST AI RMF Playbook · Govern",
+        "url": "https://airc.nist.gov/airmf-resources/playbook/govern/"
+      },
+      {
+        "title": "Alphaworx knowledge bases",
+        "url": "https://alphaworx.io/knowledge-bases.html"
       }
     ]
   }

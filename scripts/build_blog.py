@@ -11,12 +11,11 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CONTENT_DIR = REPO_ROOT / "content" / "blog"
-OUTPUT_DIR = REPO_ROOT / "blog"
+PUBLIC_DIR = REPO_ROOT / "public"  # the only folder the static host publishes
+OUTPUT_DIR = PUBLIC_DIR / "blog"
 SITE_URL = "https://alphaworx.io"
 
-from site_chrome import HEADER, FOOTER, FONTS, SOCIAL
-
-STYLE = ""  # Layout is shared in assets/editorial.css.
+from site_chrome import site_head, site_header, site_footer
 
 HUE_CLASS = {
     "economics": "h-econ", "data exposure": "h-data", "vendor strategy": "h-vendor",
@@ -88,29 +87,23 @@ def render_post(fields, body_html):
     if guide:
         return render_insight(fields, body_html, guide)
     return (
-        "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\">"
-        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
-        f"<title>{fields['title']} — Alphaworx Insights</title>"
-        f"<meta name=\"description\" content=\"{fields['excerpt']}\">"
-        f'<link rel="canonical" href="{SITE_URL}/blog/{fields["slug"]}.html">'
-        "<link rel=\"icon\" type=\"image/png\" href=\"../assets/mark.png\">"
-        + FONTS + SOCIAL +
-        '<link rel="stylesheet" href="/assets/editorial.css?v=review-1"><link rel="stylesheet" href="/assets/essay.css"></head><body>'
-        + HEADER +
-        "<main id=\"main\" class=\"wrap\"><div class=\"post-hero\">"
+        site_head(f"{fields['title']} — Alphaworx Insights", fields['excerpt'],
+                  f"/blog/{fields['slug']}.html", og_type='article')
+        + site_header('insights') +
+        '<main id="main"><section class="phero post-hero"><div class="wrap"><div>'
         f"<div class=\"cat\">{fields['category']}</div>"
         f"<h1>{fields['title']}</h1>"
         f"<div class=\"meta\">{fields.get('author', 'Alphaworx Insights')} · {format_byline(fields['date'])}</div>"
-        "</div>"
+        '</div></div></section>'
+        '<section class="section"><div class="wrap">'
         f"<div class=\"post-body\">{body_html}</div>"
         "<div class=\"post-cta\">"
         f"<p>{fields.get('cta', 'Connect these ideas to your organization’s next AI decision.')}</p>"
-        "<a class=\"work\" href=\"/advisory.html#contact\">Work with us</a>"
+        "<a class=\"primary\" href=\"/advisory.html#contact\">Work with us <span>→</span></a>"
         "</div>"
         "<a class=\"back\" href=\"index.html\">&larr; All insights</a>"
-        "</main>"
-        + FOOTER +
-        "</body></html>"
+        '</div></section></main>'
+        + site_footer()
     )
 
 
@@ -126,7 +119,7 @@ def render_index(posts):
             '<span class="research-feature-cta">Explore the briefing ↗</span></div>'
             '<div class="research-feature-map" aria-hidden="true"><span>THE OPERATING QUESTIONS</span>'
             '<b>01 / Value</b><b>02 / Data</b><b>03 / Actions</b><b>04 / Reliability</b>'
-            '<b>05 / Providers</b><b>06 / Ownership</b><small>Adapted from AIR research</small></div></a>'
+            '<b>05 / Providers</b><b>06 / Ownership</b></div></a>'
         )
     if featured and featured['slug'] == 'introducing-aios-cloud-why-we-built-it':
         feature = (
@@ -139,7 +132,7 @@ def render_index(posts):
             '<small>AIOS Cloud by Alphaworx</small></div></a>'
         )
     cards = "".join(
-        f'<a class="post-card {hue_for(p["category"])}" href="{p["slug"]}.html">'
+        f'<a class="post-card" href="{p["slug"]}.html">'
         f'<div class="cat">{p["category"]}</div>'
         f'<h3>{p["title"]}</h3>'
         f'<p>{p["excerpt"]}</p>'
@@ -148,23 +141,20 @@ def render_index(posts):
         for p in ordered if p is not featured
     )
     return (
-        "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\">"
-        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
-        '<title>Insights — Alphaworx</title><link rel="canonical" href="https://alphaworx.io/blog/">'
-        "<meta name=\"description\" content=\"Straight talk on enterprise AI strategy.\">"
-        "<link rel=\"icon\" type=\"image/png\" href=\"../assets/mark.png\">"
-        + FONTS + SOCIAL +
-        '<link rel="stylesheet" href="/assets/editorial.css?v=review-1"><link rel="stylesheet" href="/assets/essay.css"><link rel="stylesheet" href="/assets/research-feature.css?v=1"></head><body>'
-        + HEADER +
-        "<main id=\"main\" class=\"wrap\"><div class=\"list-hero\">"
-        "<div class=\"label\">Insights</div>"
-        "<h1>Straight talk on <span class=\"grad-text\">enterprise AI strategy.</span></h1>"
-        "<p>No hype, no vendor pitch decks — the same diagnostic thinking behind our advisory work, written out.</p>"
-        "</div>"
+        site_head('Insights — Alphaworx',
+                  'Straight talk on AI strategy, governance and operations from Alphaworx.',
+                  '/blog/', css=['/assets/research-feature.css?v=1'])
+        + site_header('insights') +
+        '<main id="main"><section class="phero"><div class="wrap"><div>'
+        '<span class="eyebrow"><i></i>Insights</span>'
+        '<h1>Straight talk on AI strategy and governance.</h1>'
+        '<p class="lead">The thinking behind our platform, '
+        'knowledge bases and advisory work, written out.</p>'
+        '</div></div></section>'
+        '<section class="section"><div class="wrap">'
         + feature + f"<div class=\"post-grid\">{cards}</div>"
-        "</main>"
-        + FOOTER +
-        "</body></html>"
+        '</div></section></main>'
+        + site_footer()
     )
 
 
@@ -178,6 +168,7 @@ def render_sitemap(posts):
     static_urls = [
         (f"{SITE_URL}/", ordered[0]["date"] if ordered else None),
         (f"{SITE_URL}/aios-cloud.html", "2026-10-23"),
+        (f"{SITE_URL}/knowledge-bases.html", None),
         (f"{SITE_URL}/advisory.html", "2026-10-23"),
         (f"{SITE_URL}/about.html", "2026-10-23"),
         (f"{SITE_URL}/deck.html", None),
@@ -214,14 +205,14 @@ def load_posts():
 
 
 def main():
-    OUTPUT_DIR.mkdir(exist_ok=True)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     posts = load_posts()
     for fields in posts:
         (OUTPUT_DIR / f"{fields['slug']}.html").write_text(render_post(fields, fields["body_html"]))
     (OUTPUT_DIR / "index.html").write_text(render_index(posts))
-    (REPO_ROOT / "sitemap.xml").write_text(render_sitemap(posts))
+    (PUBLIC_DIR / "sitemap.xml").write_text(render_sitemap(posts))
     print(f"Generated {len(posts)} post(s) + index into {OUTPUT_DIR}")
-    print(f"Generated sitemap.xml with {len(posts) + 8} URLs")
+    print(f"Generated sitemap.xml with {len(posts) + 9} URLs")
 
 
 if __name__ == "__main__":

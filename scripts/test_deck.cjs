@@ -8,7 +8,7 @@ const track=Array.from({length:5},()=>el('bar'));const controls=el('controls');c
 const doc={body,getElementById:id=>nodes[id],querySelector:s=>s.includes("cost-answer")?el("cost-description"):controls,querySelectorAll:s=>s==='.slide'?slides:s==='[data-pass]'?passes:track,addEventListener(){},dispatchEvent(){}};
 const windowEvents={};
 const context={document:doc,matchMedia:()=>({matches:false,addEventListener(){}}),location:{hash:''},history:{replaceState(){}},window:{innerHeight:800,addEventListener(type,fn){windowEvents[type]=fn},scrollTo(){},print(){}},requestAnimationFrame:fn=>fn(),IntersectionObserver:class{observe(){}},CustomEvent:class{},Intl};
-vm.runInNewContext(fs.readFileSync('assets/deck.js','utf8'),context);
+vm.runInNewContext(fs.readFileSync('public/assets/deck.js','utf8'),context);
 assert.equal(nodes['ai-cost'].textContent,'$52M');assert.equal(nodes['ai-net'].textContent,'$2M');
 for(const [input,expected] of [['44000','$10M'],['60000','-$6M']]){nodes['ai-operating-cost'].value=input;nodes['ai-operating-cost'].events.input();assert.equal(nodes['ai-net'].textContent,expected)}
 // The downside can exceed the original margin even with costs unchanged.

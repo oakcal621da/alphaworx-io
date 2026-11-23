@@ -1,5 +1,5 @@
 ---
-title: Introducing AIOS Cloud: Why We Built It
+title: Introducing AIOS Cloud: why we built it
 category: Platform perspective
 date: 2026-10-23
 updated: 2026-10-23

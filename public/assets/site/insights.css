@@ -1,0 +1,14 @@
+/* Base styles for the Insights field guides. Replaces the old editorial.css.
+   Load order: chrome.css (fonts, tokens, header, footer) → this file → insight-guides.css. */
+:root{--surface:#fff;--ink2:#52606a;--ink3:#647581;--rule:var(--line);--navy:#25465b;
+  --display:var(--font);--body:var(--font);--mono:var(--font);--hue:var(--navy)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:100px}
+body{font:17px/1.6 var(--body);color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased}
+a{color:var(--navy);text-underline-offset:4px}
+header a,footer a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+button,a{-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--brass);outline-offset:4px}
+[hidden]{display:none!important}
+.mono{letter-spacing:.1em}

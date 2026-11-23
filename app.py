@@ -25,6 +25,8 @@ from itsdangerous import BadSignature, SignatureExpired, URLSafeTimedSerializer
 from werkzeug.exceptions import BadRequest, RequestEntityTooLarge
 
 ROOT = Path(__file__).resolve().parent
+PUBLIC = ROOT / "public"  # published pages and assets; nothing outside it is ever served
+PUBLIC_SUFFIXES = {".html", ".css", ".js", ".png", ".jpg", ".jpeg", ".svg", ".webp", ".ico", ".woff", ".woff2", ".ttf", ".avif", ".mp4", ".vtt", ".txt", ".xml", ".pdf"}
 SECURITY_HEADERS = json.loads((ROOT / "security-headers.json").read_text())
 TOPICS = {
     'General conversation', 'AI strategy assessment', 'Executive AI advisory',
@@ -453,53 +455,31 @@ def create_app(overrides=None):
 
     @app.get('/')
     def homepage():
-        return send_from_directory(ROOT, 'index.html')
-
-    @app.get('/blog')
-    def blog_redirect():
-        return redirect('/blog/', code=301)
-
-    @app.get('/blog/')
-    def blog_index():
-        return send_from_directory(ROOT / 'blog', 'index.html')
-
-    @app.get('/privacy')
-    def privacy_redirect():
-        return redirect('/privacy/', code=301)
-
-    @app.get('/privacy/')
-    def privacy():
-        return send_from_directory(ROOT / 'privacy', 'index.html')
-
-    @app.get('/schedule')
-    def schedule_redirect():
-        return redirect('/schedule/', code=301)
-
-    @app.get('/schedule/')
-    def schedule():
-        return send_from_directory(ROOT / 'schedule', 'index.html')
+        return send_from_directory(PUBLIC, 'index.html')
 
     @app.errorhandler(404)
     def missing_page(_error):
         if request.path.startswith('/api/'):
             return fail('Not found.', 404)
-        return send_from_directory(ROOT, '404.html'), 404
+        return send_from_directory(PUBLIC, '404.html'), 404
 
     @app.get('/<path:filename>')
     def public_file(filename):
-        # Serve published content only, never the repository, backend or env files.
+        # Serve published content only: files inside public/, never the repository, backend or env files.
         path = Path(filename)
-        if filename not in {'index.html', 'aios-cloud.html', 'advisory.html', 'about.html', 'deck.html', '404.html', 'robots.txt', 'sitemap.xml'}:
-            if not path.parts or path.parts[0] not in {'assets', 'blog', 'schedule'}:
-                abort(404)
-            if any(part.startswith('.') or part == '..' for part in path.parts):
-                abort(404)
-            if path.suffix.lower() not in {'.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.svg', '.webp', '.ico', '.woff', '.woff2', '.ttf', '.avif', '.mp4', '.vtt'}:
-                abort(404)
-        resolved = (ROOT / path).resolve()
-        if ROOT not in resolved.parents or not resolved.is_file():
+        if not path.parts or any(part.startswith('.') or part == '..' for part in path.parts):
             abort(404)
-        return send_from_directory(ROOT, filename, mimetype="text/vtt" if path.suffix.lower() == ".vtt" else None)
+        target = (PUBLIC / path).resolve()
+        if PUBLIC not in target.parents:
+            abort(404)
+        if target.is_dir():
+            if not request.path.endswith('/'):
+                return redirect(request.path + '/', code=301)
+            target = target / 'index.html'
+        if not target.is_file() or target.suffix.lower() not in PUBLIC_SUFFIXES:
+            abort(404)
+        relative = target.relative_to(PUBLIC).as_posix()
+        return send_from_directory(PUBLIC, relative, mimetype="text/vtt" if target.suffix.lower() == ".vtt" else None)
 
     return app
 
