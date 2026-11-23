@@ -13,8 +13,9 @@ second Render service, database, or domain.
 - Compute approved September 5, 2026: $7/month, 0.5 CPU, 512 MB RAM.
 - Mail for alphaworx.io moved from Proton to Google Workspace in November 2026. The
   service sends through `smtp.gmail.com`, signed in as `support@alphaworx.io`, and
-  delivers to `info@alphaworx.io`. Delivery was confirmed by a live test on November 23,
-  2026. Credentials are stored only in the web service's Render environment.
+  delivers to that same mailbox. `info@` and `jobs@` are aliases of `support@`; Gmail keeps a
+  message an account sends to its own alias out of the inbox, so the service must not send to
+  `info@`. Inbox delivery was confirmed by a live test on November 23, 2026. Credentials are stored only in the web service's Render environment.
 
 ## Render service
 
@@ -76,7 +77,7 @@ short-lived signed tokens and accept production browser requests only from
 
 When credentials are missing, the form keeps the existing **Continue in email**
 fallback. With credentials, it offers **Send inquiry**. Messages always go to
-`info@alphaworx.io`; the visitor's validated email becomes Reply-To. No visitor-supplied
+`support@alphaworx.io` (`INQUIRY_TO` in `app.py`); the visitor's validated email becomes Reply-To. No visitor-supplied
 recipient or sender is accepted. Success means Google accepted the message, not proof
 of final inbox placement. Verify receipt in the inbox during an authorized live test.
 
