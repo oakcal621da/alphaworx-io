@@ -81,6 +81,12 @@ fallback. With credentials, it offers **Send inquiry**. Messages always go to
 recipient or sender is accepted. Success means Google accepted the message, not proof
 of final inbox placement. Verify receipt in the inbox during an authorized live test.
 
+## Knowledge base sites
+
+The Contact pages of caiokb.com and theaikb.com post to this same service (`PRODUCT_SITES` in `app.py`).
+The site is read from the request's Origin; inquiries are labeled with the site's name, use their own topic
+list (`PRODUCT_TOPICS`) and go to the same mailbox. Those sites get the contact form only, not scheduling.
+
 ## Verification and limits
 
 Run `.venv/bin/python -m unittest discover -s tests -v` for validation, safe email

@@ -33,6 +33,13 @@ TOPICS = {
     'AI for growth', 'AI for efficiency', 'Customer experience',
     'Operational resilience', 'AI governance and operations',
 }
+# The knowledge base sites share this service for their contact forms (inquiries only, never bookings).
+# The site is read from the request's Origin; nothing the visitor sends chooses it.
+PRODUCT_SITES = {
+    'https://caiokb.com': 'CAIO Knowledge Base',
+    'https://theaikb.com': 'AI Knowledge Base',
+}
+PRODUCT_TOPICS = {'General question', 'Subscription or billing', 'Team plan', 'Technical issue'}
 EMAIL = re.compile(r"[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)+")
 SCHEDULE_TIME_ZONE = ZoneInfo('America/Chicago')
 SCHEDULE_START_HOUR = 9
@@ -186,6 +193,10 @@ def create_app(overrides=None):
             configured = {'http://127.0.0.1:57732', 'http://localhost:57732'}
         return request.headers.get('Origin') in configured
 
+    def product_site():
+        """Name of the knowledge base site a contact request came from, or None."""
+        return PRODUCT_SITES.get(request.headers.get('Origin')) if request.path.startswith('/api/contact') else None
+
     def fail(message, code):
         return jsonify(ok=False, error=message), code
 
@@ -197,7 +208,7 @@ def create_app(overrides=None):
             response.headers['Content-Security-Policy'] = SECURITY_HEADERS['Content-Security-Policy'].replace('; upgrade-insecure-requests', '')
         if request.path.startswith('/api/'):
             response.headers['Cache-Control'] = 'no-store'
-            if allowed_origin():
+            if allowed_origin() or product_site():
                 response.headers['Access-Control-Allow-Origin'] = request.headers['Origin']
                 response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
                 response.headers['Access-Control-Allow-Headers'] = 'Content-Type, X-Schedule-Token'
@@ -376,10 +387,13 @@ def create_app(overrides=None):
 
     @app.post('/api/contact')
     def contact():
-        if not allowed_origin():
+        site = product_site()
+        if not site and not allowed_origin():
             return fail('Please submit your inquiry from the Alphaworx website.', 403)
+        # Each site shows its own address: support@ on the knowledge bases, info@ here.
+        address = 'support@alphaworx.io' if site else 'info@alphaworx.io'
         if not ready():
-            return fail('Direct sending is not available yet. Please email info@alphaworx.io.', 503)
+            return fail(f'Direct sending is not available yet. Please email {address}.', 503)
         if not request.is_json:
             return fail('Invalid submission format.', 415)
         try:
@@ -410,8 +424,8 @@ def create_app(overrides=None):
             fields[name] = value
         if not fields['name'] or not fields['message'] or not valid_email(fields['email']):
             return fail('Enter your name, a valid email address, and a message.', 400)
-        if fields['topic'] not in TOPICS:
-            return fail('Please select one of the conversation topics.', 400)
+        if fields['topic'] not in (PRODUCT_TOPICS if site else TOPICS):
+            return fail('Please select one of the listed topics.', 400)
         digest = hmac.new(app.config['SECRET_KEY'].encode(), json.dumps(fields, sort_keys=True).encode(), hashlib.sha256).hexdigest()
         now = time.time()
         with sqlite3.connect(db_path, timeout=10) as db:
@@ -425,13 +439,13 @@ def create_app(overrides=None):
                     return jsonify(ok=True)
                 if previous[1] == 'sending':
                     return fail('Your inquiry is still being processed. Please wait before trying again.', 409)
-                return fail('We could not confirm delivery. Please email info@alphaworx.io before submitting again.', 409)
+                return fail(f'We could not confirm delivery. Please email {address} before submitting again.', 409)
             # Global limits remain effective even when clients forge proxy headers or
             # obtain multiple form tokens. This app is a small contact form, not a relay.
             minute = db.execute('SELECT count(*) FROM inquiries WHERE created > ?', (now - 60,)).fetchone()[0]
             hour = db.execute('SELECT count(*) FROM inquiries WHERE created > ?', (now - 3600,)).fetchone()[0]
             if minute >= 3 or hour >= 20:
-                response = jsonify(ok=False, error='We’re receiving a number of inquiries. Please try again later or email info@alphaworx.io.')
+                response = jsonify(ok=False, error=f'We’re receiving a number of inquiries. Please try again later or email {address}.')
                 response.headers['Retry-After'] = '3600' if hour >= 20 else '60'
                 return response, 429
             db.execute('INSERT INTO inquiries VALUES (?, ?, ?, ?)', (ticket, digest, now, 'sending'))
@@ -439,11 +453,11 @@ def create_app(overrides=None):
         message['From'] = app.config['SMTP_USERNAME']
         message['To'] = INQUIRY_TO
         message['Reply-To'] = fields['email']
-        message['Subject'] = 'Alphaworx website inquiry: ' + fields['topic']
+        message['Subject'] = f"{site or 'Alphaworx website'} inquiry: {fields['topic']}"
         message['Date'] = formatdate(localtime=False)
         message['Message-ID'] = make_msgid(domain=app.config['SMTP_USERNAME'].split('@')[1])
         message.set_content(
-            'New inquiry from the Alphaworx website\n\n'
+            f"New inquiry from the {site + ' website' if site else 'Alphaworx website'}\n\n"
             f"Name: {fields['name']}\nEmail: {fields['email']}\n"
             f"Company: {fields['company'] or 'Not provided'}\nRole: {fields['role'] or 'Not provided'}\n"
             f"Topic: {fields['topic']}\n\nMessage:\n{fields['message']}\n"
@@ -455,7 +469,7 @@ def create_app(overrides=None):
                 db.execute('UPDATE inquiries SET state=? WHERE id=?', ('unconfirmed', ticket))
             # Never log the SMTP exception: it can contain recipient information.
             app.logger.warning('Contact delivery was not confirmed')
-            return fail('We couldn’t confirm delivery. Please email info@alphaworx.io directly. Your details are still in the form.', 502)
+            return fail(f'We couldn’t confirm delivery. Please email {address} directly. Your details are still in the form.', 502)
         with sqlite3.connect(db_path) as db:
             db.execute('UPDATE inquiries SET state=? WHERE id=?', ('sent', ticket))
         return jsonify(ok=True)

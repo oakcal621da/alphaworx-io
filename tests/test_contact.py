@@ -40,6 +40,31 @@ class ContactTests(unittest.TestCase):
         self.assertEqual(message['Subject'], 'Alphaworx website inquiry: AI strategy assessment')
         self.assertIn('Meridian Industrial Group', message.get_content())
 
+    def test_knowledge_base_sites_share_the_form(self):
+        data = self.payload(topic='Team plan', company='', role='')
+        result = self.post(data, origin='https://caiokb.com')
+        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.headers['Access-Control-Allow-Origin'], 'https://caiokb.com')
+        message = self.sender.call_args.args[0]
+        self.assertEqual(message['To'], 'support@alphaworx.io')
+        self.assertEqual(message['Reply-To'], 'visitor@example.org')
+        self.assertEqual(message['Subject'], 'CAIO Knowledge Base inquiry: Team plan')
+        self.assertIn('New inquiry from the CAIO Knowledge Base website', message.get_content())
+        result = self.post(self.payload(topic='Technical issue'), origin='https://theaikb.com')
+        self.assertEqual(result.status_code, 200)
+        self.assertEqual(self.sender.call_args.args[0]['Subject'], 'AI Knowledge Base inquiry: Technical issue')
+
+    def test_each_site_keeps_its_own_topics_and_no_site_can_book(self):
+        # A knowledge base topic is not valid on alphaworx.io, and the reverse.
+        self.assertEqual(self.post(self.payload(topic='Team plan')).status_code, 400)
+        self.assertEqual(self.post(self.payload(topic='AI strategy assessment'), origin='https://caiokb.com').status_code, 400)
+        self.sender.assert_not_called()
+        # The knowledge base sites get the contact form only; scheduling stays on alphaworx.io.
+        response = self.client.options('/api/schedule/config', headers={'Origin': 'https://caiokb.com'})
+        self.assertNotIn('Access-Control-Allow-Origin', response.headers)
+        response = self.client.get('/api/contact/config', headers={'Origin': 'https://theaikb.com'})
+        self.assertEqual(response.headers['Access-Control-Allow-Origin'], 'https://theaikb.com')
+
     def test_retry_is_not_sent_twice(self):
         data = self.payload()
         self.assertEqual(self.post(data).status_code, 200)
