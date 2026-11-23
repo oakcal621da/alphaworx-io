@@ -24,9 +24,9 @@ const closeButton=new Element('success-close');
 elements['contact-dialog'].closeButtons=[closeButton];
 elements['contact-form'].formData={name:'Avery Stone',email:'avery@example.com',company:'Meridian',role:'COO',topic:'AI strategy assessment',message:'Discuss our AI operating model.',_gotcha:''};
 
-let fetchCount=0;
+let fetchCount=0,pageClick=null;
 const context={
-  document:{getElementById:id=>elements[id],addEventListener(){},body:{classList:{add(){},remove(){}}}},
+  document:{getElementById:id=>elements[id],addEventListener(type,fn){if(type==='click')pageClick=fn;},body:{classList:{add(){},remove(){}}}},
   window:{ALPHAWORX_CONTACT_CONFIG_URL:'/api/contact/config'},
   location:{href:'https://alphaworx.io/',hash:'',origin:'https://alphaworx.io',pathname:'/'},
   URL,AbortController,clearTimeout,setTimeout,
@@ -39,6 +39,16 @@ const context={
 vm.runInNewContext(fs.readFileSync('public/assets/contact.js','utf8'),context);
 
 setImmediate(async()=>{
+  // Nothing is fetched until a visitor opens the form from a contact link.
+  assert.equal(fetchCount,0);
+  const link={href:'mailto:info@alphaworx.io',hasAttribute:()=>false,focus(){}};
+  pageClick({target:{closest:()=>link},button:0,preventDefault(){}});
+  assert.equal(fetchCount,1);
+  await new Promise(resolve=>setImmediate(resolve));
+  // A link marked data-email-direct is left to the visitor's email app.
+  let prevented=false;
+  pageClick({target:{closest:()=>({href:'mailto:info@alphaworx.io',hasAttribute:n=>n==='data-email-direct'})},button:0,preventDefault(){prevented=true;}});
+  assert.equal(prevented,false);
   elements['contact-form'].dispatch('submit');
   await new Promise(resolve=>setImmediate(resolve));
   assert.equal(elements['contact-form'].hidden,true);

@@ -14,13 +14,14 @@
 <link rel="icon" type="image/png" href="/assets/mark.png">
 <link rel="stylesheet" href="/assets/site/site.css?v=1">
 <link rel="stylesheet" href="/assets/site/alphaworx.css?v=1">
+<link rel="stylesheet" href="/assets/site/contact.css?v=1">
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
 <header><div class="wrap"><a class="brand" href="/" aria-label="Alphaworx home"><img class="brand-logo" src="/assets/site/alphaworx-logo.webp" alt="Alphaworx" width="238" height="32"></a><nav aria-label="Main"><a href="/aios-cloud.html">AIOS Cloud</a><a href="/knowledge-bases.html">Knowledge Bases</a><a href="/advisory.html">Advisory</a><a href="/blog/">Insights</a><a href="/about.html">About</a></nav><div class="hdr-right"><a class="nav-cta" href="/schedule/">Request a demo ↗</a></div></div></header>
 <main id="main">
 <section class="phero"><div class="wrap"><div><span class="eyebrow"><i></i>Privacy</span><h1>Privacy notice</h1></div></div></section>
 <section class="section"><div class="wrap legal"><p class="updated">Last updated November 23, 2026</p>
-<p>This notice explains how Alphaworx Intelligence LLC handles information when you visit this website, send an inquiry, or schedule a conversation. Contact us at <a href="mailto:info@alphaworx.io">info@alphaworx.io</a> about privacy or your information.</p>
+<p>This notice explains how Alphaworx Intelligence LLC handles information when you visit this website, send an inquiry, or schedule a conversation. Contact us at <a href="mailto:info@alphaworx.io" data-email-direct>info@alphaworx.io</a> about privacy or your information.</p>
 <h2>Information you provide</h2>
 <p>The contact form asks for your name, work email, conversation topic, and message. Company and role are optional. If you choose to schedule a conversation, the Alphaworx scheduler asks for the information needed to create the appointment, including your name, email address, selected time, and related appointment details. We use these details to respond, discuss potential services, arrange the requested meeting, and keep a record of our conversation. Providing them is voluntary; without the required contact or booking information, we cannot respond or schedule the meeting.</p>
 <p>Please avoid including sensitive personal information, confidential client material, passwords, or other information that is unnecessary for an initial conversation.</p>
@@ -36,7 +37,7 @@
 <h2>Service providers and international processing</h2>
 <p>Alphaworx is based in Dallas, Texas. Information may be processed in the United States and other countries where our providers operate. Their privacy information explains their own handling and transfer arrangements: <a href="https://render.com/privacy">Render</a>, <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare</a>, and <a href="https://policies.google.com/privacy">Google (Workspace mail, Calendar and Meet)</a>. Contact us for information about arrangements relevant to your inquiry.</p>
 <h2>Your choices and rights</h2>
-<p>You can ask to access, correct, or delete your inquiry information by emailing <a href="mailto:info@alphaworx.io">info@alphaworx.io</a>. Depending on the law that applies, you may also have rights to restrict processing, obtain a portable copy, or complain to a data protection authority. We may need to verify your identity before acting on a request.</p>
+<p>You can ask to access, correct, or delete your inquiry information by emailing <a href="mailto:info@alphaworx.io" data-email-direct>info@alphaworx.io</a>. Depending on the law that applies, you may also have rights to restrict processing, obtain a portable copy, or complain to a data protection authority. We may need to verify your identity before acting on a request.</p>
 <p><strong>You may object to processing based on legitimate interests.</strong> Contact us to explain your request. We will consider it under the law that applies to your information.</p>
 <h2>Updates</h2>
 <p>We will update this notice when the site's data practices change and show the revised date at the top of this page.</p>
@@ -44,6 +45,36 @@
 </div></section>
 </main>
 <footer><div class="wrap"><span>Alphaworx · © 2026 Alphaworx Intelligence LLC</span><div class="links"><a href="/aios-cloud.html">AIOS Cloud</a><a href="https://caiokb.com/">CAIO Knowledge Base</a><a href="https://theaikb.com/teams">AI Knowledge Base</a><a href="/advisory.html">Advisory</a><a href="/blog/">Insights</a><a href="/about.html">About</a><a href="/privacy/">Privacy</a><a href="mailto:info@alphaworx.io">Contact</a></div></div></footer>
-<script defer src="/assets/site/site.js?v=1"></script>
+<dialog class="contact-dialog" id="contact-dialog" aria-labelledby="contact-title" aria-describedby="contact-description">
+<div class="contact-dialog-head" id="contact-dialog-head">
+<span class="contact-eyebrow"><i></i>Start a conversation</span>
+<button class="contact-dismiss" type="button" data-close-contact aria-label="Close contact form">×</button>
+<h2 id="contact-title">What would you like to discuss?</h2>
+<p id="contact-description">Tell us a little about your organization and where you're looking to take AI.</p>
+</div>
+<form class="contact-form" id="contact-form">
+<div class="contact-fields">
+<div class="contact-field"><label for="contact-name">Name</label><input id="contact-name" name="name" autocomplete="name" maxlength="120" required autofocus></div>
+<div class="contact-field"><label for="contact-email">Work email</label><input id="contact-email" name="email" type="email" autocomplete="email" maxlength="254" required></div>
+<div class="contact-field"><label for="contact-company">Company <span>(optional)</span></label><input id="contact-company" name="company" autocomplete="organization" maxlength="160"></div>
+<div class="contact-field"><label for="contact-role">Role <span>(optional)</span></label><input id="contact-role" name="role" autocomplete="organization-title" maxlength="120"></div>
+<div class="contact-field full"><label for="contact-topic">I'd like to discuss</label><select id="contact-topic" name="topic"><option>General conversation</option><option>AI strategy assessment</option><option>Executive AI advisory</option><option>AI for growth</option><option>AI for efficiency</option><option>Customer experience</option><option>Operational resilience</option><option>AI governance and operations</option></select></div>
+<div class="contact-field full"><label for="contact-message">What are you working toward?</label><textarea id="contact-message" name="message" maxlength="3000" placeholder="Your priorities, challenges, or the question you'd like to explore…" required></textarea></div>
+</div>
+<div class="contact-honeypot" aria-hidden="true"><label for="contact-website">Leave this blank</label><input id="contact-website" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+<p class="contact-form-note" id="contact-delivery-note"></p>
+<p class="contact-form-note">By sending an inquiry, you ask Alphaworx to contact you about it. See our <a href="/privacy/" target="_blank" rel="noopener">privacy notice</a>.</p>
+<div class="contact-actions"><button class="contact-btn" id="contact-submit" type="submit">Continue in email ↗</button><button class="contact-cancel" type="button" data-close-contact>Cancel</button></div>
+<p class="contact-status" id="contact-status" role="status" aria-live="polite" aria-atomic="true"></p>
+</form>
+<section class="contact-success" id="contact-success" role="status" aria-live="polite" aria-labelledby="contact-success-title" hidden>
+<div class="contact-success-mark" aria-hidden="true">✓</div>
+<span class="contact-eyebrow"><i></i>Inquiry received</span>
+<h2 id="contact-success-title" tabindex="-1">Thank you for reaching out.</h2>
+<p>Your inquiry has been sent to Alphaworx. Our team will review your message and reach out shortly. If you are ready, you can choose a time for the conversation now.</p>
+<div class="contact-success-actions"><a class="contact-btn" href="/schedule/">Choose a time <span>→</span></a><button class="contact-return" type="button" data-close-contact>Return to the site</button></div>
+</section>
+</dialog>
+<script defer src="/assets/site/site.js?v=1"></script><script defer src="/assets/contact-config.js?v=production-2"></script><script defer src="/assets/contact.js?v=3"></script>
 <!-- Cloudflare Web Analytics --><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "cfed6b70e1ae4f62b44f449d4b40b2ae"}'></script><!-- End Cloudflare Web Analytics -->
 </body></html>

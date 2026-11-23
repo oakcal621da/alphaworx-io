@@ -25,10 +25,10 @@ async function loadDelivery(){
   note.textContent=endpoint?'We’ll use these details to respond to your inquiry.':'Your details will open in an email draft to info@alphaworx.io. Send it from your email app.';
  }
 }
-loadDelivery();
+// Delivery is checked when the form is first opened, not on every page view.
 topic.addEventListener('change',()=>{topicChosen=true;});
 // A contact link from an article or the deck opens the same form on arrival.
-if(location.hash==='#contact'){document.body.classList.add('contact-open');dialog.showModal();}
+if(location.hash==='#contact'){document.body.classList.add('contact-open');dialog.showModal();loadDelivery();}
 
 function setStatus(message,state='info'){status.textContent=message;status.dataset.state=state;}
 function showSuccess(){head.hidden=true;form.hidden=true;success.hidden=false;dialog.setAttribute('aria-labelledby','contact-success-title');dialog.removeAttribute('aria-describedby');successTitle.focus({preventScroll:true});}
@@ -46,10 +46,11 @@ function inferredTopic(subject){
  return 'General conversation';
 }
 document.addEventListener('click',event=>{
- const link=event.target.closest('a[href]');if(!link||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+ const link=event.target.closest('a[href]');if(!link||link.hasAttribute('data-email-direct')||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
  const url=new URL(link.href,location.href);
  const email=url.protocol==='mailto:'&&url.pathname.toLowerCase()==='info@alphaworx.io';
- const contact=url.origin===location.origin&&url.pathname===location.pathname&&url.hash==='#contact';
+ // The form is on every page, so links to the Advisory contact section open it in place.
+ const contact=url.origin===location.origin&&url.hash==='#contact'&&(url.pathname===location.pathname||url.pathname==='/advisory.html');
  if(!email&&!contact)return;
  event.preventDefault();opener=link;
  if(!topicChosen)topic.value=inferredTopic(url.searchParams.get('subject')||'');
