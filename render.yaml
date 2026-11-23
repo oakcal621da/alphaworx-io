@@ -12,7 +12,7 @@ services:
     autoDeployTrigger: off
     envVars:
       - key: SMTP_USERNAME
-        value: info@alphaworx.io
+        value: support@alphaworx.io
       - key: SMTP_APP_PASSWORD
         sync: false
       - key: CONTACT_SIGNING_KEY

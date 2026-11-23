@@ -12,8 +12,9 @@ second Render service, database, or domain.
 - Environment: https://dashboard.render.com/web/srv-dae6i5ad0e5s73fbkav0/env
 - Compute approved September 5, 2026: $7/month, 0.5 CPU, 512 MB RAM.
 - Mail for alphaworx.io moved from Proton to Google Workspace in November 2026. The
-  service sends through `smtp.gmail.com`. Credentials are stored only in the web
-  service's Render environment.
+  service sends through `smtp.gmail.com`, signed in as `support@alphaworx.io`, and
+  delivers to `info@alphaworx.io`. Delivery was confirmed by a live test on November 23,
+  2026. Credentials are stored only in the web service's Render environment.
 
 ## Render service
 
@@ -28,7 +29,7 @@ Set these in the new service's **Environment** settings:
 
 | Variable | Value |
 | --- | --- |
-| `SMTP_USERNAME` | The Google Workspace account that owns the app password (`info@alphaworx.io`) |
+| `SMTP_USERNAME` | The Google Workspace account that owns the app password (`support@alphaworx.io`) |
 | `SMTP_APP_PASSWORD` | Google app password for that account; secret, never committed |
 | `CONTACT_SIGNING_KEY` | A generated random secret of at least 32 bytes |
 | `PUBLIC_ORIGIN` | `https://alphaworx.io` |
