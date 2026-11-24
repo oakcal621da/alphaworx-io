@@ -12,10 +12,11 @@
     </div>
 
     <div class="product">
+      <!-- Hero sizes: true slot width on phones; above 600px the value matches the larger screenshots further down, so one file serves both. -->
       <div class="hero-stack">
-        <a class="screen s1" href="/aios-cloud.html"><span class="browser"><span class="dots"><i></i><i></i><i></i></span><span>aioscloud.io</span><b>AIOS Cloud</b></span><img src="/assets/site/img/aios-command-center.webp" alt="AIOS Cloud, the AI strategy and governance platform" width="1600" height="991"></a>
-        <a class="screen s2" href="/knowledge-bases.html#caio-kb"><span class="browser"><span class="dots"><i></i><i></i><i></i></span><span>caiokb.com</span><b>CAIO Knowledge Base</b></span><img src="/assets/site/img/caio-library.webp" alt="The CAIO Knowledge Base" width="1600" height="1000"></a>
-        <a class="screen s3" href="/knowledge-bases.html#ai-kb"><span class="browser"><span class="dots"><i></i><i></i><i></i></span><span>theaikb.com</span><b>AI Knowledge Base</b></span><img src="/assets/site/img/aikb-teams.webp" alt="The AI Knowledge Base" width="1600" height="1000"></a>
+        <a class="screen s1" href="/aios-cloud.html"><span class="browser"><span class="dots"><i></i><i></i><i></i></span><span>aioscloud.io</span><b>AIOS Cloud</b></span><img fetchpriority="high" src="/assets/site/img/aios-command-center.webp" srcset="/assets/site/img/aios-command-center-800.webp 800w, /assets/site/img/aios-command-center-1200.webp 1200w, /assets/site/img/aios-command-center.webp 1600w" sizes="(max-width: 600px) 68vw, (max-width: 980px) 92vw, 55vw" alt="AIOS Cloud, the AI strategy and governance platform" width="1600" height="991"></a>
+        <a class="screen s2" href="/knowledge-bases.html#caio-kb"><span class="browser"><span class="dots"><i></i><i></i><i></i></span><span>caiokb.com</span><b>CAIO Knowledge Base</b></span><img src="/assets/site/img/caio-library.webp" srcset="/assets/site/img/caio-library-800.webp 800w, /assets/site/img/caio-library-1200.webp 1200w, /assets/site/img/caio-library.webp 1600w" sizes="(max-width: 600px) 68vw, (max-width: 980px) 92vw, 55vw" alt="The CAIO Knowledge Base" width="1600" height="1000"></a>
+        <a class="screen s3" href="/knowledge-bases.html#ai-kb"><span class="browser"><span class="dots"><i></i><i></i><i></i></span><span>theaikb.com</span><b>AI Knowledge Base</b></span><img src="/assets/site/img/aikb-teams.webp" srcset="/assets/site/img/aikb-teams-800.webp 800w, /assets/site/img/aikb-teams-1200.webp 1200w, /assets/site/img/aikb-teams.webp 1600w" sizes="(max-width: 600px) 68vw, (max-width: 980px) 92vw, 55vw" alt="The AI Knowledge Base" width="1600" height="1000"></a>
       </div>
       <p class="caption">AIOS Cloud · CAIO Knowledge Base · AI Knowledge Base</p>
     </div>
@@ -50,7 +51,7 @@
           <a class="text-cta" href="/schedule/">Request a demo</a>
         </div>
       </div>
-      <div class="screen zoom way-shot" data-full="/assets/site/img/aios-command-center-full.webp" role="button" tabindex="0" aria-label="View the AIOS Cloud Command Center full size"><div class="browser"><span class="dots"><i></i><i></i><i></i></span><span>aioscloud.io</span><b>Command Center</b></div><img src="/assets/site/img/aios-command-center.webp" srcset="/assets/site/img/aios-command-center.webp 1600w, /assets/site/img/aios-command-center-full.webp 3512w" sizes="(max-width: 900px) 92vw, 55vw" alt="The AIOS Cloud Command Center, showing accountability gaps, initiative records, priority commitments and value banked for a demonstration company, with the Copilot panel alongside" loading="lazy" width="1600" height="991"></div>
+      <div class="screen zoom way-shot" data-full="/assets/site/img/aios-command-center-full.webp" role="button" tabindex="0" aria-label="View the AIOS Cloud Command Center full size"><div class="browser"><span class="dots"><i></i><i></i><i></i></span><span>aioscloud.io</span><b>Command Center</b></div><img src="/assets/site/img/aios-command-center.webp" srcset="/assets/site/img/aios-command-center-800.webp 800w, /assets/site/img/aios-command-center-1200.webp 1200w, /assets/site/img/aios-command-center.webp 1600w, /assets/site/img/aios-command-center-full.webp 3512w" sizes="(max-width: 900px) 92vw, 55vw" alt="The AIOS Cloud Command Center, showing accountability gaps, initiative records, priority commitments and value banked for a demonstration company, with the Copilot panel alongside" loading="lazy" width="1600" height="991"></div>
     </div>
   </div>
 </section>
@@ -65,10 +66,11 @@
     </div>
     <div>
       <div class="film-frame">
-        <video controls playsinline preload="none" poster="/assets/video/aios-cloud-film-v3-thumbnail-command.jpg" data-compact="/assets/video/aios-cloud-film-v3-720p.mp4?v=20261025" aria-label="AIOS Cloud introduction film">
-          <source src="/assets/video/aios-cloud-film-v3-1080p.mp4?v=20261025" type="video/mp4">
-          <track default kind="captions" label="English" src="/assets/video/aios-cloud-film-v3.en.vtt?v=20261025" srclang="en">
-          <p><a href="/assets/video/aios-cloud-film-v3-1080p.mp4?v=20261025">Watch the AIOS Cloud introduction</a></p>
+        <video controls playsinline preload="none" poster="/assets/video/aios-cloud-film-v3-thumbnail-command.jpg" aria-label="AIOS Cloud introduction film">
+          <source src="/assets/video/aios-cloud-film-v3-720p.mp4" type="video/mp4" media="(max-width: 760px)">
+          <source src="/assets/video/aios-cloud-film-v3-1080p.mp4" type="video/mp4">
+          <track default kind="captions" label="English" src="/assets/video/aios-cloud-film-v3.en.vtt" srclang="en">
+          <p><a href="/assets/video/aios-cloud-film-v3-1080p.mp4">Watch the AIOS Cloud introduction</a></p>
         </video>
       </div>
       <p class="film-note">3:09 · English captions</p>
@@ -84,14 +86,14 @@
     </div>
     <div class="ways slim">
       <article class="way">
-        <div class="screen zoom way-shot" data-full="/assets/site/img/caio-library-full.webp" role="button" tabindex="0" aria-label="View the CAIO Knowledge Base welcome page full size"><div class="browser"><span class="dots"><i></i><i></i><i></i></span><span>caiokb.com</span><b>Knowledge Library</b></div><img src="/assets/site/img/caio-library.webp" srcset="/assets/site/img/caio-library.webp 1600w, /assets/site/img/caio-library-full.webp 2560w" sizes="(max-width: 900px) 92vw, 55vw" alt="The CAIO Knowledge Base welcome page" loading="lazy" width="1600" height="1000"></div>
+        <div class="screen zoom way-shot" data-full="/assets/site/img/caio-library-full.webp" role="button" tabindex="0" aria-label="View the CAIO Knowledge Base welcome page full size"><div class="browser"><span class="dots"><i></i><i></i><i></i></span><span>caiokb.com</span><b>Knowledge Library</b></div><img src="/assets/site/img/caio-library.webp" srcset="/assets/site/img/caio-library-800.webp 800w, /assets/site/img/caio-library-1200.webp 1200w, /assets/site/img/caio-library.webp 1600w, /assets/site/img/caio-library-full.webp 2560w" sizes="(max-width: 900px) 92vw, 55vw" alt="The CAIO Knowledge Base welcome page" loading="lazy" width="1600" height="1000"></div>
         <span class="k">For the leaders</span>
         <h3>CAIO Knowledge Base</h3>
         <p class="for">The operating manual for the people accountable for AI. Included with AIOS Cloud, and available on its own.</p>
         <a class="text-cta" href="/knowledge-bases.html#caio-kb">See the CAIO Knowledge Base</a>
       </article>
       <article class="way">
-        <div class="screen zoom way-shot" data-full="/assets/site/img/aikb-teams-full.webp" role="button" tabindex="0" aria-label="View the AI Knowledge Base overview full size"><div class="browser"><span class="dots"><i></i><i></i><i></i></span><span>theaikb.com</span><b>Overview</b></div><img src="/assets/site/img/aikb-teams.webp" srcset="/assets/site/img/aikb-teams.webp 1600w, /assets/site/img/aikb-teams-full.webp 2560w" sizes="(max-width: 900px) 92vw, 55vw" alt="The AI Knowledge Base overview, showing the five levels and each person's progress" loading="lazy" width="1600" height="1000"></div>
+        <div class="screen zoom way-shot" data-full="/assets/site/img/aikb-teams-full.webp" role="button" tabindex="0" aria-label="View the AI Knowledge Base overview full size"><div class="browser"><span class="dots"><i></i><i></i><i></i></span><span>theaikb.com</span><b>Overview</b></div><img src="/assets/site/img/aikb-teams.webp" srcset="/assets/site/img/aikb-teams-800.webp 800w, /assets/site/img/aikb-teams-1200.webp 1200w, /assets/site/img/aikb-teams.webp 1600w, /assets/site/img/aikb-teams-full.webp 2560w" sizes="(max-width: 900px) 92vw, 55vw" alt="The AI Knowledge Base overview, showing the five levels and each person's progress" loading="lazy" width="1600" height="1000"></div>
         <span class="k">For every team</span>
         <h3>AI Knowledge Base</h3>
         <p class="for">One shared way for the whole organization to learn AI and put it to work, with seats for teams and whole organizations.</p>

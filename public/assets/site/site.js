@@ -44,11 +44,5 @@
     el.addEventListener('keydown', go);
   });
 
-  // Serve the smaller film file on phones
-  if (matchMedia('(max-width: 760px)').matches) {
-    document.querySelectorAll('video[data-compact]').forEach(function (video) {
-      video.querySelector('source').src = video.getAttribute('data-compact');
-      video.load();
-    });
-  }
+  // The film's phone file is chosen in the markup (<source media>), so nothing is fetched before play.
 })();

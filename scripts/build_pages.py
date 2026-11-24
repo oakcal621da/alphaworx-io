@@ -1,10 +1,12 @@
 """Build the site's pages from content/pages/*.html fragments and the shared chrome.
 
 Each fragment holds only the page's <main> content. The head, header, navigation and
-footer come from site_chrome.py, so they cannot drift between pages.
+footer come from site_chrome.py, so they cannot drift between pages. Asset addresses are written
+plain in the sources; asset_versions.py adds ?h=<content hash> to each one as the page is written.
 Run: python3 scripts/build_pages.py
 """
 from pathlib import Path
+from asset_versions import version_assets
 from site_chrome import site_head, site_header, site_footer, ORG_JSONLD
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -20,7 +22,7 @@ PAGES = [
               'the knowledge to put it to work: AIOS Cloud, the CAIO Knowledge Base, the AI Knowledge Base, '
               'and independent advisory.'),
     dict(out='aios-cloud.html', src='aios-cloud.html', path='/aios-cloud.html', nav='aios',
-         css=['/assets/site/aios-cloud.css?v=1'], js=['/assets/site/aios-cloud.js?v=1'],
+         css=['/assets/site/aios-cloud.css'], js=['/assets/site/aios-cloud.js'],
          title='AIOS Cloud — The AI Strategy and Governance Platform by Alphaworx',
          desc='AIOS Cloud brings AI strategy, initiatives, risk, and governance into one connected platform '
               'for enterprises, small businesses, and government entities.'),
@@ -29,12 +31,12 @@ PAGES = [
          desc='Two knowledge bases for the organization adopting AI: the CAIO Knowledge Base for the people '
               'accountable for it, and the AI Knowledge Base for every team.'),
     dict(out='advisory.html', src='advisory.html', path='/advisory.html', nav='advisory',
-         css=['/assets/site/advisory.css?v=1'],
+         css=['/assets/site/advisory.css'],
          title='AI Strategy & Advisory — Alphaworx',
          desc='Independent strategy and hands-on counsel that connects AI ambition with the work of operating it.'),
     dict(out='schedule/index.html', src='schedule.html', path='/schedule/', nav=None,
-         css=['/assets/site/schedule.css?v=1'],
-         js=['/assets/schedule.js?v=3'],
+         css=['/assets/site/schedule.css'],
+         js=['/assets/schedule.js'],
          title='Request a demo or schedule a conversation — Alphaworx',
          desc='Choose a 30-minute time for a demo of AIOS Cloud or a conversation about your AI priorities.'),
     dict(out='about.html', src='about.html', path='/about.html', nav='about',
@@ -123,7 +125,7 @@ def main():
             continue
         out = PUBLIC / page['out']
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(render(page))
+        out.write_text(version_assets(render(page)))  # asset addresses get their content hash here
         built.append(page['out'])
     print('Built:', ', '.join(built))
     if skipped:

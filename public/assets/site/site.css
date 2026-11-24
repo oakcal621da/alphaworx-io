@@ -1,6 +1,4 @@
-@font-face{font-family:Barlow;src:url('/assets/aios-cloud/Barlow-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
-@font-face{font-family:Barlow;src:url('/assets/aios-cloud/Barlow-Medium.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
-@font-face{font-family:Barlow;src:url('/assets/aios-cloud/Barlow-SemiBold.ttf') format('truetype');font-weight:600;font-style:normal;font-display:swap}
+/* Barlow's @font-face rules are in each page's head (FONT_CSS in scripts/site_chrome.py): preloaded .woff2 with a .ttf fallback. */
 /* Layout: the alphaworx.io system (Barlow, paper, ink, brass hairlines, square buttons, navy band). Single light look, matching alphaworx.io. The 5-level ladder is the signature element. */
 :root{
   --paper:#f4f3ef; --card:#fffefa; --sage:#e9e8e0; --mist:#edf1f2; --close:#dfe7eb;
