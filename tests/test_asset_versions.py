@@ -1,7 +1,8 @@
 """Asset addresses in the built pages carry a hash of the file they point to.
 
-These checks are what make a long browser cache lifetime safe for ?h= addresses: if a file under
-public/assets/ changes and the pages are not rebuilt, the first test fails.
+If a file under public/assets/ changes and the pages are not rebuilt, the first test fails. The label is
+not a cache guarantee: the host ignores the query string, so these addresses are still mutable and must
+keep today's revalidate headers (see scripts/asset_versions.py).
 """
 import re
 import sys
@@ -16,8 +17,8 @@ from site_chrome import FONT_DIR, site_head  # noqa: E402
 PUBLIC = ROOT / 'public'
 HAND_AUTHORED = {'deck.html'}  # not built by the scripts; its assets keep plain addresses
 PAGES = sorted(p for p in PUBLIC.rglob('*.html') if str(p.relative_to(PUBLIC)) not in HAND_AUTHORED)
-# Stylesheets that still point at files themselves. Those files are fetched at plain addresses, so they
-# must never get a long cache lifetime; adding to this list is a decision, not a formality.
+# Stylesheets that still point at files themselves. Those files are fetched at plain, unlabelled addresses;
+# adding to this list is a decision, not a formality.
 CSS_URL_EXCEPTIONS = {
     'assets/deck.css': 'hand-authored deck',
     'assets/principles-guide.css': 'twelve-principles guide, own chrome and own @font-face rules',

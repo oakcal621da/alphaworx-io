@@ -1,27 +1,35 @@
-"""Content-derived versions for asset addresses in generated pages.
+"""Version labels for asset addresses in generated pages.
 
-Every root-relative /assets/... reference in a generated page gets ?h=<hash of the file's bytes>, so the
-address changes exactly when the file changes. That is what makes a long browser cache lifetime safe for
-these addresses: a page (always revalidated) points at the new address as soon as the file is different.
+Every root-relative /assets/... reference in a generated page gets ?h=<hash of the file's bytes>, so a page
+asks for a different address whenever the file it was built against has changed.
 
-- A stylesheet's hash also covers the files it points to with url(), so changing one of those changes
+What the label is, and is not:
+- It is a label on an ordinary address. The host ignores the query string, so /assets/x.css?h=<old label>
+  returns whatever x.css is now. The label does NOT make the address immutable.
+- With the headers the site sends today (every response is revalidated) it is safe and changes nothing a
+  visitor can see. It records which version of each file a page was built against, and
+  tests/test_asset_versions.py uses that to catch a page that was not rebuilt after an asset changed.
+- It is not enough for a long or `immutable` browser cache lifetime. A browser that asks for an old address
+  after a deploy (an older copy of a page, or a tab left open) would store the new bytes under the old label,
+  and an old page can be served new files. That needs file names that contain the hash, with the old files
+  kept across deploys: a separate piece of work. Do not add a cache header on the strength of this module.
+
+Details:
+- A stylesheet's label also covers the files it points to with url(), so changing one of those changes
   the stylesheet's address too.
 - Scripts must not build asset addresses themselves; they read them from the page (data-* attributes),
-  where this module has already versioned them. tests/test_asset_versions.py checks both.
+  where this module has already labelled them.
 - Absolute addresses (https://alphaworx.io/assets/share-card.png in social tags) are left alone, and so is
   anything this module does not find on disk.
 - public/deck.html is hand-authored and not passed through here; its assets keep plain addresses.
-
-Rolling back: a visitor's browser may hold a newer file under an older address (a tab opened before a
-deploy that fetched an asset after it). Reverting the content would bring that older address back. So a
-rollback also bumps SALT below, which gives every asset a fresh address.
+- SALT is part of every label; changing it changes every address at once.
 """
 import hashlib
 import re
 from pathlib import Path
 
 PUBLIC = Path(__file__).resolve().parent.parent / 'public'
-SALT = '1'  # bump on a rollback (see above); never needed for an ordinary change
+SALT = '1'  # changes every label at once; an ordinary change never needs it
 PARAM = 'h'
 
 # A root-relative asset path with an extension, plus any query already on it. The lookbehind skips
