@@ -172,6 +172,8 @@ def render_sitemap(posts):
         (f"{SITE_URL}/knowledge-bases.html", None),
         (f"{SITE_URL}/advisory.html", "2026-10-23"),
         (f"{SITE_URL}/about.html", "2026-10-23"),
+        (f"{SITE_URL}/partners.html", None),
+        (f"{SITE_URL}/careers.html", None),
         (f"{SITE_URL}/deck.html", None),
         (f"{SITE_URL}/privacy/", None),
         (f"{SITE_URL}/schedule/", "2026-09-07"),

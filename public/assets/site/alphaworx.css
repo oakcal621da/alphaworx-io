@@ -28,6 +28,9 @@ a.card{color:inherit}
 .after-row{margin-top:30px}
 @media(max-width:900px){.trio.three{grid-template-columns:1fr}}
 @media(max-width:560px){.brand .brand-logo{height:24px}}
+/* Narrow desktop: with six navigation links the single header row needs 1090px. From 1001px (where the row
+   becomes single) to 1100px the gaps and the link size are a little smaller, so the logo keeps its full width. */
+@media(min-width:1001px) and (max-width:1100px){header .wrap{gap:22px}header nav{gap:17px;font-size:14px}}
 /* Phone header: the logo and the demo button share one row from 354px up. The button has a set minimum width
    and the row a smaller minimum gap, so the row does not re-wrap when Barlow replaces the fallback font, whose
    label is a few pixels wider. At 360px the label may grow to 117px (Barlow 107px) before the row would wrap. */

@@ -43,6 +43,15 @@ PAGES = [
          title='About Alphaworx',
          desc='Alphaworx builds AIOS Cloud, the CAIO Knowledge Base and the AI Knowledge Base, and advises '
               'leaders on AI strategy and governance.'),
+    dict(out='partners.html', src='partners.html', path='/partners.html', nav='partners',
+         css=['/assets/site/partners.css'],
+         title='Partners — Alphaworx',
+         desc='The companies Alphaworx works with to sell and deliver its products and advisory services.'),
+    dict(out='careers.html', src='careers.html', path='/careers.html', nav=None,
+         css=['/assets/site/careers.css'],
+         title='Careers — Alphaworx',
+         desc='Open roles at Alphaworx, the company behind AIOS Cloud, the CAIO Knowledge Base and the '
+              'AI Knowledge Base. Remote in the United States.'),
     dict(out='privacy/index.html', src='privacy.html', path='/privacy/', nav=None, legal=True,
          label='Privacy', heading='Privacy notice', updated='Last updated November 23, 2026',
          title='Privacy notice — Alphaworx',
@@ -102,8 +111,56 @@ def build_chrome_css():
     (PUBLIC / 'assets/site/chrome.css').write_text('\n'.join(out) + '\n')
 
 
+def partner_cards():
+    """Cards for the Partners page, from content/partners.json. An entry with a field missing is drawn
+    as a dashed draft card; tests/test_partners.py fails while one exists."""
+    import json
+    from html import escape
+    cards = []
+    for p in json.loads((ROOT / 'content' / 'partners.json').read_text())['partners']:
+        name, url, logo, summary = (p.get(k, '').strip() for k in ('name', 'url', 'logo', 'summary'))
+        logo_html = (f'<img src="/assets/partners/{escape(logo)}" alt="{escape(name)}" loading="lazy">' if logo
+                     else 'Logo to come')
+        text = (f'<h3>{escape(name or "Partner name")}</h3>'
+                f'<p>{escape(summary or "One sentence on what this firm does, from the partner.")}</p>')
+        if all((name, url, logo, summary)):
+            cards.append(f'      <a class="partner" href="{escape(url)}" rel="noopener">'
+                         f'<span class="partner-logo">{logo_html}</span>{text}'
+                         '<span class="text-cta">Visit website</span></a>')
+        else:  # shows what has arrived so far
+            cards.append(f'      <div class="partner is-draft"><span class="partner-logo">{logo_html}</span>{text}</div>')
+    return '\n'.join(cards)
+
+
+def role_cards():
+    """Role postings for the Careers page, from content/careers.json. Pay is printed only when a figure is set."""
+    import json
+    from html import escape
+    from urllib.parse import quote
+    out = []
+    for r in json.loads((ROOT / 'content' / 'careers.json').read_text())['roles']:
+        lists = ''.join(
+            f'<div><h4>{label}</h4><ul>' + ''.join(f'<li>{escape(x)}</li>' for x in r[key]) + '</ul></div>'
+            for label, key in (('What you will do', 'do'), ('What you bring', 'bring')))
+        pay = r.get('pay', '').strip()
+        pay_html = f'<p class="role-pay"><small>Pay</small>{escape(pay)}</p>' if pay else ''
+        apply = f'mailto:jobs@alphaworx.io?subject={quote(r["title"])}'
+        out.append(
+            f'      <article class="role" id="{escape(r["slug"])}">'
+            f'<div class="role-top"><h3>{escape(r["title"])}</h3>'
+            f'<div class="role-meta"><b>{escape(r["status"])}</b><span>{escape(r["type"])}</span>'
+            f'<span>{escape(r["location"])}</span></div></div>'
+            f'<p>{escape(r["summary"])}</p><div class="role-cols">{lists}</div>'
+            f'<div class="role-foot">{pay_html}<a class="text-cta" href="{apply}">Apply by email</a></div></article>')
+    return '\n'.join(out)
+
+
 def render(page):
     body = (PAGES_DIR / page['src']).read_text()
+    if '{{roles}}' in body:
+        body = body.replace('{{roles}}', role_cards())
+    if '{{partners}}' in body:
+        body = body.replace('{{partners}}', partner_cards())
     if page.get('legal'):
         body = (f'<section class="phero"><div class="wrap"><div><span class="eyebrow"><i></i>{page["label"]}</span>'
                 f'<h1>{page["heading"]}</h1></div></div></section>\n'

@@ -1,0 +1,102 @@
+{
+  "_how_to": "One entry per role, shown on the Careers page in this order. slug is used in the page address (#slug). type is Full-time or Contract. status is the label shown beside the title (for example Hiring now, Opening in 2027, Open call). pay is optional: Don, Nov 25, 2026: leave pay off the postings for now and discuss it with candidates. If a figure is ever added it comes from Don; never invent one.",
+  "roles": [
+    {
+      "slug": "customer-success-lead",
+      "title": "Customer Success and Implementation Lead, AIOS Cloud",
+      "type": "Full-time",
+      "location": "Remote, United States",
+      "status": "Hiring now",
+      "pay": "",
+      "summary": "You bring new organizations onto AIOS Cloud and stay with them after launch. You are the person a client calls.",
+      "do": [
+        "Run onboarding for each new client, from kickoff to the first governance review held in the platform.",
+        "Set up AIOS Cloud to match the client's organization: its strategy, initiatives, risks and owners.",
+        "Answer support questions, and bring what clients ask for back to the product team.",
+        "Work with our partners on client engagements in their markets."
+      ],
+      "bring": [
+        "Experience onboarding or supporting enterprise software clients, in customer success, implementation or consulting.",
+        "Ease in front of senior leaders, and clear writing.",
+        "Working knowledge of AI governance or risk management, or a record of learning a new field quickly."
+      ]
+    },
+    {
+      "slug": "account-executive-us",
+      "title": "Account Executive, United States",
+      "type": "Full-time",
+      "location": "Remote, United States",
+      "status": "Hiring now",
+      "pay": "",
+      "summary": "You sell AIOS Cloud and the knowledge bases to organizations in the United States.",
+      "do": [
+        "Build and run your own pipeline of enterprise, small-business and government buyers.",
+        "Run demos and take each deal from the first conversation to signature.",
+        "Sell team plans of the CAIO Knowledge Base and the AI Knowledge Base alongside the platform.",
+        "Tell the product team what buyers ask for and where deals stall."
+      ],
+      "bring": [
+        "A record of closing business software deals with executive buyers.",
+        "Experience selling governance, risk, compliance, security or data products is a plus.",
+        "The ability to work without a large sales operation behind you."
+      ]
+    },
+    {
+      "slug": "account-executive-europe",
+      "title": "Account Executive, Europe",
+      "type": "Full-time",
+      "location": "Remote, Europe",
+      "status": "Hiring now",
+      "pay": "",
+      "summary": "You sell AIOS Cloud and the knowledge bases to organizations in Europe.",
+      "do": [
+        "Build and run your own pipeline of enterprise, small-business and public-sector buyers in Europe.",
+        "Run demos and take each deal from the first conversation to signature.",
+        "Sell team plans of the CAIO Knowledge Base and the AI Knowledge Base alongside the platform.",
+        "Tell the product team what European buyers ask for and where deals stall."
+      ],
+      "bring": [
+        "A record of closing business software deals with executive buyers in European markets.",
+        "Working knowledge of how the EU AI Act and GDPR shape what buyers need.",
+        "The ability to work without a large sales operation behind you."
+      ]
+    },
+    {
+      "slug": "senior-software-engineer",
+      "title": "Senior Software Engineer, AIOS Cloud",
+      "type": "Full-time",
+      "location": "Remote, United States",
+      "status": "Hiring now",
+      "pay": "",
+      "summary": "You build and operate AIOS Cloud: the application, its data and its security.",
+      "do": [
+        "Ship features across the platform, which is built on Python and PostgreSQL.",
+        "Own reliability and security: deployments, monitoring, incident response and access controls.",
+        "Direct and review the work of AI coding agents, which are part of how we build every day."
+      ],
+      "bring": [
+        "Several years building and operating production web applications.",
+        "A security-minded approach to multi-tenant data, authentication and audit records.",
+        "Practice working with AI coding tools, and the judgment to check what they produce."
+      ]
+    },
+    {
+      "slug": "advisory-associates-and-reviewers",
+      "title": "Advisory Associates and Subject-Matter Reviewers",
+      "type": "Contract",
+      "location": "Remote",
+      "status": "Open call",
+      "pay": "",
+      "summary": "Two kinds of contract work: delivering advisory engagements with us, and reviewing knowledge base content in your field.",
+      "do": [
+        "Advisory associates work on AI strategy and governance engagements alongside Alphaworx and its partners.",
+        "Reviewers check guides in the CAIO Knowledge Base and the AI Knowledge Base for accuracy in their area: regulation, security, risk or a specific industry."
+      ],
+      "bring": [
+        "Senior practice in AI governance, risk, security, privacy or regulation.",
+        "For reviewers, depth in one jurisdiction or industry.",
+        "Clear writing, with claims you can source."
+      ]
+    }
+  ]
+}

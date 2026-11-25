@@ -1,0 +1,14 @@
+/* Partners page. Cards are written by build_pages.py from content/partners.json. */
+.partners{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.partner{background:#fff;border:1px solid var(--line);border-radius:8px;padding:0 26px 26px;display:flex;flex-direction:column;gap:10px;color:inherit;min-width:0;transition:border-color .2s}
+a.partner:hover{border-color:var(--line-2)}
+/* The logo sits in a box of fixed height, so a logo of any shape leaves the text below it in the same place. */
+.partner-logo{height:168px;margin:0 -26px 12px;padding:0 26px;border-bottom:1px solid var(--line);display:flex;align-items:center}
+/* Logos are shown in the partner's own colors, at one height. */
+.partner-logo img{max-height:84px;max-width:210px;width:auto;height:auto}
+.partner h3{font-size:21px}
+.partner p{font-size:16px;color:var(--muted);line-height:1.45}
+.partner .text-cta{margin-top:auto;align-self:flex-start;padding-top:8px}
+/* An entry that is not complete yet. tests/test_partners.py fails while one is on the page. */
+.partner.is-draft{border-style:dashed;background:transparent}
+.partner.is-draft .partner-logo{border-bottom-style:dashed;color:var(--muted);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
