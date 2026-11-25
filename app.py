@@ -1,6 +1,7 @@
 """Alphaworx website and fixed-recipient contact delivery (Google Workspace SMTP)."""
 import hashlib
 import hmac
+import io
 import json
 import os
 from pathlib import Path
@@ -18,6 +19,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlencode
 from urllib.request import Request, urlopen
 from uuid import uuid4
+from zipfile import BadZipFile, ZipFile
 from zoneinfo import ZoneInfo
 
 from flask import Flask, abort, jsonify, request, send_from_directory, redirect
@@ -43,6 +45,26 @@ PRODUCT_TOPICS = {'General question', 'Subscription or billing', 'Team plan', 'T
 # Job applications from the role pages on alphaworx.io. The role must be one listed in content/careers.json.
 CAREERS_FILE = ROOT / "content" / "careers.json"
 APPLICATION_LINK = re.compile(r"https?://[^\s<>\"']{4,490}")
+
+
+RESUME_MAX_BYTES = 5 * 1024 * 1024
+APPLY_MAX_BYTES = RESUME_MAX_BYTES + 64 * 1024  # the résumé plus the text fields and form overhead
+
+
+def resume_type(content):
+    """(subtype, extension) for a PDF or Word file, judged by its content, never by the name the visitor gave it."""
+    if content.startswith(b'%PDF-'):
+        return 'pdf', 'pdf'
+    if content.startswith(b'\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1'):
+        return 'msword', 'doc'
+    if content.startswith(b'PK\x03\x04'):
+        try:
+            with ZipFile(io.BytesIO(content)) as archive:
+                if 'word/document.xml' in archive.namelist():
+                    return 'vnd.openxmlformats-officedocument.wordprocessingml.document', 'docx'
+        except BadZipFile:
+            return None
+    return None
 
 
 def role_titles():
@@ -229,6 +251,8 @@ def create_app(overrides=None):
 
     @app.errorhandler(RequestEntityTooLarge)
     def too_large(_error):
+        if request.path == '/api/apply':
+            return fail('Your résumé is too large. Please attach a file under 5 MB.', 413)
         return fail('Please shorten your message and try again.', 413)
 
     @app.get('/healthz')
@@ -395,16 +419,20 @@ def create_app(overrides=None):
             db.execute('UPDATE schedule_bookings SET state=?, response=? WHERE id=?', ('sent', encoded, ticket))
         return jsonify(ok=True, **response_data)
 
-    def read_form(address):
-        """Shared checks for the contact and application forms. Returns (data, ticket) or an error response."""
+    def read_form(address, allow_multipart=False):
+        """Shared checks for the contact and application forms. Returns (data, ticket) or an error response.
+        The application form may arrive as multipart form data, because it can carry a résumé file."""
         if not ready():
             return None, fail(f'Direct sending is not available yet. Please email {address}.', 503)
-        if not request.is_json:
+        if allow_multipart and request.mimetype == 'multipart/form-data':
+            data = request.form.to_dict()
+        elif not request.is_json:
             return None, fail('Invalid submission format.', 415)
-        try:
-            data = request.get_json()
-        except BadRequest:
-            return None, fail('Invalid submission format.', 400)
+        else:
+            try:
+                data = request.get_json()
+            except BadRequest:
+                return None, fail('Invalid submission format.', 400)
         if not isinstance(data, dict):
             return None, fail('Invalid submission format.', 400)
         if data.get('_gotcha'):
@@ -459,7 +487,7 @@ def create_app(overrides=None):
             db.execute('INSERT INTO inquiries VALUES (?, ?, ?, ?)', (ticket, digest, now, 'sending'))
         return None
 
-    def send(ticket, reply_to, subject, body, address):
+    def send(ticket, reply_to, subject, body, address, attachment=None):
         message = EmailMessage()
         message['From'] = app.config['SMTP_USERNAME']
         message['To'] = INQUIRY_TO
@@ -468,6 +496,9 @@ def create_app(overrides=None):
         message['Date'] = formatdate(localtime=False)
         message['Message-ID'] = make_msgid(domain=app.config['SMTP_USERNAME'].split('@')[1])
         message.set_content(body)
+        if attachment:
+            content, subtype, filename = attachment
+            message.add_attachment(content, maintype='application', subtype=subtype, filename=filename)
         try:
             app.config['MAIL_SENDER'](message, app.config['SMTP_USERNAME'], app.config['SMTP_TOKEN'])
         except (smtplib.SMTPException, OSError):
@@ -513,7 +544,8 @@ def create_app(overrides=None):
         if not allowed_origin():
             return fail('Please apply from the Alphaworx website.', 403)
         address = 'jobs@alphaworx.io'
-        submission, error = read_form(address)
+        request.max_content_length = APPLY_MAX_BYTES  # this form alone may carry a file; the others stay at 16 KB
+        submission, error = read_form(address, allow_multipart=True)
         if error:
             return error
         data, ticket = submission
@@ -522,17 +554,35 @@ def create_app(overrides=None):
             return error
         if not fields['name'] or not valid_email(fields['email']):
             return fail('Enter your name and a valid email address.', 400)
-        if not APPLICATION_LINK.fullmatch(fields['link']):
+        if fields['link'] and not APPLICATION_LINK.fullmatch(fields['link']):
             return fail('Enter a link to your résumé or LinkedIn profile, starting with https://.', 400)
         if fields['position'] not in role_titles():
             return fail('Please apply from the page of one of our open roles.', 400)
-        error = reserve(ticket, fields, address, 'application')
+        kind = None
+        upload = request.files.get('resume') if request.mimetype == 'multipart/form-data' else None
+        # An empty file field still sends an empty part, so the content decides whether a résumé was attached.
+        resume = upload.read(RESUME_MAX_BYTES + 1) if upload is not None else b''
+        if resume:
+            if len(resume) > RESUME_MAX_BYTES:
+                return fail('Your résumé is too large. Please attach a file under 5 MB.', 413)
+            kind = resume_type(resume)
+            if not kind:
+                return fail('Please attach your résumé as a PDF or Word document.', 400)
+        if not resume and not fields['link']:
+            return fail('Attach your résumé or add a link to it or to your LinkedIn profile.', 400)
+        # The duplicate guard covers the file too, so a changed attachment counts as a new application.
+        guarded = {**fields, 'resume': hashlib.sha256(resume).hexdigest() if resume else ''}
+        error = reserve(ticket, guarded, address, 'application')
         if error:
             return error
+        safe_name = re.sub(r'[^A-Za-z0-9 .-]', '', fields['name'])[:60].strip() or 'Applicant'
+        attachment = (resume, kind[0], f"{safe_name} - resume.{kind[1]}") if resume else None
         return send(ticket, fields['email'], f"Job application: {fields['position']}",
             f"New job application from the Alphaworx website\n\n"
             f"Role: {fields['position']}\nName: {fields['name']}\nEmail: {fields['email']}\n"
-            f"Résumé or LinkedIn: {fields['link']}\n\nNote:\n{fields['message'] or 'Not provided'}\n", address)
+            f"Résumé: {'attached (' + attachment[2] + ')' if attachment else 'Not attached'}\n"
+            f"Link: {fields['link'] or 'Not provided'}\n\nNote:\n{fields['message'] or 'Not provided'}\n", address,
+            attachment)
 
     @app.get('/')
     def homepage():
