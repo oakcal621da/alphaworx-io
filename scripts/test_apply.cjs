@@ -1,5 +1,6 @@
-// DOM-stub test of public/assets/apply.js: the Apply link opens the form, a send posts to /api/apply with the role
-// and form token and shows the success view, and without the contact service the form falls back to an email draft.
+// DOM-stub test of public/assets/apply.js: the Apply link opens the form, a send posts form data to /api/apply with the
+// role, form token and any résumé file and shows the success view, a wrong file type or a file over 5 MB is stopped
+// before sending, and without the contact service the form falls back to an email draft.
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
@@ -19,10 +20,11 @@ class Element {
   reportValidity() { return true; }
 }
 
-function run({ enabled }) {
-  const ids=['apply-dialog','apply-form','apply-submit','apply-status','apply-delivery-note','apply-dialog-head','apply-success','apply-success-title'];
+function run({ enabled, file=null }) {
+  const ids=['apply-resume','apply-dialog','apply-form','apply-submit','apply-status','apply-delivery-note','apply-dialog-head','apply-success','apply-success-title'];
   const el=Object.fromEntries(ids.map(id=>[id,new Element(id)]));
   el['apply-success'].hidden=true;
+  el['apply-resume'].files=file?[file]:[];
   el['apply-dialog'].closeButtons=[new Element('close')];
   el['apply-form'].formData={position:'Account Executive, United States',name:'Avery Stone',email:'avery@example.com',link:'https://www.linkedin.com/in/avery',message:'Ten years selling GRC software.',_gotcha:''};
   const calls=[]; let pageClick=null;
@@ -31,7 +33,7 @@ function run({ enabled }) {
     document:{getElementById:id=>el[id],addEventListener(type,fn){if(type==='click')pageClick=fn;},body:{classList:{add(){},remove(){}}}},
     window:{ALPHAWORX_CONTACT_CONFIG_URL:'https://alphaworx-contact.onrender.com/api/contact/config'},
     location,URL,AbortController,clearTimeout,setTimeout,Object,JSON,encodeURIComponent,
-    FormData:class { constructor(form){return new Map(Object.entries(form.formData));} },
+    FormData:class extends Map { constructor(form){super(Object.entries({...form.formData,resume:file||{name:'',size:0}}));} delete(k){return super.delete(k);} },
     fetch:async(url,options={})=>{calls.push({url:String(url),options});
       return calls.length===1 ? {ok:true,json:async()=>(enabled?{enabled:true,token:'test-token',endpoint:'/api/contact'}:{enabled:false})}
                               : {ok:true,status:200,json:async()=>({ok:true})};},
@@ -50,13 +52,41 @@ function run({ enabled }) {
   assert.equal(t.el['apply-submit'].textContent,'Send application ↗');
   await t.el['apply-form'].dispatch('submit');
   assert.equal(t.calls[1].url,'https://alphaworx-contact.onrender.com/api/apply');
-  const sent=JSON.parse(t.calls[1].options.body);
-  assert.equal(sent.position,'Account Executive, United States');
-  assert.equal(sent.link,'https://www.linkedin.com/in/avery');
-  assert.equal(sent.token,'test-token');
+  const sent=t.calls[1].options.body;
+  assert.equal(sent.get('position'),'Account Executive, United States');
+  assert.equal(sent.get('link'),'https://www.linkedin.com/in/avery');
+  assert.equal(sent.get('token'),'test-token');
+  assert.equal(sent.has('resume'),false,'an empty file field is not sent');
+  assert.equal(t.calls[1].options.headers['Content-Type'],undefined,'the browser sets the multipart boundary');
   assert.equal(t.el['apply-success'].hidden,false);
   assert.equal(t.el['apply-form'].hidden,true);
   assert.equal(t.el['apply-form'].resetCalled,true);
+
+  // With a résumé: the file travels with the form, and the link may be left empty.
+  const pdf={name:'Avery Stone CV.pdf',size:120000};
+  t=run({enabled:true,file:pdf});
+  t.el['apply-form'].formData.link='';
+  t.click(); await new Promise(r=>setTimeout(r,0));
+  await t.el['apply-form'].dispatch('submit');
+  assert.equal(t.calls[1].options.body.get('resume'),pdf);
+  assert.equal(t.el['apply-success'].hidden,false);
+
+  // A wrong file type or an oversized file is stopped before anything is sent.
+  for (const bad of [{name:'photo.png',size:1000},{name:'big.pdf',size:5*1024*1024+1}]) {
+    t=run({enabled:true,file:bad});
+    t.click(); await new Promise(r=>setTimeout(r,0));
+    await t.el['apply-form'].dispatch('submit');
+    assert.equal(t.calls.length,1,bad.name);
+    assert.equal(t.el['apply-status'].dataset.state,'error');
+  }
+
+  // Neither a file nor a link: stopped with a message.
+  t=run({enabled:true});
+  t.el['apply-form'].formData.link='';
+  t.click(); await new Promise(r=>setTimeout(r,0));
+  await t.el['apply-form'].dispatch('submit');
+  assert.equal(t.calls.length,1);
+  assert.match(t.el['apply-status'].textContent,/attach your résumé or add a link/i);
 
   // Without the service: the button offers an email draft to jobs@ with the role as the subject; nothing is posted.
   t=run({enabled:false});

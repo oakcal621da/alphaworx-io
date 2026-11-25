@@ -1,11 +1,13 @@
 (() => {
 'use strict';
 // Application form on each role page (careers/<slug>.html). It posts to the contact service's /api/apply.
+// It sends multipart form data so a résumé file (PDF or Word, up to 5 MB) can travel with the details.
 // Without the service, or without this script, the Apply links stay plain email links to jobs@alphaworx.io.
 const dialog=document.getElementById('apply-dialog');if(!dialog||!dialog.showModal)return;
-const form=document.getElementById('apply-form'),submit=document.getElementById('apply-submit'),status=document.getElementById('apply-status'),note=document.getElementById('apply-delivery-note'),head=document.getElementById('apply-dialog-head'),success=document.getElementById('apply-success'),successTitle=document.getElementById('apply-success-title');
+const form=document.getElementById('apply-form'),resumeInput=document.getElementById('apply-resume'),submit=document.getElementById('apply-submit'),status=document.getElementById('apply-status'),note=document.getElementById('apply-delivery-note'),head=document.getElementById('apply-dialog-head'),success=document.getElementById('apply-success'),successTitle=document.getElementById('apply-success-title');
 const configURL=new URL(window.ALPHAWORX_CONTACT_CONFIG_URL||'/api/contact/config',location.href);
 let endpoint='',formToken='',opener=null,sending=false,loading=false;
+const MAX_RESUME=5*1024*1024,RESUME_TYPES=/\.(pdf|docx?)$/i;
 async function loadDelivery(){
  if(loading)return;
  loading=true;submit.disabled=true;submit.textContent='Checking delivery…';
@@ -19,10 +21,18 @@ async function loadDelivery(){
  finally{
   clearTimeout(timeout);loading=false;submit.disabled=false;
   submit.textContent=endpoint?'Send application ↗':'Continue in email ↗';
-  note.textContent=endpoint?'':'Your details will open in an email draft to jobs@alphaworx.io. Send it from your email app.';
+  note.textContent=endpoint?'':'Your details will open in an email draft to jobs@alphaworx.io. Attach your résumé there and send it from your email app.';
  }
 }
 function setStatus(message,state='info'){status.textContent=message;status.dataset.state=state;}
+function checkResume(){
+ const file=resumeInput.files&&resumeInput.files[0];
+ if(!file)return '';
+ if(!RESUME_TYPES.test(file.name))return 'Please attach your résumé as a PDF or Word document.';
+ if(file.size>MAX_RESUME)return 'Your résumé is too large. Please attach a file under 5 MB.';
+ return '';
+}
+resumeInput.addEventListener('change',()=>{const problem=checkResume();setStatus(problem,problem?'error':'info');});
 function showSuccess(){head.hidden=true;form.hidden=true;success.hidden=false;dialog.setAttribute('aria-labelledby','apply-success-title');dialog.removeAttribute('aria-describedby');successTitle.focus({preventScroll:true});}
 function resetView(){head.hidden=false;form.hidden=false;success.hidden=true;dialog.setAttribute('aria-labelledby','apply-title');dialog.setAttribute('aria-describedby','apply-description');}
 function close(){dialog.close();}
@@ -37,18 +47,23 @@ document.addEventListener('click',event=>{
 });
 form.addEventListener('submit',async event=>{
  event.preventDefault();if(sending||loading||!form.reportValidity())return;
- const data=Object.fromEntries(new FormData(form));
+ const body=new FormData(form),data=Object.fromEntries(body);
  if(data._gotcha)return;
- if(!data.name.trim()||!data.link.trim()){setStatus('Please enter your name and a link to your résumé or LinkedIn profile.','error');return;}
+ const hasFile=!!(resumeInput.files&&resumeInput.files[0]);
+ if(!data.name.trim()){setStatus('Please enter your name.','error');return;}
+ const problem=checkResume();if(problem){setStatus(problem,'error');return;}
+ if(!hasFile&&!data.link.trim()){setStatus('Please attach your résumé or add a link to it or to your LinkedIn profile.','error');return;}
  if(!endpoint){
-  const body=`Name: ${data.name.trim()}\nEmail: ${data.email.trim()}\nRésumé or LinkedIn: ${data.link.trim()}\n\n${data.message.trim()}`;
-  location.href='mailto:jobs@alphaworx.io?subject='+encodeURIComponent(data.position)+'&body='+encodeURIComponent(body);
-  setStatus('Your email app should open with the draft. Send it there to complete your application; your details remain in this form if you need them.');return;
+  const draft=`Name: ${data.name.trim()}\nEmail: ${data.email.trim()}\nLink: ${data.link.trim()||'Not provided'}\n\n${data.message.trim()}`;
+  location.href='mailto:jobs@alphaworx.io?subject='+encodeURIComponent(data.position)+'&body='+encodeURIComponent(draft);
+  setStatus('Your email app should open with the draft. Attach your résumé there and send it to complete your application; your details remain in this form if you need them.');return;
  }
  sending=true;submit.disabled=true;submit.textContent='Sending…';setStatus('');
  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),65000);
  try{
-  const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({...data,token:formToken}),signal:controller.signal});
+  if(!hasFile)body.delete('resume');
+  body.set('token',formToken);
+  const response=await fetch(endpoint,{method:'POST',headers:{'Accept':'application/json'},body,signal:controller.signal});
   const result=await response.json().catch(()=>({}));
   if(response.status===403)formToken='';
   if(!response.ok||result.ok!==true)throw new Error(result.error||'We couldn’t confirm delivery. Please try again later or email jobs@alphaworx.io directly.');

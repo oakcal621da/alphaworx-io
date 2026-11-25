@@ -170,14 +170,15 @@ def apply_dialog(title):
 <span class="contact-eyebrow"><i></i>Apply</span>
 <button class="contact-dismiss" type="button" data-close-apply aria-label="Close application form">×</button>
 <h2 id="apply-title">{t}</h2>
-<p id="apply-description">Send us your details and a link to your résumé or LinkedIn profile.</p>
+<p id="apply-description">Send us your details with your résumé, a link to it, or your LinkedIn profile.</p>
 </div>
 <form class="contact-form" id="apply-form">
 <input type="hidden" name="position" value="{t}">
 <div class="contact-fields">
 <div class="contact-field"><label for="apply-name">Name</label><input id="apply-name" name="name" autocomplete="name" maxlength="120" required autofocus></div>
 <div class="contact-field"><label for="apply-email">Email</label><input id="apply-email" name="email" type="email" autocomplete="email" maxlength="254" required></div>
-<div class="contact-field full"><label for="apply-link">Résumé or LinkedIn link</label><input id="apply-link" name="link" type="url" inputmode="url" maxlength="500" placeholder="https://www.linkedin.com/in/…" required></div>
+<div class="contact-field full"><label for="apply-resume">Résumé <span>(PDF or Word, up to 5 MB)</span></label><input id="apply-resume" name="resume" type="file" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"></div>
+<div class="contact-field full"><label for="apply-link">LinkedIn or résumé link <span>(if you're not attaching a file)</span></label><input id="apply-link" name="link" type="url" inputmode="url" maxlength="500" placeholder="https://www.linkedin.com/in/…"></div>
 <div class="contact-field full"><label for="apply-message">Why this role? <span>(optional)</span></label><textarea id="apply-message" name="message" maxlength="3000" placeholder="A few lines on your experience and what draws you to the role…"></textarea></div>
 </div>
 <div class="contact-honeypot" aria-hidden="true"><label for="apply-website">Leave this blank</label><input id="apply-website" name="_gotcha" tabindex="-1" autocomplete="off"></div>
