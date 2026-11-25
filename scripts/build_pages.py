@@ -50,8 +50,8 @@ PAGES = [
     dict(out='careers.html', src='careers.html', path='/careers.html', nav=None,
          css=['/assets/site/careers.css'],
          title='Careers — Alphaworx',
-         desc='Open roles at Alphaworx, the company behind AIOS Cloud, the CAIO Knowledge Base and the '
-              'AI Knowledge Base. Remote in the United States.'),
+         desc='Open roles at Alphaworx: remote roles in the United States and Europe, plus contract advisory '
+              'and reviewer work.'),
     dict(out='privacy/index.html', src='privacy.html', path='/privacy/', nav=None, legal=True,
          label='Privacy', heading='Privacy notice', updated='Last updated November 23, 2026',
          title='Privacy notice — Alphaworx',
