@@ -1,17 +1,39 @@
-/* Careers page. Roles are written by build_pages.py from content/careers.json. */
-.roles{display:grid;gap:20px}
-.role{background:#fff;border:1px solid var(--line);border-radius:8px;padding:30px 32px 28px;display:grid;gap:18px;scroll-margin-top:110px}
+/* Careers: the list of roles (careers.html, cards from content/careers.json) and one page per role
+   (careers/<slug>.html), both written by build_pages.py. */
+.roles{display:grid;gap:16px}
+.role-card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:26px 30px;display:grid;gap:12px;color:inherit;scroll-margin-top:110px;transition:border-color .2s}
+.role-card:hover{border-color:var(--line-2)}
+.role-card .text-cta{justify-self:start}
 .role-top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 24px}
-.role h3{font-size:24px}
+.role-card h3{font-size:22px}
+.role-card p{font-size:17px;line-height:1.45;color:var(--muted);max-width:70ch}
 .role-meta{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass-ink)}
 .role-meta b{font-weight:500;color:var(--ink)}
-.role>p{font-size:18px;line-height:1.45;max-width:70ch}
-.role-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 40px}
-.role-cols h4{font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-ink);margin-bottom:10px}
-.role-cols ul{display:grid;gap:8px;padding-left:18px;font-size:16px;line-height:1.45;color:var(--muted)}
-.role-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;flex-direction:row-reverse;gap:12px 24px;border-top:1px solid var(--line);padding-top:18px}
-.role-pay{font-size:15px}
-.role-pay small{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-ink);margin-bottom:4px}
 .role-other{color:var(--muted)}
 .role-other a,.section-head p a{color:var(--link);border-bottom:1px solid var(--brass)}
-@media(max-width:760px){.role{padding:24px 22px 22px}.role-cols{grid-template-columns:1fr}.role h3{font-size:21px}}
+.work-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 40px;padding-left:18px;font-size:17px;line-height:1.5;max-width:1000px}
+
+/* One role per page */
+.role-hero .eyebrow a{color:inherit}
+.role-hero h1{max-width:22ch}
+.role-hero .role-meta{margin-top:18px}
+.role-hero .lead{margin-top:16px}
+.role-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:56px;align-items:start}
+.role-text{display:grid;gap:40px;max-width:70ch}
+.role-text section{display:grid;gap:14px}
+.role-text h2{font-size:26px}
+.role-text h3{font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--brass-ink);margin-top:8px}
+.role-text p,.role-text li{font-size:17px;line-height:1.6}
+.role-text p{color:var(--ink)}
+.role-text ul{display:grid;gap:10px;padding-left:20px}
+.role-text li{color:var(--muted)}
+.role-text a{color:var(--link);border-bottom:1px solid var(--brass)}
+.role-aside{position:sticky;top:110px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:24px;display:grid;gap:18px}
+.role-facts{display:grid;gap:14px}
+.role-facts div{display:grid;gap:4px}
+.role-facts small{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass-ink)}
+.role-facts b{font-weight:500;font-size:16px}
+.role-aside .primary{justify-content:space-between}
+.role-aside .text-cta{justify-self:start}
+@media(max-width:1000px){.role-layout{grid-template-columns:1fr;gap:40px}.role-aside{position:static;max-width:420px}}
+@media(max-width:760px){.role-card{padding:22px}.role-card h3{font-size:20px}.work-list{grid-template-columns:1fr}.role-text h2{font-size:23px}}

@@ -53,9 +53,10 @@ PAGES = [
          desc='Open roles at Alphaworx: remote roles in the United States and Europe, plus contract advisory '
               'and reviewer work.'),
     dict(out='privacy/index.html', src='privacy.html', path='/privacy/', nav=None, legal=True,
-         label='Privacy', heading='Privacy notice', updated='Last updated November 23, 2026',
+         label='Privacy', heading='Privacy notice', updated='Last updated November 25, 2026',
          title='Privacy notice — Alphaworx',
-         desc='How Alphaworx handles information when you visit this website, send an inquiry, or schedule a conversation.'),
+         desc='How Alphaworx handles information when you visit this website, send an inquiry, schedule a conversation, '
+              'or apply for a role.'),
     # No terms page (Don, 2026-11-23). An unreviewed draft is kept at content/pages/terms.html; it is not built.
     dict(out='404.html', src='404.html', path=None, nav=None, noindex=True,
          title='Page not found — Alphaworx', desc=''),
@@ -132,33 +133,90 @@ def partner_cards():
     return '\n'.join(cards)
 
 
-def role_cards():
-    """Role postings for the Careers page, from content/careers.json. Pay is printed only when a figure is set."""
+def _careers():
     import json
-    from html import escape
+    return json.loads((ROOT / 'content' / 'careers.json').read_text())
+
+
+def _apply_href(role):
     from urllib.parse import quote
+    return f'mailto:jobs@alphaworx.io?subject={quote(role["title"])}'
+
+
+def _role_meta(role):
+    from html import escape
+    return (f'<div class="role-meta"><b>{escape(role["status"])}</b><span>{escape(role["type"])}</span>'
+            f'<span>{escape(role["location"])}</span></div>')
+
+
+def role_cards():
+    """The list of roles on the Careers page, from content/careers.json. Each card links to the role's own page."""
+    from html import escape
     out = []
-    for r in json.loads((ROOT / 'content' / 'careers.json').read_text())['roles']:
-        lists = ''.join(
-            f'<div><h4>{label}</h4><ul>' + ''.join(f'<li>{escape(x)}</li>' for x in r[key]) + '</ul></div>'
-            for label, key in (('What you will do', 'do'), ('What you bring', 'bring')))
-        pay = r.get('pay', '').strip()
-        pay_html = f'<p class="role-pay"><small>Pay</small>{escape(pay)}</p>' if pay else ''
-        apply = f'mailto:jobs@alphaworx.io?subject={quote(r["title"])}'
+    for r in _careers()['roles']:
         out.append(
-            f'      <article class="role" id="{escape(r["slug"])}">'
-            f'<div class="role-top"><h3>{escape(r["title"])}</h3>'
-            f'<div class="role-meta"><b>{escape(r["status"])}</b><span>{escape(r["type"])}</span>'
-            f'<span>{escape(r["location"])}</span></div></div>'
-            f'<p>{escape(r["summary"])}</p><div class="role-cols">{lists}</div>'
-            f'<div class="role-foot">{pay_html}<a class="text-cta" href="{apply}">Apply by email</a></div></article>')
+            f'      <a class="role-card" href="/careers/{escape(r["slug"])}.html" id="{escape(r["slug"])}">'
+            f'<div class="role-top"><h3>{escape(r["title"])}</h3>{_role_meta(r)}</div>'
+            f'<p>{escape(r["summary"])}</p><span class="text-cta">Read the role</span></a>')
     return '\n'.join(out)
 
 
+def role_pages():
+    """One page per role at /careers/<slug>.html, from content/careers.json. Pay is printed only when a figure is set."""
+    from html import escape
+    data = _careers()
+    paras = lambda items: ''.join(f'<p>{escape(x)}</p>' for x in items)
+    bullets = lambda items: '<ul>' + ''.join(f'<li>{escape(x)}</li>' for x in items) + '</ul>'
+
+    def do_list(items):
+        if all(isinstance(x, str) for x in items):
+            return bullets(items)
+        return ''.join(f'<h3>{escape(g["group"])}</h3>' + bullets(g['items']) for g in items)
+
+    pages = []
+    for r in data['roles']:
+        apply = _apply_href(r)
+        pay = r.get('pay', '').strip()
+        sections = [('About Alphaworx', paras(data['company'])), ('About the role', paras(r['about'])),
+                    ("What you'll do", do_list(r['do'])), ('What you bring', bullets(r['bring']))]
+        if r.get('nice'):
+            sections.append(('Nice to have', bullets(r['nice'])))
+        if r.get('first_months'):
+            sections.append(('Your first months', bullets(r['first_months'])))
+        sections.append(('How we work', bullets(data['how_we_work'])))
+        apply_text = escape(data['apply']).replace('jobs@alphaworx.io', '<a href="mailto:jobs@alphaworx.io">jobs@alphaworx.io</a>', 1)
+        sections.append(('How to apply', f'<p>{apply_text}</p><p>How we handle applications is in our '
+                                          f'<a href="/privacy/#applications">privacy notice</a>.</p>'))
+        article = ''.join(f'<section><h2>{t}</h2>{h}</section>' for t, h in sections)
+        facts = ''.join(f'<div><small>{k}</small><b>{escape(v)}</b></div>' for k, v in
+                        (('Type', r['type']), ('Location', r['location']), ('Status', r['status'])) + ((('Pay', pay),) if pay else ()))
+        body = (
+            f'<section class="phero role-hero"><div class="wrap"><div>'
+            f'<span class="eyebrow"><i></i><a href="/careers.html">Careers</a></span>'
+            f'<h1>{escape(r["title"])}</h1>{_role_meta(r)}<p class="lead">{escape(r["summary"])}</p>'
+            f'<div class="closing-btns"><a class="primary" href="{apply}">Apply by email <span>→</span></a>'
+            f'<a class="text-cta" href="/careers.html">All open roles</a></div></div></div></section>\n'
+            f'<section class="section role-body"><div class="wrap role-layout">'
+            f'<article class="role-text">{article}</article>'
+            f'<aside class="role-aside"><div class="role-facts">{facts}</div>'
+            f'<a class="primary" href="{apply}">Apply by email <span>→</span></a>'
+            f'<a class="text-cta" href="/careers.html">All open roles</a></aside>'
+            f'</div></section>')
+        pages.append(dict(out=f'careers/{r["slug"]}.html', path=f'/careers/{r["slug"]}.html', nav=None, body=body,
+                          css=['/assets/site/careers.css'],
+                          title=f'{r["title"]} — Careers at Alphaworx',
+                          desc=f'{r["summary"]} {r["type"]}, {r["location"]}.'))
+    return pages
+
+
 def render(page):
-    body = (PAGES_DIR / page['src']).read_text()
+    body = page['body'] if 'body' in page else (PAGES_DIR / page['src']).read_text()
     if '{{roles}}' in body:
         body = body.replace('{{roles}}', role_cards())
+    if '{{how_we_work}}' in body:
+        from html import escape
+        body = body.replace('{{how_we_work}}', '<ul class="work-list">' + ''.join(
+            f'<li>{escape(x)}</li>' for x in _careers()['how_we_work']) + '</ul>')
     if '{{partners}}' in body:
         body = body.replace('{{partners}}', partner_cards())
     if page.get('legal'):
@@ -176,8 +234,8 @@ def render(page):
 def main():
     build_chrome_css()
     built, skipped = [], []
-    for page in PAGES:
-        if not (PAGES_DIR / page['src']).exists():
+    for page in PAGES + role_pages():
+        if 'body' not in page and not (PAGES_DIR / page['src']).exists():
             skipped.append(page['out'])
             continue
         out = PUBLIC / page['out']

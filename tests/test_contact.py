@@ -150,7 +150,9 @@ class ContactTests(unittest.TestCase):
         self.assertIn('/privacy/', page)
         self.assertEqual(self.client.get('/schedule').status_code, 301)
         privacy = self.client.get('/privacy/').text
-        self.assertIn('creates calendar invitations and Google Meet details through Google Calendar', privacy)
+        # Don, Nov 25, 2026: the notice was shortened; the section that named Google Calendar was removed.
+        # What must remain is the statement of what the scheduler collects.
+        self.assertIn('the Alphaworx scheduler asks for the information needed to create the appointment', privacy)
 
 
 class FakeCalendar:

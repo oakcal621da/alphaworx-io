@@ -6,6 +6,7 @@ static site's zero-build-step approach.
 """
 import re
 import html
+import json
 from datetime import datetime
 from pathlib import Path
 
@@ -174,6 +175,8 @@ def render_sitemap(posts):
         (f"{SITE_URL}/about.html", "2026-10-23"),
         (f"{SITE_URL}/partners.html", None),
         (f"{SITE_URL}/careers.html", None),
+        *[(f"{SITE_URL}/careers/{r['slug']}.html", None) for r in json.loads(
+            (Path(__file__).resolve().parent.parent / 'content' / 'careers.json').read_text())['roles']],
         (f"{SITE_URL}/deck.html", None),
         (f"{SITE_URL}/privacy/", None),
         (f"{SITE_URL}/schedule/", "2026-09-07"),
@@ -213,9 +216,10 @@ def main():
     for fields in posts:
         (OUTPUT_DIR / f"{fields['slug']}.html").write_text(version_assets(render_post(fields, fields["body_html"])))
     (OUTPUT_DIR / "index.html").write_text(version_assets(render_index(posts)))
-    (PUBLIC_DIR / "sitemap.xml").write_text(render_sitemap(posts))
+    sitemap = render_sitemap(posts)
+    (PUBLIC_DIR / "sitemap.xml").write_text(sitemap)
     print(f"Generated {len(posts)} post(s) + index into {OUTPUT_DIR}")
-    print(f"Generated sitemap.xml with {len(posts) + 9} URLs")
+    print(f"Generated sitemap.xml with {sitemap.count('<url>')} URLs")
 
 
 if __name__ == "__main__":

@@ -128,3 +128,5 @@ a.audience:hover .go{color:var(--ink)}
 }
 .feature.flip{grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr)}
 @media(max-width:900px){.feature.flip{grid-template-columns:1fr}}
+/* A link to a section of the privacy notice lands below the sticky header. */
+.legal h2[id]{scroll-margin-top:110px}
