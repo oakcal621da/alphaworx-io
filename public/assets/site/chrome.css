@@ -37,4 +37,5 @@ header nav a.ext::after{content:" ↗";color:var(--brass);font-size:.85em}
 .skip{position:absolute;left:-9999px}
 .skip:focus{left:16px;top:12px;z-index:20;background:var(--btn);color:#fff;padding:10px 14px}
 @media(max-width:560px){.brand .brand-logo{height:24px}}
+@media(min-width:1001px) and (max-width:1100px){header .wrap{gap:22px}header nav{gap:17px;font-size:14px}}
 @media(max-width:560px){header .wrap{column-gap:8px}.nav-cta{min-width:132px;padding-inline:9px;text-align:center}}

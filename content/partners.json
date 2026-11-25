@@ -1,0 +1,26 @@
+{
+  "_how_to": "One entry per partner. name, url (https), logo (file name in public/assets/partners/) and summary (one sentence). approved is true once Don has confirmed the partner agreed to be listed and the sentence is right. An entry with a field missing is drawn as a draft card. tests/test_partners.py fails while any entry is incomplete or not approved, so neither can ship. Logo sources: ../Alphaworx Business/Marketing/alphaworx.io/partner-logos/source/. The first three entries: partners agreed to be listed and sentences approved, Don, Nov 25, 2026.",
+  "partners": [
+    {
+      "name": "Advanced Cloud Technologies",
+      "url": "https://www.advancedcloudtechnologies.com",
+      "logo": "advanced-cloud-technologies.png",
+      "summary": "Strategic growth partner for cybersecurity vendors: board-level advisory and go-to-market execution across the US and EMEA.",
+      "approved": true
+    },
+    {
+      "name": "Icon Technology",
+      "url": "https://www.icontech.co.za",
+      "logo": "icon-technology.png",
+      "summary": "IT support and consulting for businesses, including on-site and remote support, IT contract management, cybersecurity, and AI governance and compliance.",
+      "approved": true
+    },
+    {
+      "name": "Guardrail Labs",
+      "url": "https://www.guardraillabs.com",
+      "logo": "guardrail-labs.png",
+      "summary": "AI governance and security consulting: governance frameworks, risk assessment and secure deployment.",
+      "approved": true
+    }
+  ]
+}

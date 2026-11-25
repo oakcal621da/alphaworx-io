@@ -1,0 +1,225 @@
+{
+  "_how_to": "The Careers page lists every role; each role also gets its own page at /careers/<slug>.html, built by scripts/build_pages.py. company, how_we_work and apply are shared by every role page. For each role: slug (page address), title, type (Full-time or Contract), location, status (the label beside the title, for example Hiring now or Open call), summary (one or two sentences for the list), about (paragraphs), do (bullets, or groups of bullets with a heading), bring, nice (optional), first_months (optional). pay is optional: Don, Nov 25, 2026: leave pay off the postings for now and discuss it with candidates. If a figure is ever added it comes from Don; never invent one.",
+  "company": [
+    "Alphaworx builds the tools organizations use to run AI responsibly. AIOS Cloud is the platform for AI strategy and governance. It keeps strategy, initiatives, risk and governance in one place, with a record of who decided what and who owns the next step. It launches in the first quarter of 2027.",
+    "The CAIO Knowledge Base is the operating manual for the people accountable for AI. The AI Knowledge Base gives every team one shared path to learn AI and put it to work. Both are available now. Alphaworx Advisory works with leadership teams on AI strategy and governance, together with partner firms that sell and deliver our products in their markets.",
+    "Alphaworx is headquartered in Dallas, Texas, and is growing its team ahead of the AIOS Cloud launch."
+  ],
+  "how_we_work": [
+    "Remote. You work from wherever suits you, within the location given for the role.",
+    "We use AI tools in our own work every day, including agents that write code and draft documents. We expect you to use them too, and to check what they produce.",
+    "You own your area and the results that come with it, and you have the authority to act on what you find.",
+    "We write things down. Plans, decisions and reviews are kept in writing, so anyone can pick up where someone else left off."
+  ],
+  "apply": "Email jobs@alphaworx.io with the role in the subject line, a short note on why it fits you, and your résumé or LinkedIn profile. We discuss pay with each candidate.",
+  "roles": [
+    {
+      "slug": "customer-success-lead",
+      "title": "Customer Success and Implementation Lead, AIOS Cloud",
+      "type": "Full-time",
+      "location": "Remote, United States",
+      "status": "Hiring now",
+      "pay": "",
+      "summary": "Bring new organizations onto AIOS Cloud and stay with them after launch. You're the person a client calls.",
+      "about": [
+        "AIOS Cloud launches in the first quarter of 2027. The first organizations to use it will judge it on how quickly it starts holding their real work: their AI strategy, their initiatives, their risks and the people who own them. You're the person who makes that happen.",
+        "You'll run each onboarding from the kickoff call to the first governance review held in the platform, then stay on as the client's main contact. You'll work with the leaders accountable for AI, often a Chief AI Officer, a CIO or a head of risk, and with the people on their teams who do the day-to-day work.",
+        "You'll help refine how we onboard and support clients, and what you hear from them feeds directly into what we build next."
+      ],
+      "do": [
+        "Run onboarding for each new client, from kickoff to the first governance review held in AIOS Cloud.",
+        "Set up the platform to match the client's organization: its strategy, initiatives, risks, policies and owners.",
+        "Train client teams, from the executives who review the dashboards to the people who keep the records current.",
+        "Be the client's main contact after onboarding. Answer support questions and fix what you can the same day.",
+        "Hold regular reviews with each client's leadership on how they're using the platform and what's getting in the way.",
+        "Bring what clients ask for back to the product team, with enough detail that it can be built.",
+        "Write the onboarding guides, checklists and help articles that let the next client start faster.",
+        "Work with our partner firms when they bring clients to us, so those clients get the same start as everyone else.",
+        "Help the account executives in late-stage deals by explaining how onboarding works and what the first months look like."
+      ],
+      "bring": [
+        "Five or more years onboarding, implementing or supporting enterprise software, in customer success, implementation or consulting.",
+        "A record of taking clients from signed contract to regular use, and keeping them.",
+        "Ease in front of senior leaders. You can run a meeting with a Chief AI Officer and leave with decisions made.",
+        "Clear writing. Busy executives read your onboarding plans and follow-up notes.",
+        "Working knowledge of AI governance, risk management or compliance, or a record of learning a new field quickly.",
+        "An eye for what slows clients down, and the drive to fix it."
+      ],
+      "nice": [
+        "Experience with governance, risk and compliance (GRC), security or privacy software.",
+        "Familiarity with the EU AI Act, the NIST AI Risk Management Framework or ISO/IEC 42001.",
+        "Experience working with clients in financial services, healthcare or government."
+      ],
+      "first_months": [
+        "In your first month, you know AIOS Cloud well enough to run a full onboarding on your own, and you've reviewed our onboarding plan and proposed improvements.",
+        "By three months, the first launch clients are set up and holding their governance reviews in the platform.",
+        "By six months, clients come to you first, the product team works from your feedback, and new clients get started faster than the first ones did."
+      ]
+    },
+    {
+      "slug": "account-executive-us",
+      "title": "Account Executive, United States",
+      "type": "Full-time",
+      "location": "Remote, United States",
+      "status": "Hiring now",
+      "pay": "",
+      "summary": "Sell AIOS Cloud and the knowledge bases to organizations in the United States.",
+      "about": [
+        "More and more leaders are being asked to show who approved each use of AI in their organization, what risks it carries and whether it's paying off. AIOS Cloud gives them one place to do that. The CAIO Knowledge Base and the AI Knowledge Base give their leaders and teams the knowledge to run it.",
+        "You'll find and close your own deals with enterprises, small businesses and government bodies, selling to the people accountable for AI: Chief AI Officers, CIOs, CTOs, heads of risk and compliance, and general counsel.",
+        "You'll own your pipeline from first contact to close, and work with leadership on positioning and on your largest deals."
+      ],
+      "do": [
+        "Build your own pipeline through outbound, referrals, events and our published Insights.",
+        "Run discovery to learn how a buyer governs AI today, who owns the decisions and where it's breaking down.",
+        "Give demos of AIOS Cloud tailored to each buyer, from executives to the people who'll use it every day.",
+        "Take each deal from the first conversation to signature, including security and legal review, procurement and negotiation.",
+        "Sell team plans of the CAIO Knowledge Base and the AI Knowledge Base, on their own and alongside the platform.",
+        "Hand each new client to customer success with a clear record of what was agreed and why they bought.",
+        "Keep your pipeline and forecast accurate, so anyone can see where each deal stands.",
+        "Tell the product team what buyers ask for, which objections come up and where deals stall."
+      ],
+      "bring": [
+        "Five or more years selling business software, with a record of closing deals with executive buyers and meeting or beating quota.",
+        "Pipeline you built yourself. You've sold without leads being handed to you.",
+        "Experience with long sales cycles involving several decision-makers, security review, legal and procurement.",
+        "The ability to learn a technical product well enough to demo it on your own and answer hard questions.",
+        "Clear, confident writing and speaking, with technical and non-technical audiences.",
+        "Comfort working remotely and managing your own territory."
+      ],
+      "nice": [
+        "Experience selling governance, risk and compliance, security, privacy or data software.",
+        "An existing network among Chief AI Officers, CIOs, or risk and compliance leaders.",
+        "Experience selling to government or to regulated industries such as financial services and healthcare."
+      ],
+      "first_months": [
+        "In your first month, you can demo AIOS Cloud and the knowledge bases on your own, and you've agreed a target account list with leadership.",
+        "By three months, you have a pipeline you built, and your first knowledge base deals are closing.",
+        "By six months, you're closing platform deals and have written down what works, so the team can build on it."
+      ]
+    },
+    {
+      "slug": "account-executive-europe",
+      "title": "Account Executive, Europe",
+      "type": "Contract",
+      "location": "Remote, Europe",
+      "status": "Hiring now",
+      "pay": "",
+      "summary": "Sell AIOS Cloud and the knowledge bases to organizations in Europe.",
+      "about": [
+        "In Europe, the EU AI Act has made AI governance a legal duty for many organizations. They need to know which AI systems they use, how risky each one is and who's accountable for it. AIOS Cloud gives them one place to keep that record. The CAIO Knowledge Base and the AI Knowledge Base give their leaders and teams the knowledge to run it.",
+        "You'll find and close your own deals with enterprises, small businesses and public-sector bodies, selling to the people accountable for AI: Chief AI Officers, CIOs, data protection officers, and heads of risk and compliance.",
+        "This is a contract role. You'll own the European pipeline from first contact to close, and work with leadership on positioning and on your largest deals."
+      ],
+      "do": [
+        "Build your own pipeline in Europe through outbound, referrals, events and our published Insights.",
+        "Run discovery to learn how a buyer governs AI today, what the EU AI Act and GDPR require of them, and who owns the decisions.",
+        "Give demos of AIOS Cloud tailored to each buyer, from executives to the people who'll use it every day.",
+        "Take each deal from the first conversation to signature, including security and legal review, procurement and negotiation.",
+        "Sell team plans of the CAIO Knowledge Base and the AI Knowledge Base, on their own and alongside the platform.",
+        "Hand each new client to customer success with a clear record of what was agreed and why they bought.",
+        "Keep your pipeline and forecast accurate, so anyone can see where each deal stands.",
+        "Tell the product team what European buyers ask for, including their language, data and regulatory needs."
+      ],
+      "bring": [
+        "Five or more years selling business software in European markets, with a record of closing deals with executive buyers.",
+        "Pipeline you built yourself. You've sold without leads being handed to you.",
+        "Experience with long sales cycles involving several decision-makers, security review, legal and procurement.",
+        "Working knowledge of how the EU AI Act and GDPR shape what buyers need.",
+        "The ability to learn a technical product well enough to demo it on your own and answer hard questions.",
+        "Fluent business English, and experience working independently as a contractor or with a lot of autonomy."
+      ],
+      "nice": [
+        "Experience selling governance, risk and compliance, security, privacy or data software in Europe.",
+        "A network among Chief AI Officers, CIOs, data protection officers or risk leaders in one or more European countries.",
+        "Fluency in a second European business language."
+      ],
+      "first_months": [
+        "In your first month, you can demo AIOS Cloud and the knowledge bases on your own, and you've agreed target countries and accounts with leadership.",
+        "By three months, you have a European pipeline you built, and your first knowledge base deals are closing.",
+        "By six months, you're closing platform deals in Europe and have written down what works there."
+      ]
+    },
+    {
+      "slug": "senior-software-engineer",
+      "title": "Senior Software Engineer, AIOS Cloud",
+      "type": "Full-time",
+      "location": "Remote, United States",
+      "status": "Hiring now",
+      "pay": "",
+      "summary": "Build and run AIOS Cloud: the application, its data and its security.",
+      "about": [
+        "AIOS Cloud holds an organization's AI strategy, initiatives, risks, policies and decisions, along with the record of who approved what. Clients trust it with sensitive information and will rely on it in front of auditors and regulators. It has to be correct, secure and available when they need it.",
+        "You'll ship features across the whole platform and own how it runs in production: deployments, monitoring, security and incident response.",
+        "We build with AI coding agents every day, and much of our code is written and reviewed with their help. The engineer's job is to direct that work, check it carefully and own the result. You'll set the standards those agents work to."
+      ],
+      "do": [
+        "Design, build and ship features across AIOS Cloud, from the database to the screens clients use.",
+        "Work on a platform built with Python and PostgreSQL and deployed in the cloud.",
+        "Own reliability: deployments, monitoring, backups and recovery, and the response when something breaks.",
+        "Own security: sign-in, access controls, keeping each client's data separate, and audit records that hold up to review.",
+        "Direct and review the work of AI coding agents, and set the tests and checks their work has to pass.",
+        "Write tests and keep the test suite fast and trustworthy.",
+        "Work with customer success on client issues, and with product leadership on what to build next.",
+        "Help clients' security teams through their reviews of AIOS Cloud."
+      ],
+      "bring": [
+        "Seven or more years building and running production web applications, several of them in a senior role.",
+        "Strong Python and SQL, and experience running PostgreSQL in production.",
+        "A security-minded approach to multi-tenant data, authentication and audit trails.",
+        "Experience owning systems in production: deployments, monitoring and incident response.",
+        "Practice working with AI coding tools, and the judgment to check what they produce before it ships.",
+        "Clear writing. You can explain a technical decision to a client's security team or to someone outside engineering."
+      ],
+      "nice": [
+        "Experience with SOC 2, ISO/IEC 27001 or a similar security program.",
+        "Experience building governance, risk, compliance or workflow software.",
+        "Experience with Flask."
+      ],
+      "first_months": [
+        "In your first month, you've shipped to production and know how the platform is built, deployed and monitored.",
+        "By three months, you own deployments and incident response, and you've closed the gaps you found in testing and monitoring.",
+        "By six months, AIOS Cloud is running for launch clients, and you've set the engineering standards the team works to."
+      ]
+    },
+    {
+      "slug": "advisory-associates-and-reviewers",
+      "title": "Advisory Associates and Subject-Matter Reviewers",
+      "type": "Contract",
+      "location": "Remote",
+      "status": "Open call",
+      "pay": "",
+      "summary": "Contract work for experienced practitioners: deliver advisory engagements with us, or review knowledge base content in your field.",
+      "about": [
+        "This is an open call for two kinds of contract work, for experienced practitioners in AI governance, risk, security, privacy and regulation.",
+        "Advisory associates work on client engagements with Alphaworx and our partner firms. Engagements cover AI strategy and assessment, governance and operating models, and executive advice. You'd take on a defined piece of an engagement, such as an assessment, a policy set or a governance design, and deliver it to the client with us.",
+        "Subject-matter reviewers check guides in the CAIO Knowledge Base and the AI Knowledge Base for accuracy in their field. You'd review a set of guides against current law, standards and practice, and tell us what's wrong, out of date or missing.",
+        "Work comes in defined pieces and fits around your other commitments. We agree the scope and the rate for each piece before it starts."
+      ],
+      "do": [
+        {"group": "Advisory associates", "items": [
+          "Assess how a client uses AI today: what's in use, who owns it and the risks it carries.",
+          "Draft policies, standards and governance designs for a client's leadership to approve.",
+          "Lead or support workshops with executives and their teams.",
+          "Work with our partner firms on engagements in their markets."
+        ]},
+        {"group": "Subject-matter reviewers", "items": [
+          "Review guides for accuracy against current law, standards and practice in your field.",
+          "Flag what's wrong, out of date or missing, and point to the source.",
+          "Suggest how a guide could be clearer for someone doing the job."
+        ]}
+      ],
+      "bring": [
+        "At least eight years of practice in AI governance, risk, security, privacy or regulation, in industry, consulting, law or government.",
+        "For advisory associates, experience running client engagements and working with senior leaders.",
+        "For reviewers, depth in one jurisdiction, standard or industry.",
+        "Clear, precise writing, with claims you can source.",
+        "The judgment to say when something is outside your expertise."
+      ],
+      "nice": [
+        "Experience with the EU AI Act, the NIST AI Risk Management Framework, ISO/IEC 42001, or sector rules in financial services or healthcare.",
+        "Published work, teaching or standards work in your field."
+      ]
+    }
+  ]
+}

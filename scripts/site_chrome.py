@@ -12,6 +12,7 @@ NAV = [
     ('kb', '/knowledge-bases.html', 'Knowledge Bases'),
     ('advisory', '/advisory.html', 'Advisory'),
     ('insights', '/blog/', 'Insights'),
+    ('partners', '/partners.html', 'Partners'),
     ('about', '/about.html', 'About'),
 ]
 ORG_JSONLD = ('{"@context":"https://schema.org","@type":"Organization","name":"Alphaworx",'
@@ -134,7 +135,8 @@ def site_footer(js=()):
             '<div class="links"><a href="/aios-cloud.html">AIOS Cloud</a>'
             '<a href="https://caiokb.com/">CAIO Knowledge Base</a>'
             '<a href="https://theaikb.com/teams">AI Knowledge Base</a>'
-            '<a href="/advisory.html">Advisory</a><a href="/blog/">Insights</a><a href="/about.html">About</a>'
+            '<a href="/advisory.html">Advisory</a><a href="/blog/">Insights</a><a href="/partners.html">Partners</a><a href="/about.html">About</a>'
+            '<a href="/careers.html">Careers</a>'
             '<a href="/privacy/">Privacy</a>'
             '<a href="mailto:info@alphaworx.io">Contact</a></div>'
             '</div></footer>\n' + CONTACT_DIALOG + '\n' + scripts + '\n' + ANALYTICS + '\n</body></html>\n')
