@@ -161,6 +161,41 @@ def role_cards():
     return '\n'.join(out)
 
 
+def apply_dialog(title):
+    """The application form on a role page. apply.js opens it; without the script the Apply links stay email links."""
+    from html import escape
+    t = escape(title)
+    return f'''<dialog class="contact-dialog" id="apply-dialog" aria-labelledby="apply-title" aria-describedby="apply-description">
+<div class="contact-dialog-head" id="apply-dialog-head">
+<span class="contact-eyebrow"><i></i>Apply</span>
+<button class="contact-dismiss" type="button" data-close-apply aria-label="Close application form">×</button>
+<h2 id="apply-title">{t}</h2>
+<p id="apply-description">Send us your details and a link to your résumé or LinkedIn profile.</p>
+</div>
+<form class="contact-form" id="apply-form">
+<input type="hidden" name="position" value="{t}">
+<div class="contact-fields">
+<div class="contact-field"><label for="apply-name">Name</label><input id="apply-name" name="name" autocomplete="name" maxlength="120" required autofocus></div>
+<div class="contact-field"><label for="apply-email">Email</label><input id="apply-email" name="email" type="email" autocomplete="email" maxlength="254" required></div>
+<div class="contact-field full"><label for="apply-link">Résumé or LinkedIn link</label><input id="apply-link" name="link" type="url" inputmode="url" maxlength="500" placeholder="https://www.linkedin.com/in/…" required></div>
+<div class="contact-field full"><label for="apply-message">Why this role? <span>(optional)</span></label><textarea id="apply-message" name="message" maxlength="3000" placeholder="A few lines on your experience and what draws you to the role…"></textarea></div>
+</div>
+<div class="contact-honeypot" aria-hidden="true"><label for="apply-website">Leave this blank</label><input id="apply-website" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+<p class="contact-form-note" id="apply-delivery-note"></p>
+<p class="contact-form-note">By applying, you ask Alphaworx to consider you for this role. See our <a href="/privacy/#applications" target="_blank" rel="noopener">privacy notice</a>.</p>
+<div class="contact-actions"><button class="contact-btn" id="apply-submit" type="submit">Send application ↗</button><button class="contact-cancel" type="button" data-close-apply>Cancel</button></div>
+<p class="contact-status" id="apply-status" role="status" aria-live="polite" aria-atomic="true"></p>
+</form>
+<section class="contact-success" id="apply-success" role="status" aria-live="polite" aria-labelledby="apply-success-title" hidden>
+<div class="contact-success-mark" aria-hidden="true">✓</div>
+<span class="contact-eyebrow"><i></i>Application received</span>
+<h2 id="apply-success-title" tabindex="-1">Thank you for applying.</h2>
+<p>Your application for {t} has been sent to Alphaworx. We’ll contact you if we’d like to talk.</p>
+<div class="contact-success-actions"><a class="contact-btn" href="/careers.html">See all open roles <span>→</span></a><button class="contact-return" type="button" data-close-apply>Back to the role</button></div>
+</section>
+</dialog>'''
+
+
 def role_pages():
     """One page per role at /careers/<slug>.html, from content/careers.json. Pay is printed only when a figure is set."""
     from html import escape
@@ -184,7 +219,7 @@ def role_pages():
         if r.get('first_months'):
             sections.append(('Your first months', bullets(r['first_months'])))
         sections.append(('How we work', bullets(data['how_we_work'])))
-        apply_text = escape(data['apply']).replace('jobs@alphaworx.io', '<a href="mailto:jobs@alphaworx.io">jobs@alphaworx.io</a>', 1)
+        apply_text = escape(data['apply']).replace('jobs@alphaworx.io', f'<a href="{apply}">jobs@alphaworx.io</a>', 1)
         sections.append(('How to apply', f'<p>{apply_text}</p><p>How we handle applications is in our '
                                           f'<a href="/privacy/#applications">privacy notice</a>.</p>'))
         article = ''.join(f'<section><h2>{t}</h2>{h}</section>' for t, h in sections)
@@ -194,16 +229,16 @@ def role_pages():
             f'<section class="phero role-hero"><div class="wrap"><div>'
             f'<span class="eyebrow"><i></i><a href="/careers.html">Careers</a></span>'
             f'<h1>{escape(r["title"])}</h1>{_role_meta(r)}<p class="lead">{escape(r["summary"])}</p>'
-            f'<div class="closing-btns"><a class="primary" href="{apply}">Apply by email <span>→</span></a>'
+            f'<div class="closing-btns"><a class="primary" href="{apply}" data-apply>Apply for this role <span>→</span></a>'
             f'<a class="text-cta" href="/careers.html">All open roles</a></div></div></div></section>\n'
             f'<section class="section role-body"><div class="wrap role-layout">'
             f'<article class="role-text">{article}</article>'
             f'<aside class="role-aside"><div class="role-facts">{facts}</div>'
-            f'<a class="primary" href="{apply}">Apply by email <span>→</span></a>'
+            f'<a class="primary" href="{apply}" data-apply>Apply for this role <span>→</span></a>'
             f'<a class="text-cta" href="/careers.html">All open roles</a></aside>'
-            f'</div></section>')
+            f'</div></section>\n' + apply_dialog(r['title']))
         pages.append(dict(out=f'careers/{r["slug"]}.html', path=f'/careers/{r["slug"]}.html', nav=None, body=body,
-                          css=['/assets/site/careers.css'],
+                          css=['/assets/site/careers.css'], js=['/assets/apply.js'],
                           title=f'{r["title"]} — Careers at Alphaworx',
                           desc=f'{r["summary"]} {r["type"]}, {r["location"]}.'))
     return pages

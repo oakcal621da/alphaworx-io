@@ -11,7 +11,7 @@
     "You own your area and the results that come with it, and you have the authority to act on what you find.",
     "We write things down. Plans, decisions and reviews are kept in writing, so anyone can pick up where someone else left off."
   ],
-  "apply": "Email jobs@alphaworx.io with the role in the subject line, a short note on why it fits you, and your résumé or LinkedIn profile. We discuss pay with each candidate.",
+  "apply": "Use the Apply button on this page to send us your details and a link to your résumé or LinkedIn profile. If you'd rather email, write to jobs@alphaworx.io with the role in the subject line. We discuss pay with each candidate.",
   "roles": [
     {
       "slug": "customer-success-lead",
@@ -197,17 +197,23 @@
         "Work comes in defined pieces and fits around your other commitments. We agree the scope and the rate for each piece before it starts."
       ],
       "do": [
-        {"group": "Advisory associates", "items": [
-          "Assess how a client uses AI today: what's in use, who owns it and the risks it carries.",
-          "Draft policies, standards and governance designs for a client's leadership to approve.",
-          "Lead or support workshops with executives and their teams.",
-          "Work with our partner firms on engagements in their markets."
-        ]},
-        {"group": "Subject-matter reviewers", "items": [
-          "Review guides for accuracy against current law, standards and practice in your field.",
-          "Flag what's wrong, out of date or missing, and point to the source.",
-          "Suggest how a guide could be clearer for someone doing the job."
-        ]}
+        {
+          "group": "Advisory associates",
+          "items": [
+            "Assess how a client uses AI today: what's in use, who owns it and the risks it carries.",
+            "Draft policies, standards and governance designs for a client's leadership to approve.",
+            "Lead or support workshops with executives and their teams.",
+            "Work with our partner firms on engagements in their markets."
+          ]
+        },
+        {
+          "group": "Subject-matter reviewers",
+          "items": [
+            "Review guides for accuracy against current law, standards and practice in your field.",
+            "Flag what's wrong, out of date or missing, and point to the source.",
+            "Suggest how a guide could be clearer for someone doing the job."
+          ]
+        }
       ],
       "bring": [
         "At least eight years of practice in AI governance, risk, security, privacy or regulation, in industry, consulting, law or government.",
