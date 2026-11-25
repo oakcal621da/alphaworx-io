@@ -5,6 +5,30 @@
   if (!tabs.length || !screen) return;
   var img = screen.querySelector('img');
   var label = screen.querySelector('.ws-label');
+  var list = tabs[0].parentNode;
+  var loaders = {};  // tab id -> Image, so each screenshot is requested once
+  var wanted = null; // the tab chosen last; a slower earlier choice must not replace it
+
+  function srcset(tab) { return tab.dataset.img + ' 1600w, ' + tab.dataset.full + ' 2560w'; }
+
+  // Request a tab's screenshot the way the visible image would, so the browser picks the same file.
+  function load(tab) {
+    if (!loaders[tab.id]) {
+      var im = loaders[tab.id] = new Image();
+      im.sizes = img.sizes;
+      im.srcset = srcset(tab);
+      im.src = tab.dataset.img;
+    }
+    return loaders[tab.id];
+  }
+
+  function show(tab) {
+    img.srcset = srcset(tab);
+    img.src = tab.dataset.img;
+    img.alt = tab.dataset.alt;
+    screen.setAttribute('data-full', tab.dataset.full);
+    screen.removeAttribute('aria-busy');
+  }
 
   function select(tab) {
     tabs.forEach(function (t) {
@@ -13,12 +37,15 @@
       var panel = document.getElementById(t.getAttribute('aria-controls'));
       if (panel) panel.hidden = !on;
     });
-    var full = tab.dataset.img.replace(/\.webp$/, '-full.webp');
-    img.srcset = tab.dataset.img + ' 1600w, ' + full + ' 2560w';
-    img.src = tab.dataset.img;
-    img.alt = tab.dataset.alt;
-    screen.setAttribute('data-full', full);
     if (label) label.textContent = tab.dataset.label;
+    wanted = tab;
+    var im = load(tab);
+    if (im.complete) { show(tab); return; }
+    // Keep the current screenshot until the new one has arrived. If it fails, show() leaves its alt text.
+    screen.setAttribute('aria-busy', 'true');
+    function done() { if (wanted === tab) show(tab); }
+    im.addEventListener('load', done);
+    im.addEventListener('error', done);
   }
 
   tabs.forEach(function (tab, i) {
@@ -32,7 +59,14 @@
       select(next);
       next.focus();
     });
-    new Image().src = tab.dataset.img;
+  });
+
+  // Fetch the other tabs' screenshots when the visitor first reaches for the tabs, not on page load.
+  function warm() {
+    tabs.forEach(function (t) { if (t.getAttribute('aria-selected') !== 'true') load(t); });
+  }
+  ['pointerenter', 'touchstart', 'focusin'].forEach(function (type) {
+    list.addEventListener(type, warm, { once: true, passive: true });
   });
 
   // Links such as /aios-cloud.html#heading-policy-workflow open the matching tab.

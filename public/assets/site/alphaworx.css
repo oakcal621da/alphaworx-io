@@ -28,6 +28,10 @@ a.card{color:inherit}
 .after-row{margin-top:30px}
 @media(max-width:900px){.trio.three{grid-template-columns:1fr}}
 @media(max-width:560px){.brand .brand-logo{height:24px}}
+/* Phone header: the logo and the demo button share one row from 354px up. The button has a set minimum width
+   and the row a smaller minimum gap, so the row does not re-wrap when Barlow replaces the fallback font, whose
+   label is a few pixels wider. At 360px the label may grow to 117px (Barlow 107px) before the row would wrap. */
+@media(max-width:560px){header .wrap{column-gap:8px}.nav-cta{min-width:132px;padding-inline:9px;text-align:center}}
 .way li{padding-left:30px;text-indent:-30px}
 
 /* "One organization, three needs" strip under the hero */
@@ -77,6 +81,10 @@ a.audience:hover .go{color:var(--ink)}
   .hero.home .wrap{grid-template-columns:55% 45%}
   .hero.home .intro h1{white-space:nowrap;font-size:clamp(40px,4.3vw,64px)}
 }
+/* Narrow phones: "Accountable Action." is 326px wide in Barlow and does not fit on one line below 363px, but it
+   does fit in the narrower fallback font, so the headline grew by a line when Barlow arrived. Up to 365px the
+   two words are put on separate lines in every font, which is how Barlow already sets them there. */
+@media(max-width:365px){.hero.home .intro h1 span{width:min-content}}
 
 /* Homepage hero visual: the three products as overlapping windows */
 .hero-stack{position:relative;aspect-ratio:1/1}

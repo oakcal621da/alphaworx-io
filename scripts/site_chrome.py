@@ -21,6 +21,30 @@ ORG_JSONLD = ('{"@context":"https://schema.org","@type":"Organization","name":"A
               'the AI Knowledge Base, and independent advisory."}')
 
 
+# --- Fonts: Barlow, self-hosted. scripts/make_fonts.py writes the .woff2 files and prints the numbers below.
+FONT_DIR = '/assets/aios-cloud'
+FONT_WEIGHTS = (('Regular', 400), ('Medium', 500), ('SemiBold', 600))
+# The two weights every page paints first; fetched alongside the stylesheets instead of after them.
+FONT_PRELOAD = ''.join(f'<link rel="preload" href="{FONT_DIR}/Barlow-{name}.woff2" as="font" type="font/woff2" crossorigin>'
+                       for name in ('Regular', 'Medium'))
+# Local Arial resized to take up the same room as Barlow, so text does not re-wrap when Barlow arrives.
+# (weight, local font names, size-adjust, ascent-override, descent-override), measured on the site's own text.
+FALLBACK_FACES = ((400, ('Arial', 'ArialMT'), '96.48%', '103.65%', '20.73%'),
+                  (500, ('Arial', 'ArialMT'), '97.52%', '102.54%', '20.51%'),
+                  (600, ('Arial Bold', 'Arial-BoldMT'), '91.32%', '109.51%', '21.90%'))
+# Placed after the stylesheets so these rules replace the .ttf-only ones in site.css, which stays a plain
+# copy of the knowledge base sites' file. The unicode-range keeps arrows and check marks on plain Arial, as before.
+FONT_CSS = ('<style>'
+            + ''.join(f"@font-face{{font-family:Barlow;src:url('{FONT_DIR}/Barlow-{name}.woff2') format('woff2'),"
+                      f"url('{FONT_DIR}/Barlow-{name}.ttf') format('truetype');font-weight:{weight};font-style:normal;font-display:swap}}"
+                      for name, weight in FONT_WEIGHTS)
+            + ''.join('@font-face{font-family:"Barlow Fallback";src:' + ','.join(f'local("{n}")' for n in names)
+                      + f';font-weight:{weight};size-adjust:{size};ascent-override:{ascent};descent-override:{descent};'
+                        'line-gap-override:0%;unicode-range:U+20-7E,U+A0-FF,U+2010-2027}'
+                      for weight, names, size, ascent, descent in FALLBACK_FACES)
+            + ':root{--font:"Barlow","Barlow Fallback",Arial,sans-serif}</style>')
+
+
 def site_head(title, desc, path, css=(), noindex=False, jsonld=None, base=True, body_class='', og_type='website'):
     """<head> for a page on the new UI. `path` is the canonical path, or None for no canonical."""
     import html as _h
@@ -43,11 +67,13 @@ def site_head(title, desc, path, css=(), noindex=False, jsonld=None, base=True, 
                 '<meta name="twitter:card" content="summary_large_image">',
                 f'<link rel="canonical" href="{SITE_URL}{path}">']
     out.append('<link rel="icon" type="image/png" href="/assets/mark.png">')
+    out.append(FONT_PRELOAD)
     if base:  # pages with their own layout CSS pass base=False and list chrome.css instead
-        out += ['<link rel="stylesheet" href="/assets/site/site.css?v=1">',
-                '<link rel="stylesheet" href="/assets/site/alphaworx.css?v=1">']
-    out.append('<link rel="stylesheet" href="/assets/site/contact.css?v=1">')
+        out += ['<link rel="stylesheet" href="/assets/site/site.css">',
+                '<link rel="stylesheet" href="/assets/site/alphaworx.css">']
+    out.append('<link rel="stylesheet" href="/assets/site/contact.css">')
     out += [f'<link rel="stylesheet" href="{href}">' for href in css]
+    out.append(FONT_CSS)
     if jsonld:
         out.append(f'<script type="application/ld+json">{jsonld}</script>')
     out.append('</head><body' + (f' class="{body_class}"' if body_class else '') + '>')
@@ -98,7 +124,7 @@ CONTACT_DIALOG = '''<dialog class="contact-dialog" id="contact-dialog" aria-labe
 </section>
 </dialog>'''
 
-SITE_JS = ('/assets/site/site.js?v=1', '/assets/contact-config.js?v=production-2', '/assets/contact.js?v=3')
+SITE_JS = ('/assets/site/site.js', '/assets/contact-config.js', '/assets/contact.js')
 
 
 def site_footer(js=()):

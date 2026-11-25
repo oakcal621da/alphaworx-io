@@ -16,6 +16,7 @@ OUTPUT_DIR = PUBLIC_DIR / "blog"
 SITE_URL = "https://alphaworx.io"
 
 from site_chrome import site_head, site_header, site_footer
+from asset_versions import version_assets
 
 HUE_CLASS = {
     "economics": "h-econ", "data exposure": "h-data", "vendor strategy": "h-vendor",
@@ -143,7 +144,7 @@ def render_index(posts):
     return (
         site_head('Insights — Alphaworx',
                   'Straight talk on AI strategy, governance and operations from Alphaworx.',
-                  '/blog/', css=['/assets/research-feature.css?v=1'])
+                  '/blog/', css=['/assets/research-feature.css'])
         + site_header('insights') +
         '<main id="main"><section class="phero"><div class="wrap"><div>'
         '<span class="eyebrow"><i></i>Insights</span>'
@@ -208,8 +209,8 @@ def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     posts = load_posts()
     for fields in posts:
-        (OUTPUT_DIR / f"{fields['slug']}.html").write_text(render_post(fields, fields["body_html"]))
-    (OUTPUT_DIR / "index.html").write_text(render_index(posts))
+        (OUTPUT_DIR / f"{fields['slug']}.html").write_text(version_assets(render_post(fields, fields["body_html"])))
+    (OUTPUT_DIR / "index.html").write_text(version_assets(render_index(posts)))
     (PUBLIC_DIR / "sitemap.xml").write_text(render_sitemap(posts))
     print(f"Generated {len(posts)} post(s) + index into {OUTPUT_DIR}")
     print(f"Generated sitemap.xml with {len(posts) + 9} URLs")

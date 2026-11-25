@@ -144,8 +144,8 @@ def test_principles_guide_survives_rebuild_with_source_and_legacy_links():
     page=render_post(essay, essay['body_html'])
     assert 'DESIGN PREVIEW' not in page
     assert 'noindex' not in page
-    assert 'href="/assets/principles-guide.css?v=1"' in page
-    assert 'src="/assets/principles-guide.js?v=1"' in page
+    assert 'href="/assets/principles-guide.css"' in page
+    assert 'src="/assets/principles-guide.js"' in page
     assert 'https://alphaworx.io/blog/twelve-first-principles-enterprise-ai.html' in page
     for n in range(1,13):
         assert f'id="p{n}"' in page
@@ -191,7 +191,7 @@ def test_all_guides_rebuild_with_valid_sources_data_and_unique_anchors():
         assert len(audit.ids)==len(set(audit.ids)),slug
         assert set(audit.anchors)<=set(audit.ids),slug
         assert 'noindex' not in page
-        assert '/assets/insight-guides.js?v=1' in page
+        assert '/assets/insight-guides.js' in page
         assert f"<lastmod>{fields['date']}</lastmod>" in render_sitemap([fields])
         data=json.loads(re.search(r'id="insight-data">(.*?)</script>',page,re.S)[1])
         assert data['questions']==guide['questions']
@@ -210,7 +210,7 @@ def test_research_feature_is_discoverable_once_and_links_to_attributed_articles(
     briefing=next(p for p in posts if p['slug']=='enterprise-ai-after-the-demo')
     assert index.count('href="enterprise-ai-after-the-demo.html"')==1
     assert 'class="research-feature"' in index
-    assert '/assets/research-feature.css?v=1' in index.split('</head>')[0]
+    assert '/assets/research-feature.css' in index.split('</head>')[0]
     assert 'href="who-owns-the-ai-decision.html"' in index
     page=render_post(briefing,briefing['body_html'])
     assert 'class="research-origin"' not in page
