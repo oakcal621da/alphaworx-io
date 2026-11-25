@@ -40,6 +40,16 @@ PRODUCT_SITES = {
     'https://theaikb.com': 'AI Knowledge Base',
 }
 PRODUCT_TOPICS = {'General question', 'Subscription or billing', 'Team plan', 'Technical issue'}
+# Job applications from the role pages on alphaworx.io. The role must be one listed in content/careers.json.
+CAREERS_FILE = ROOT / "content" / "careers.json"
+APPLICATION_LINK = re.compile(r"https?://[^\s<>\"']{4,490}")
+
+
+def role_titles():
+    try:
+        return {r['title'] for r in json.loads(CAREERS_FILE.read_text())['roles']}
+    except (OSError, ValueError, KeyError, TypeError):
+        return set()
 EMAIL = re.compile(r"[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)+")
 SCHEDULE_TIME_ZONE = ZoneInfo('America/Chicago')
 SCHEDULE_START_HOUR = 9
@@ -385,47 +395,45 @@ def create_app(overrides=None):
             db.execute('UPDATE schedule_bookings SET state=?, response=? WHERE id=?', ('sent', encoded, ticket))
         return jsonify(ok=True, **response_data)
 
-    @app.post('/api/contact')
-    def contact():
-        site = product_site()
-        if not site and not allowed_origin():
-            return fail('Please submit your inquiry from the Alphaworx website.', 403)
-        # Each site shows its own address: support@ on the knowledge bases, info@ here.
-        address = 'support@alphaworx.io' if site else 'info@alphaworx.io'
+    def read_form(address):
+        """Shared checks for the contact and application forms. Returns (data, ticket) or an error response."""
         if not ready():
-            return fail(f'Direct sending is not available yet. Please email {address}.', 503)
+            return None, fail(f'Direct sending is not available yet. Please email {address}.', 503)
         if not request.is_json:
-            return fail('Invalid submission format.', 415)
+            return None, fail('Invalid submission format.', 415)
         try:
             data = request.get_json()
         except BadRequest:
-            return fail('Invalid submission format.', 400)
+            return None, fail('Invalid submission format.', 400)
         if not isinstance(data, dict):
-            return fail('Invalid submission format.', 400)
+            return None, fail('Invalid submission format.', 400)
         if data.get('_gotcha'):
-            return fail('Unable to accept this submission.', 400)
+            return None, fail('Unable to accept this submission.', 400)
         token = data.get('token', '')
         if not isinstance(token, str) or len(token) > 512:
-            return fail('Invalid form session. Please reopen the form.', 403)
+            return None, fail('Invalid form session. Please reopen the form.', 403)
         try:
             ticket = signer.loads(token, max_age=3600)
         except (BadSignature, SignatureExpired, TypeError):
-            return fail('Your form session has expired. Close and reopen the form, then try again.', 403)
+            return None, fail('Your form session has expired. Close and reopen the form, then try again.', 403)
         if not isinstance(ticket, str) or len(ticket) != 36:
-            return fail('Invalid form session.', 403)
+            return None, fail('Invalid form session.', 403)
+        return (data, ticket), None
+
+    def read_fields(data, limits):
         fields = {}
-        for name, limit in [('name', 120), ('email', 254), ('company', 160), ('role', 120), ('topic', 100), ('message', 3000)]:
+        for name, limit in limits:
             value = data.get(name, '')
             if not isinstance(value, str) or len(value) > limit:
-                return fail('Please check the length and format of your form fields.', 400)
+                return None, fail('Please check the length and format of your form fields.', 400)
             value = value.strip()
             if '\x00' in value or (name != 'message' and ('\r' in value or '\n' in value)):
-                return fail('Please remove line breaks from the contact details.', 400)
+                return None, fail('Please remove line breaks from the contact details.', 400)
             fields[name] = value
-        if not fields['name'] or not fields['message'] or not valid_email(fields['email']):
-            return fail('Enter your name, a valid email address, and a message.', 400)
-        if fields['topic'] not in (PRODUCT_TOPICS if site else TOPICS):
-            return fail('Please select one of the listed topics.', 400)
+        return fields, None
+
+    def reserve(ticket, fields, address, noun):
+        """Record the submission once per form session and apply the global limits. Returns None or an error response."""
         digest = hmac.new(app.config['SECRET_KEY'].encode(), json.dumps(fields, sort_keys=True).encode(), hashlib.sha256).hexdigest()
         now = time.time()
         with sqlite3.connect(db_path, timeout=10) as db:
@@ -434,34 +442,32 @@ def create_app(overrides=None):
             previous = db.execute('SELECT digest, state FROM inquiries WHERE id=?', (ticket,)).fetchone()
             if previous:
                 if previous[0] != digest:
-                    return fail('Close and reopen the form to start a new inquiry.', 409)
+                    return fail(f'Close and reopen the form to start a new {noun}.', 409)
                 if previous[1] == 'sent':
                     return jsonify(ok=True)
                 if previous[1] == 'sending':
-                    return fail('Your inquiry is still being processed. Please wait before trying again.', 409)
+                    return fail(f'Your {noun} is still being processed. Please wait before trying again.', 409)
                 return fail(f'We could not confirm delivery. Please email {address} before submitting again.', 409)
             # Global limits remain effective even when clients forge proxy headers or
             # obtain multiple form tokens. This app is a small contact form, not a relay.
             minute = db.execute('SELECT count(*) FROM inquiries WHERE created > ?', (now - 60,)).fetchone()[0]
             hour = db.execute('SELECT count(*) FROM inquiries WHERE created > ?', (now - 3600,)).fetchone()[0]
             if minute >= 3 or hour >= 20:
-                response = jsonify(ok=False, error=f'We’re receiving a number of inquiries. Please try again later or email {address}.')
+                response = jsonify(ok=False, error=f'We’re receiving a number of {noun}s. Please try again later or email {address}.')
                 response.headers['Retry-After'] = '3600' if hour >= 20 else '60'
                 return response, 429
             db.execute('INSERT INTO inquiries VALUES (?, ?, ?, ?)', (ticket, digest, now, 'sending'))
+        return None
+
+    def send(ticket, reply_to, subject, body, address):
         message = EmailMessage()
         message['From'] = app.config['SMTP_USERNAME']
         message['To'] = INQUIRY_TO
-        message['Reply-To'] = fields['email']
-        message['Subject'] = f"{site or 'Alphaworx website'} inquiry: {fields['topic']}"
+        message['Reply-To'] = reply_to
+        message['Subject'] = subject
         message['Date'] = formatdate(localtime=False)
         message['Message-ID'] = make_msgid(domain=app.config['SMTP_USERNAME'].split('@')[1])
-        message.set_content(
-            f"New inquiry from the {site + ' website' if site else 'Alphaworx website'}\n\n"
-            f"Name: {fields['name']}\nEmail: {fields['email']}\n"
-            f"Company: {fields['company'] or 'Not provided'}\nRole: {fields['role'] or 'Not provided'}\n"
-            f"Topic: {fields['topic']}\n\nMessage:\n{fields['message']}\n"
-        )
+        message.set_content(body)
         try:
             app.config['MAIL_SENDER'](message, app.config['SMTP_USERNAME'], app.config['SMTP_TOKEN'])
         except (smtplib.SMTPException, OSError):
@@ -473,6 +479,60 @@ def create_app(overrides=None):
         with sqlite3.connect(db_path) as db:
             db.execute('UPDATE inquiries SET state=? WHERE id=?', ('sent', ticket))
         return jsonify(ok=True)
+
+    @app.post('/api/contact')
+    def contact():
+        site = product_site()
+        if not site and not allowed_origin():
+            return fail('Please submit your inquiry from the Alphaworx website.', 403)
+        # Each site shows its own address: support@ on the knowledge bases, info@ here.
+        address = 'support@alphaworx.io' if site else 'info@alphaworx.io'
+        submission, error = read_form(address)
+        if error:
+            return error
+        data, ticket = submission
+        fields, error = read_fields(data, [('name', 120), ('email', 254), ('company', 160), ('role', 120), ('topic', 100), ('message', 3000)])
+        if error:
+            return error
+        if not fields['name'] or not fields['message'] or not valid_email(fields['email']):
+            return fail('Enter your name, a valid email address, and a message.', 400)
+        if fields['topic'] not in (PRODUCT_TOPICS if site else TOPICS):
+            return fail('Please select one of the listed topics.', 400)
+        error = reserve(ticket, fields, address, 'inquiry')
+        if error:
+            return error
+        return send(ticket, fields['email'], f"{site or 'Alphaworx website'} inquiry: {fields['topic']}",
+            f"New inquiry from the {site + ' website' if site else 'Alphaworx website'}\n\n"
+            f"Name: {fields['name']}\nEmail: {fields['email']}\n"
+            f"Company: {fields['company'] or 'Not provided'}\nRole: {fields['role'] or 'Not provided'}\n"
+            f"Topic: {fields['topic']}\n\nMessage:\n{fields['message']}\n", address)
+
+    @app.post('/api/apply')
+    def apply():
+        # Applications come only from the role pages on alphaworx.io, never from the knowledge base sites.
+        if not allowed_origin():
+            return fail('Please apply from the Alphaworx website.', 403)
+        address = 'jobs@alphaworx.io'
+        submission, error = read_form(address)
+        if error:
+            return error
+        data, ticket = submission
+        fields, error = read_fields(data, [('name', 120), ('email', 254), ('position', 160), ('link', 500), ('message', 3000)])
+        if error:
+            return error
+        if not fields['name'] or not valid_email(fields['email']):
+            return fail('Enter your name and a valid email address.', 400)
+        if not APPLICATION_LINK.fullmatch(fields['link']):
+            return fail('Enter a link to your résumé or LinkedIn profile, starting with https://.', 400)
+        if fields['position'] not in role_titles():
+            return fail('Please apply from the page of one of our open roles.', 400)
+        error = reserve(ticket, fields, address, 'application')
+        if error:
+            return error
+        return send(ticket, fields['email'], f"Job application: {fields['position']}",
+            f"New job application from the Alphaworx website\n\n"
+            f"Role: {fields['position']}\nName: {fields['name']}\nEmail: {fields['email']}\n"
+            f"Résumé or LinkedIn: {fields['link']}\n\nNote:\n{fields['message'] or 'Not provided'}\n", address)
 
     @app.get('/')
     def homepage():
