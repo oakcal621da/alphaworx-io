@@ -5,7 +5,7 @@
 /* Hero */
 .aios-lockup{display:block;height:54px;width:auto;margin-top:26px;justify-self:start}
 .aios-lockup + h1{margin-top:22px}
-.hero-sub{font-size:17px;line-height:1.5;color:var(--muted);margin:14px 0 0;max-width:470px}
+.demo-note{font-size:14px;line-height:1.5;color:var(--muted);margin:16px 0 0;max-width:470px}
 
 /* Workflow */
 .illus{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;align-items:baseline;margin-top:22px;padding:20px 24px;background:var(--mist);border-left:3px solid var(--brass)}

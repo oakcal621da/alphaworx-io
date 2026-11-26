@@ -1,12 +1,12 @@
 import smtplib
 import tempfile
 import unittest
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 from zoneinfo import ZoneInfo
 
-from app import create_app, deliver
+from app import GoogleCalendar, create_app, deliver
 
 
 class ContactTests(unittest.TestCase):
@@ -215,6 +215,40 @@ class SchedulingTests(unittest.TestCase):
         self.assertEqual(first.json['meetingUrl'], 'https://meet.google.com/example')
         self.assertEqual(len(self.calendar.created), 1)
         self.assertEqual(self.calendar.created[0][3]['email'], 'visitor@example.org')
+
+    def book(self, **fields):
+        day = self.next_weekday()
+        availability = self.client.get('/api/schedule/availability', query_string={'date': day.isoformat()}, headers=self.headers()).json
+        payload = {'token': self.config['token'], 'start': availability['slots'][0], 'name': 'Test Visitor',
+            'email': 'visitor@example.org', 'company': '', 'message': '', **fields}
+        return self.client.post('/api/schedule/book', json=payload, headers={'Origin': 'https://alphaworx.io'})
+
+    def test_booking_records_whether_the_visitor_wants_a_demo(self):
+        self.assertEqual(self.book(purpose='demo').status_code, 200)
+        self.assertEqual(self.calendar.created[0][3]['purpose'], 'demo')
+
+    def test_booking_without_a_purpose_still_works_for_the_older_page(self):
+        self.assertEqual(self.book().status_code, 200)
+        self.assertEqual(self.calendar.created[0][3]['purpose'], '')
+
+    def test_booking_rejects_an_unknown_purpose(self):
+        for value in ('sales', ['demo'], 5):
+            self.assertEqual(self.book(purpose=value).status_code, 400)
+        self.assertFalse(self.calendar.created)
+
+    def test_calendar_event_title_says_demo_or_conversation(self):
+        calendar = GoogleCalendar('client-id', 'client-secret', 'refresh-token')
+        sent = []
+        calendar._token = lambda: 'token'
+        calendar._json_request = lambda url, method, body, token: sent.append(body) or {'id': 'e', 'hangoutLink': 'm'}
+        start = datetime(2026, 12, 1, 10, tzinfo=timezone.utc)
+        for purpose in ('demo', 'conversation', ''):
+            calendar.create('e', start, start + timedelta(minutes=30),
+                {'name': 'V', 'email': 'v@example.org', 'company': '', 'message': '', 'purpose': purpose})
+        self.assertEqual([b['summary'] for b in sent], ['Alphaworx — AIOS Cloud Demo',
+            'Alphaworx — Enterprise AI Strategy Conversation', 'Alphaworx — Enterprise AI Strategy Conversation'])
+        self.assertIn('Requested: AIOS Cloud demo', sent[0]['description'])
+        self.assertIn('Requested: Not specified', sent[2]['description'])
 
     def test_booking_rejects_a_slot_that_became_busy(self):
         day = self.next_weekday()

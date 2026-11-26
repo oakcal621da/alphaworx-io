@@ -40,6 +40,13 @@
 .selected-time{border-left:3px solid var(--brass);background:var(--mist);padding:13px 15px;margin-bottom:20px;font-size:16px;font-weight:500;line-height:1.4}
 .booking-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .booking-fields label:last-child{grid-column:1/-1}
+.booking-purpose{grid-column:1/-1;border:0;margin:0;padding:0;min-width:0}
+.booking-purpose legend{padding:0;margin-bottom:6px;font-size:13px;font-weight:500;letter-spacing:.01em;color:var(--ink)}
+.booking-fields .booking-purpose label{display:flex;align-items:center;gap:10px;margin-top:6px;border:1px solid var(--line-2);background:#fff;padding:12px 13px;font-size:15px;font-weight:400;cursor:pointer}
+.booking-fields .booking-purpose label:has(input:checked){border-color:var(--btn);box-shadow:inset 0 0 0 1px var(--btn)}
+.booking-fields .booking-purpose input{display:inline-block;flex:none;width:auto;margin:0;padding:0;accent-color:var(--btn)}
+.booking-fields .booking-purpose input:focus{outline:none}
+.booking-fields .booking-purpose input:focus-visible{outline:2px solid var(--btn);outline-offset:2px}
 #details-step .primary{margin-top:20px}
 #details-step .primary:disabled{opacity:.65;cursor:default}
 .booking-consent{margin-top:14px;font-size:13px;line-height:1.5;color:var(--muted)}
