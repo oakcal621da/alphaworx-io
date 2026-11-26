@@ -35,6 +35,13 @@ TOPICS = {
     'AI for growth', 'AI for efficiency', 'Customer experience',
     'Operational resilience', 'AI governance and operations',
 }
+# What a visitor books on /schedule/. The calendar title says which, so demos can be counted.
+BOOKING_PURPOSES = {'demo': 'AIOS Cloud demo', 'conversation': 'Conversation about AI priorities'}
+BOOKING_TITLES = {
+    'demo': 'Alphaworx — AIOS Cloud Demo',
+    'conversation': 'Alphaworx — Enterprise AI Strategy Conversation',
+    '': 'Alphaworx — Enterprise AI Strategy Conversation',
+}
 # The knowledge base sites share this service for their contact forms (inquiries only, never bookings).
 # The site is read from the request's Origin; nothing the visitor sends chooses it.
 PRODUCT_SITES = {
@@ -161,10 +168,11 @@ class GoogleCalendar:
             f'https://www.googleapis.com/calendar/v3/calendars/{path}/events?conferenceDataVersion=1&sendUpdates=all',
             'POST', {
                 'id': event_id,
-                'summary': 'Alphaworx — Enterprise AI Strategy Conversation',
+                'summary': BOOKING_TITLES.get(visitor.get('purpose', ''), BOOKING_TITLES['']),
                 'description': (
                     f"Visitor: {visitor['name']} <{visitor['email']}>\n"
-                    f"Company: {visitor['company'] or 'Not provided'}\n\n"
+                    f"Company: {visitor['company'] or 'Not provided'}\n"
+                    f"Requested: {BOOKING_PURPOSES.get(visitor.get('purpose', ''), 'Not specified')}\n\n"
                     f"Conversation context:\n{visitor['message'] or 'Not provided'}"
                 ),
                 'start': {'dateTime': starts_at.isoformat(), 'timeZone': 'America/Chicago'},
@@ -361,6 +369,11 @@ def create_app(overrides=None):
             visitor[name] = value.strip()
         if not visitor['name'] or not valid_email(visitor['email']):
             return fail('Enter your name and a valid email address.', 400)
+        # A page that predates the demo/conversation choice sends no purpose; it is booked as before.
+        purpose = data.get('purpose', '')
+        if purpose not in ('', *BOOKING_PURPOSES):
+            return fail('Choose a demo or a conversation.', 400)
+        visitor['purpose'] = purpose
         try:
             starts_at = datetime.fromisoformat(str(data.get('start', '')).replace('Z', '+00:00')).astimezone(SCHEDULE_TIME_ZONE)
         except (TypeError, ValueError):

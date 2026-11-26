@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="/assets/site/site.css?h=dfb0dc2fa5">
 <link rel="stylesheet" href="/assets/site/alphaworx.css?h=0ca9df96c3">
 <link rel="stylesheet" href="/assets/site/contact.css?h=58fd57ee0a">
-<link rel="stylesheet" href="/assets/site/schedule.css?h=693451530f">
+<link rel="stylesheet" href="/assets/site/schedule.css?h=60c095f665">
 <style>@font-face{font-family:Barlow;src:url('/assets/aios-cloud/Barlow-Regular.woff2?h=9fc85c6cc4') format('woff2'),url('/assets/aios-cloud/Barlow-Regular.ttf?h=c4e07e5b59') format('truetype');font-weight:400;font-style:normal;font-display:swap}@font-face{font-family:Barlow;src:url('/assets/aios-cloud/Barlow-Medium.woff2?h=67b5e6b6b5') format('woff2'),url('/assets/aios-cloud/Barlow-Medium.ttf?h=424f5980be') format('truetype');font-weight:500;font-style:normal;font-display:swap}@font-face{font-family:Barlow;src:url('/assets/aios-cloud/Barlow-SemiBold.woff2?h=ff9ed31b70') format('woff2'),url('/assets/aios-cloud/Barlow-SemiBold.ttf?h=330166157c') format('truetype');font-weight:600;font-style:normal;font-display:swap}@font-face{font-family:"Barlow Fallback";src:local("Arial"),local("ArialMT");font-weight:400;size-adjust:96.48%;ascent-override:103.65%;descent-override:20.73%;line-gap-override:0%;unicode-range:U+20-7E,U+A0-FF,U+2010-2027}@font-face{font-family:"Barlow Fallback";src:local("Arial"),local("ArialMT");font-weight:500;size-adjust:97.52%;ascent-override:102.54%;descent-override:20.51%;line-gap-override:0%;unicode-range:U+20-7E,U+A0-FF,U+2010-2027}@font-face{font-family:"Barlow Fallback";src:local("Arial Bold"),local("Arial-BoldMT");font-weight:600;size-adjust:91.32%;ascent-override:109.51%;descent-override:21.90%;line-gap-override:0%;unicode-range:U+20-7E,U+A0-FF,U+2010-2027}:root{--font:"Barlow","Barlow Fallback",Arial,sans-serif}</style>
 </head><body>
 <a class="skip" href="#main">Skip to content</a>
@@ -51,7 +51,12 @@
             <label>Name<input name="name" autocomplete="name" maxlength="120" required></label>
             <label>Work email<input name="email" type="email" autocomplete="email" maxlength="254" required></label>
             <label>Company <span>(optional)</span><input name="company" autocomplete="organization" maxlength="160"></label>
-            <label>A demo of AIOS Cloud, or something else? <span>(optional)</span><textarea name="message" maxlength="1500" rows="3"></textarea></label>
+            <fieldset class="booking-purpose">
+              <legend>What would you like?</legend>
+              <label><input type="radio" name="purpose" value="demo" required> A demo of AIOS Cloud</label>
+              <label><input type="radio" name="purpose" value="conversation"> A conversation about your AI priorities</label>
+            </fieldset>
+            <label>Anything we should know? <span>(optional)</span><textarea name="message" maxlength="1500" rows="3"></textarea></label>
           </div>
           <div class="contact-honeypot" aria-hidden="true"><label>Leave this blank<input name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
           <button class="primary" type="submit" id="book-submit">Confirm time <span>↗</span></button>
@@ -79,7 +84,7 @@
   <div class="wrap">
     <div class="section-head">
       <div><span class="eyebrow"><i></i>A useful first conversation</span><h2>Bring the decision that matters.</h2></div>
-      <p>Requesting a demo? Say so in the booking note, and bring a live AI initiative if you have one.</p>
+      <p>Requesting a demo? Bring a live AI initiative if you have one.</p>
     </div>
     <div class="aud sched-brief">
       <div><small>01</small><h3>The business priority</h3><p>Where AI needs to create value, reduce exposure, or strengthen an operating capability.</p></div>
